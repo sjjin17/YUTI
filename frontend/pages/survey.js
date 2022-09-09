@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 const Container = styled.div`
   display: flex;
-  align-itemd: center;
+  align-items: center;
 `;
 
 const surveyList = [
@@ -193,7 +193,6 @@ export default function Survey() {
         <Container>
           <SurveyTemplate
             survey={surveyList[surveyNum]}
-            setResultMbti={setResultMbti}
             surveyNum={surveyNum}
             pageChange={pageChange}
             onChangeMbti={mbtiChange}
