@@ -6,8 +6,11 @@ const BaseLayout = styled.div`
   width: 100vw;
   height: 100vh;
   text-align: center;
-  @media (min-width: 650px) {
-    padding: 0 calc((100% - 650px) / 2);
+  display: grid;
+  align-items: center;
+  @media (min-width: 600px) {
+    width: 600px;
+    padding: 0 calc((100% - 600px) / 2);
   }
 `;
 export default function Layout({ children }) {
