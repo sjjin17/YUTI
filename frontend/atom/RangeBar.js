@@ -13,7 +13,6 @@ const Container = styled.div`
 
 const Range = styled.div`
   position: absolute;
-
   left: -1px;
   height: 10px;
   width: ${props => props.surveyNum}%;
