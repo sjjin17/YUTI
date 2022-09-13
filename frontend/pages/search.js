@@ -13,12 +13,8 @@ export default function Search() {
   const [searchInput, setSearchInput] = useState('');
   const [buttonText, setButtonText] = useState('건너뛰기');
 
-  function mouseHover() {
-    setHoverState(true);
-  }
-
-  function mouseOut() {
-    setHoverState(false);
+  function handleHover() {
+    setHoverState(!hoverState);
   }
 
   useEffect(() => {
@@ -39,8 +35,7 @@ export default function Search() {
         <SearchTemplate
           searchState={searchState}
           hoverState={hoverState}
-          mouseHover={mouseHover}
-          mouseOut={mouseOut}
+          handleHover={handleHover}
           buttonText={buttonText}
           searchInput={searchInput}
           setSearchInput={setSearchInput}

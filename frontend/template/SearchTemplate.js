@@ -44,8 +44,7 @@ const ButtonContainer = styled.div`
 
 export default function SearchTemplate({
   searchState,
-  mouseHover,
-  mouseOut,
+  handleHover,
   setSearchInput,
   buttonText,
 }) {
@@ -82,7 +81,7 @@ export default function SearchTemplate({
       <ButtonContainer>
         <Button text="선택완료"></Button>
       </ButtonContainer>
-      <ButtonContainer onMouseOver={mouseHover} onMouseOut={mouseOut}>
+      <ButtonContainer onMouseOver={handleHover} onMouseOut={handleHover}>
         <Button text={buttonText}></Button>
       </ButtonContainer>
     </Container>
