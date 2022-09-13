@@ -7,11 +7,11 @@ import RangeBar from '../atom/RangeBar';
 import RangeNum from '../atom/RangeNum';
 
 const Container = styled.div`
-  width: 100%;
+  width: 80%;
   min-width: 100%;
-  height: 90%;
-  padding: 10px 20px 0px 20px;
-  margin: 0 auto;
+  height: 100%;
+  //padding: 10px 20px 0px 20px;
+  //margin: 0 auto;
   display: grid;
   justify-content: center;
   align-items: center;
