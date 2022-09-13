@@ -38,9 +38,9 @@ const AutoSearchData = styled.li`
 export default function AutoSearch() {
   return (
     <AutoSearchContainer>
-      <AutoSearchWrap>
+      <ul>
         <AutoSearchData></AutoSearchData>
-      </AutoSearchWrap>
+      </ul>
     </AutoSearchContainer>
   );
 }

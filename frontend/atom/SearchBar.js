@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const Container = styled.div`
   height: 10px;
@@ -8,27 +8,14 @@ const Container = styled.div`
 `;
 
 const SearchInput = styled.input`
-  border-left-width: 0;
-  border-right-width: 0;
-  border-top-width: 0;
-  border-bottom-width: 1;
+  border-width: 0 0 1 0;
   width: 100%;
 `;
 
-export default function SearchBar({ searchState, setSearchState }) {
-  const [searchInput, setSearchInput] = useState('');
-
+export default function SearchBar({ setSearchInput }) {
   function handleSearchInput(event) {
     setSearchInput(event.target.value);
   }
-
-  useEffect(() => {
-    if (searchInput && !searchState) {
-      setSearchState(1);
-    } else if (!searchInput) {
-      setSearchState(0);
-    }
-  }, [searchInput]);
 
   return (
     <Container>
