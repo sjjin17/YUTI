@@ -10,8 +10,6 @@ const Container = styled.div`
   width: 80%;
   min-width: 100%;
   height: 100%;
-  //padding: 10px 20px 0px 20px;
-  //margin: 0 auto;
   display: grid;
   justify-content: center;
   align-items: center;
