@@ -25,24 +25,43 @@ const ImageContainer = styled.div`
   position: relative;
 `;
 
+const FooterContainer = styled.div``;
+
 export default function IndexTemplate({ participantsNum }) {
   return (
-    <Container>
-      <Heading
-        text={'YUTI'}
-        color={MAIN_COLOR}
-        fontSize="50px"
-        textAlign="center"
-      ></Heading>
-      <Heading text={'내가 좋아할만한 유튜버는?'} textAlign="center"></Heading>
-      <ImageContainer>
-        <Image src="/mainImage.jpeg" alt="" layout="fill"></Image>
-      </ImageContainer>
-      <Link href="/survey">
-        <Button
-          text={`테스트 시작하기\n${participantsNum}명이 참여했어요`}
-        ></Button>
-      </Link>
-    </Container>
+    <>
+      <Container>
+        <Heading
+          text={'YUTI'}
+          color={MAIN_COLOR}
+          fontSize="50px"
+          textAlign="center"
+        ></Heading>
+        <Heading
+          text={'내가 좋아할만한 유튜버는?'}
+          textAlign="center"
+        ></Heading>
+        <ImageContainer>
+          <Image src="/mainImage.jpeg" alt="" layout="fill"></Image>
+        </ImageContainer>
+        <Link href="/survey">
+          <Button
+            text={`테스트 시작하기\n${participantsNum}명이 참여했어요`}
+          ></Button>
+        </Link>
+      </Container>
+      <FooterContainer>
+        <Heading
+          text={'비즈니스 문의'}
+          fontSize="20px"
+          textAlign="center"
+        ></Heading>
+        <Heading
+          text={'pms16011172@gmail.com'}
+          fontSize="13px"
+          textAlign="center"
+        ></Heading>
+      </FooterContainer>
+    </>
   );
 }
