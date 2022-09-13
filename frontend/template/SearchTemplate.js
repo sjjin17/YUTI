@@ -3,6 +3,7 @@ import Heading from '../atom/Heading';
 import Button from '../atom/Button';
 import styled from '@emotion/styled';
 import SearchBar from '../atom/SearchBar';
+import AutoSearch from '../atom/AutoSearch';
 import { MAIN_COLOR } from '../const';
 
 const Container = styled.div`
@@ -63,7 +64,13 @@ export default function SearchTemplate({}) {
           <TextContainer>
             <Heading text="더 나은 추천을 위해 데이터를 쌓아주세요"></Heading>
           </TextContainer>
-          <p style={{ color: MAIN_COLOR }}>내가 좋아하는 유튜브 채널</p>
+          <TextContainer>
+            <Heading
+              text="내가 좋아하는 유튜브 채널"
+              color={MAIN_COLOR}
+              fontSize="20px"
+            ></Heading>
+          </TextContainer>
         </div>
       ) : (
         <>
@@ -82,6 +89,7 @@ export default function SearchTemplate({}) {
           setSearchState={setSearchState}
           searchState={searchState}
         ></SearchBar>
+        {searchState && <AutoSearch></AutoSearch>}
       </SearchContainer>
       <ButtonContainer>
         <Button text="선택완료"></Button>
