@@ -52,7 +52,7 @@ export default function IndexTemplate({ participantsNum }) {
       </Container>
       <FooterContainer>
         <Heading
-          text={'비지니스 문의'}
+          text={'비즈니스 문의'}
           fontSize="20px"
           textAlign="center"
         ></Heading>
