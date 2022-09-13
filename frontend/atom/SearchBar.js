@@ -8,7 +8,7 @@ const Container = styled.div`
 `;
 
 const SearchInput = styled.input`
-  border-width: 0 0 1 0;
+  border-width: 0 0 1px 0;
   width: 100%;
 `;
 

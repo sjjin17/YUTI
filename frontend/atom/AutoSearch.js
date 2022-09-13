@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { MAIN_COLOR } from '../const';
 
 const AutoSearchContainer = styled.div`
   z-index: 3;
@@ -11,8 +10,6 @@ const AutoSearchContainer = styled.div`
   margin-top: 2.5%;
   margin-bottom: 5%;
 `;
-
-const AutoSearchWrap = styled.ul``;
 
 const AutoSearchData = styled.li`
   padding: 10px 8px;

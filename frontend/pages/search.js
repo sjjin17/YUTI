@@ -9,17 +9,16 @@ const Container = styled.div`
 
 export default function Search() {
   const [searchState, setSearchState] = useState(false);
-  const [hoverState, setHoverState] = useState(0);
+  const [hoverState, setHoverState] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-
-  const buttonText = ['건너뛰기', '도와주세요'];
+  const [buttonText, setButtonText] = useState('건너뛰기');
 
   function mouseHover() {
-    setHoverState(1);
+    setHoverState(true);
   }
 
   function mouseOut() {
-    setHoverState(0);
+    setHoverState(false);
   }
 
   useEffect(() => {
@@ -29,6 +28,10 @@ export default function Search() {
       setSearchState(false);
     }
   }, [searchInput]);
+
+  useEffect(() => {
+    hoverState ? setButtonText('도와주세요') : setButtonText('건너뛰기');
+  }, [hoverState]);
 
   return (
     <>
