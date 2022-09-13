@@ -7,6 +7,12 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const tempYoutubers = [
+  { Thumbnail: 'images/firstRank.png', name: '1번', subscribers: '1' },
+  { Thumbnail: 'images/secondRank.png', name: '2번', subscribers: '2' },
+  { Thumbnail: 'images/thirdRank.png', name: '3번', subscribers: '3' },
+];
+
 export default function Search() {
   const [searchState, setSearchState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
@@ -39,6 +45,7 @@ export default function Search() {
           buttonText={buttonText}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
+          previewList={tempYoutubers}
         ></SearchTemplate>
       </Container>
     </>

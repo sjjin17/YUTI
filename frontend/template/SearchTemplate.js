@@ -2,7 +2,7 @@ import Heading from '../atom/Heading';
 import Button from '../atom/Button';
 import styled from '@emotion/styled';
 import SearchBar from '../atom/SearchBar';
-import AutoSearch from '../atom/AutoSearch';
+import AutoSearch from '../molecule/AutoSearch';
 import { MAIN_COLOR } from '../const';
 
 const Container = styled.div`
@@ -47,6 +47,7 @@ export default function SearchTemplate({
   handleHover,
   setSearchInput,
   buttonText,
+  previewList,
 }) {
   return (
     <Container>
@@ -76,7 +77,7 @@ export default function SearchTemplate({
       )}
       <SearchContainer>
         <SearchBar setSearchInput={setSearchInput}></SearchBar>
-        {searchState && <AutoSearch></AutoSearch>}
+        {searchState && <AutoSearch previewList={previewList}></AutoSearch>}
       </SearchContainer>
       <ButtonContainer>
         <Button text="선택완료"></Button>
