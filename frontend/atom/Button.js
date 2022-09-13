@@ -14,12 +14,15 @@ const ButtonBase = styled.button`
     border: 0 solid;
     color: white;
   }
+
+  @media (min-height: 700px) {
+    height: 105px;
+  }
+
   @media (max-width: 571px) {
-    width: 100%;
     font-size: 4vw;
   }
   @media (min-width: 571px) {
-    width: 571px;
     font-size: 22px;
   }
 `;
