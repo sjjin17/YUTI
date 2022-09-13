@@ -16,6 +16,7 @@ export default function SearchBar({ setSearchInput }) {
   function handleSearchInput(event) {
     setSearchInput(event.target.value);
   }
+
   return (
     <Container>
       <SearchInput
