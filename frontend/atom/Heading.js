@@ -9,6 +9,6 @@ const Text = styled.div`
   @media (min-width: 571px) {
     width: 571px;
 `;
-export default function Heading({ text, color = 'black' }) {
-  return <Text style={{ color }}>{text}</Text>;
+export default function Heading({ text, color = 'black', fontSize = 30 }) {
+  return <Text style={{ color, fontSize }}>{text}</Text>;
 }
