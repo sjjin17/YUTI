@@ -19,6 +19,9 @@ const Container = styled.div`
   @media (min-height: 700px) {
     height: 630px;
   }
+  @media (min-width: 571px) {
+    width: 571px;
+  }
 `;
 
 const ButtonContainer = styled.div`
