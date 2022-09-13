@@ -8,6 +8,8 @@ const BaseLayout = styled.div`
   text-align: center;
   display: grid;
   align-items: center;
+  justicy-content: center;
+  padding: 20px 30px 20px 30px;
   @media (min-width: 600px) {
     width: 600px;
     padding: 0 calc((100% - 600px) / 2);
