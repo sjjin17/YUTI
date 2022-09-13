@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Heading from '../atom/Heading';
 import Button from '../atom/Button';
 import styled from '@emotion/styled';
@@ -43,23 +42,17 @@ const ButtonContainer = styled.div`
   box-sizing: border-box;
 `;
 
-export default function SearchTemplate({}) {
-  const [searchState, setSearchState] = useState('');
-  const [hoverState, setHoverState] = useState(0);
-
-  const buttonText = ['건너뛰기', '도와주세요'];
-
-  function mouseHover() {
-    setHoverState(1);
-  }
-
-  function mouseOut() {
-    setHoverState(0);
-  }
-
+export default function SearchTemplate({
+  searchState,
+  hoverState,
+  mouseHover,
+  mouseOut,
+  setSearchInput,
+  buttonText,
+}) {
   return (
     <Container>
-      {searchState === 1 ? (
+      {searchState === true ? (
         <div>
           <TextContainer>
             <Heading text="더 나은 추천을 위해 데이터를 쌓아주세요"></Heading>
@@ -74,7 +67,6 @@ export default function SearchTemplate({}) {
         </div>
       ) : (
         <>
-          {' '}
           <TextContainer>
             <Heading text="즐겨보는 유튜버를 알려주세요"></Heading>
           </TextContainer>
@@ -85,10 +77,7 @@ export default function SearchTemplate({}) {
         </>
       )}
       <SearchContainer>
-        <SearchBar
-          setSearchState={setSearchState}
-          searchState={searchState}
-        ></SearchBar>
+        <SearchBar setSearchInput={setSearchInput}></SearchBar>
         {searchState && <AutoSearch></AutoSearch>}
       </SearchContainer>
       <ButtonContainer>
