@@ -53,7 +53,6 @@ export default function SearchTemplate({
   selectedList,
   addThumbnail,
 }) {
-  console.log('template', selectedList);
   return (
     <Container>
       {searchState || selectedList.length ? (
