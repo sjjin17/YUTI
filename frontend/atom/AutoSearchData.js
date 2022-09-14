@@ -33,9 +33,15 @@ const ThumbnailImage = styled.img`
   object-fit: cover;
 `;
 
+<<<<<<< HEAD
 export default function AutoSearchData({ youtuber, addThumbnail }) {
   return (
     <AutoSearchDataContainer onClick={e => addThumbnail(youtuber.Thumbnail, e)}>
+=======
+export default function AutoSearchData({ youtuber }) {
+  return (
+    <AutoSearchDataContainer>
+>>>>>>> 3aca908 ([FEATURE] 검색 시 미리보기)
       <ThumbnailContainer>
         <ThumbnailImage src={youtuber.Thumbnail}></ThumbnailImage>
       </ThumbnailContainer>

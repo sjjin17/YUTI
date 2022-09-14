@@ -11,8 +11,11 @@ const AutoSearchContainer = styled.div`
   margin-top: 2.5%;
   margin-bottom: 5%;
   display: flex;
+<<<<<<< HEAD
   flex-wrap: wrap;
   overflow-y: scroll;
+=======
+>>>>>>> 3aca908 ([FEATURE] 검색 시 미리보기)
 `;
 
 const AutoSearchWrap = styled.ul`
