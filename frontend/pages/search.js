@@ -24,11 +24,10 @@ export default function Search() {
   const [buttonText, setButtonText] = useState('건너뛰기');
   const [selectedList, setSelectedList] = useState([]);
 
-  function addThumbnail(thumbnail, event) {
-    let tempList = selectedList;
-    tempList.push(thumbnail);
-    setSelectedList(tempList);
-    console.log(selectedList);
+  function addThumbnail(thumbnail) {
+    setSelectedList(prev => {
+      return [...prev, thumbnail];
+    });
   }
 
   function handleHover() {
