@@ -2,7 +2,8 @@ import Heading from '../atom/Heading';
 import Button from '../atom/Button';
 import styled from '@emotion/styled';
 import SearchBar from '../atom/SearchBar';
-import AutoSearch from '../atom/AutoSearch';
+import AutoSearch from '../molecule/AutoSearch';
+import MyYoutubers from '../molecule/MyYoutubers';
 import { MAIN_COLOR } from '../const';
 
 const Container = styled.div`
@@ -25,6 +26,7 @@ const TextContainer = styled.div`
   height: 100%;
   display: grid;
   align-items: center;
+  margin: 5% auto;
 `;
 
 const SearchContainer = styled.div`
@@ -43,14 +45,17 @@ const ButtonContainer = styled.div`
 `;
 
 export default function SearchTemplate({
-  searchState,
+  searchInput,
   handleHover,
   setSearchInput,
-  buttonText,
+  hoverState,
+  previewList,
+  selectedList,
+  addThumbnail,
 }) {
   return (
     <Container>
-      {searchState === true ? (
+      {searchInput || selectedList.length ? (
         <div>
           <TextContainer>
             <Heading text="더 나은 추천을 위해 데이터를 쌓아주세요"></Heading>
@@ -62,6 +67,7 @@ export default function SearchTemplate({
               fontSize="20px"
             ></Heading>
           </TextContainer>
+          <MyYoutubers selectedList={selectedList}></MyYoutubers>
         </div>
       ) : (
         <>
@@ -76,14 +82,25 @@ export default function SearchTemplate({
       )}
       <SearchContainer>
         <SearchBar setSearchInput={setSearchInput}></SearchBar>
-        {searchState && <AutoSearch></AutoSearch>}
+
+        {searchInput && (
+          <AutoSearch
+            previewList={previewList}
+            addThumbnail={addThumbnail}
+          ></AutoSearch>
+        )}
       </SearchContainer>
-      <ButtonContainer>
-        <Button text="선택완료"></Button>
-      </ButtonContainer>
-      <ButtonContainer onMouseOver={handleHover} onMouseOut={handleHover}>
-        <Button text={buttonText}></Button>
-      </ButtonContainer>
+      {selectedList.length > 0 ? (
+        <ButtonContainer>
+          <Button text="선택완료"></Button>
+        </ButtonContainer>
+      ) : (
+        <>
+          <ButtonContainer onMouseOver={handleHover} onMouseOut={handleHover}>
+            <Button text={hoverState ? '도와주세요' : '건너뛰기'}></Button>
+          </ButtonContainer>
+        </>
+      )}
     </Container>
   );
 }
