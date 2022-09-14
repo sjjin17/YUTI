@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Heading from './Heading';
+import Heading from '../atom/Heading';
 
 const AutoSearchDataContainer = styled.li`
   width: 100%;
@@ -35,7 +35,7 @@ const ThumbnailImage = styled.img`
 
 export default function AutoSearchData({ youtuber, addThumbnail }) {
   return (
-    <AutoSearchDataContainer onClick={e => addThumbnail(youtuber.Thumbnail, e)}>
+    <AutoSearchDataContainer onClick={e => addThumbnail(youtuber.Thumbnail)}>
       <ThumbnailContainer>
         <ThumbnailImage src={youtuber.Thumbnail}></ThumbnailImage>
       </ThumbnailContainer>
