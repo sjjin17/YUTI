@@ -11,6 +11,8 @@ const AutoSearchContainer = styled.div`
   margin-top: 2.5%;
   margin-bottom: 5%;
   display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
 `;
 
 const AutoSearchWrap = styled.ul`
@@ -21,12 +23,16 @@ const AutoSearchWrap = styled.ul`
   position: relative;
 `;
 
-export default function AutoSearch({ previewList }) {
+export default function AutoSearch({ previewList, addThumbnail }) {
   return (
     <AutoSearchContainer>
       <AutoSearchWrap>
         {previewList.map((youtuber, idx) => (
-          <AutoSearchData key={idx} youtuber={youtuber}></AutoSearchData>
+          <AutoSearchData
+            key={idx}
+            youtuber={youtuber}
+            addThumbnail={addThumbnail}
+          ></AutoSearchData>
         ))}
       </AutoSearchWrap>
     </AutoSearchContainer>
