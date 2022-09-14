@@ -82,16 +82,15 @@ export default function SearchTemplate({
       )}
       <SearchContainer>
         <SearchBar setSearchInput={setSearchInput}></SearchBar>
-        {searchInput || selectedList.length ? (
+
+        {searchInput && (
           <AutoSearch
             previewList={previewList}
             addThumbnail={addThumbnail}
           ></AutoSearch>
-        ) : (
-          <></>
         )}
       </SearchContainer>
-      {searchInput || selectedList.length ? (
+      {selectedList.length > 0 ? (
         <ButtonContainer>
           <Button text="선택완료"></Button>
         </ButtonContainer>
