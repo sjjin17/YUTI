@@ -18,7 +18,6 @@ const tempYoutubers = [
 ];
 
 export default function Search() {
-  const [searchState, setSearchState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [buttonText, setButtonText] = useState('건너뛰기');
@@ -35,14 +34,6 @@ export default function Search() {
   }
 
   useEffect(() => {
-    if (searchInput && !searchState) {
-      setSearchState(true);
-    } else if (!searchInput) {
-      setSearchState(false);
-    }
-  }, [searchInput]);
-
-  useEffect(() => {
     hoverState ? setButtonText('도와주세요') : setButtonText('건너뛰기');
   }, [hoverState]);
 
@@ -50,7 +41,6 @@ export default function Search() {
     <>
       <Container>
         <SearchTemplate
-          searchState={searchState}
           hoverState={hoverState}
           handleHover={handleHover}
           buttonText={buttonText}

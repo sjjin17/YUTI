@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import AutoSearchData from '../atom/AutoSearchData';
+import AutoSearchData from './AutoSearchData';
 
 const AutoSearchContainer = styled.div`
   z-index: 3;

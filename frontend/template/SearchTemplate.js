@@ -45,7 +45,7 @@ const ButtonContainer = styled.div`
 `;
 
 export default function SearchTemplate({
-  searchState,
+  searchInput,
   handleHover,
   setSearchInput,
   buttonText,
@@ -55,7 +55,7 @@ export default function SearchTemplate({
 }) {
   return (
     <Container>
-      {searchState || selectedList.length ? (
+      {searchInput || selectedList.length ? (
         <div>
           <TextContainer>
             <Heading text="더 나은 추천을 위해 데이터를 쌓아주세요"></Heading>
@@ -82,14 +82,16 @@ export default function SearchTemplate({
       )}
       <SearchContainer>
         <SearchBar setSearchInput={setSearchInput}></SearchBar>
-        {(searchState || selectedList.length) && (
+        {searchInput || selectedList.length ? (
           <AutoSearch
             previewList={previewList}
             addThumbnail={addThumbnail}
           ></AutoSearch>
+        ) : (
+          <></>
         )}
       </SearchContainer>
-      {searchState || selectedList.length ? (
+      {searchInput || selectedList.length ? (
         <ButtonContainer>
           <Button text="선택완료"></Button>
         </ButtonContainer>
