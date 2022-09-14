@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+  backend-yuti:
+    container_name: yuti
+    build:
+      context: ./backend/main-server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  backend-analytics:
+    container_name: analytics
+    build:
+      context: ./backend/analytics
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+
+  backend-youtuber-search:
+    container_name: youtuber-search
+    build:
+      context: ./backend/youtuber-search
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
