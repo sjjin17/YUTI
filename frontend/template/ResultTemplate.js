@@ -13,6 +13,33 @@ import {
   LineIcon,
 } from 'react-share';
 
+const Container = styled.div`
+  display: grid;
+  grid-template-rows: 0.5fr 2fr 0.5fr 2fr 1.5fr 0.5fr 1fr;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  @media (min-height: 800px) {
+    height: 750px;
+  }
+  @media (min-width: 571px) {
+    width: 571px;
+  }
+`;
+
+const ResultContainer = styled.div`
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(auto, 200px));
+`;
+
+const ShareContainer = styled.div`
+  display: flex;
+  width: 90%;
+  justify-content: space-evenly;
+`;
+
 export default function ResultTemplate({
   mbti,
   resultText,
@@ -21,33 +48,6 @@ export default function ResultTemplate({
   handleCopyUrl,
 }) {
   const mbtiImagePath = `/images/${mbti}.png`;
-
-  const Container = styled.div`
-    display: grid;
-    grid-template-rows: 0.5fr 2fr 0.5fr 2fr 1.5fr 0.5fr 1fr;
-    justify-items: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    @media (min-height: 800px) {
-      height: 750px;
-    }
-    @media (min-width: 571px) {
-      width: 571px;
-    }
-  `;
-
-  const ResultContainer = styled.div`
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(3, minmax(auto, 200px));
-  `;
-
-  const ShareContainer = styled.div`
-    display: flex;
-    width: 90%;
-    justify-content: space-evenly;
-  `;
 
   return (
     <Container>
