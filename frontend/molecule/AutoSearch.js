@@ -12,10 +12,15 @@ const AutoSearchContainer = styled.div`
   margin-bottom: 5%;
   display: flex;
 <<<<<<< HEAD
+<<<<<<< HEAD
   flex-wrap: wrap;
   overflow-y: scroll;
 =======
 >>>>>>> 3aca908 ([FEATURE] 검색 시 미리보기)
+=======
+  flex-wrap: wrap;
+  overflow-y: scroll;
+>>>>>>> 668f46b ([TEST] ImageUrl 선택 시 미출력)
 `;
 
 const AutoSearchWrap = styled.ul`

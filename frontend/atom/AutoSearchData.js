@@ -34,6 +34,7 @@ const ThumbnailImage = styled.img`
 `;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default function AutoSearchData({ youtuber, addThumbnail }) {
   return (
     <AutoSearchDataContainer onClick={e => addThumbnail(youtuber.Thumbnail, e)}>
@@ -42,6 +43,11 @@ export default function AutoSearchData({ youtuber }) {
   return (
     <AutoSearchDataContainer>
 >>>>>>> 3aca908 ([FEATURE] 검색 시 미리보기)
+=======
+export default function AutoSearchData({ youtuber, addThumbnail }) {
+  return (
+    <AutoSearchDataContainer onClick={e => addThumbnail(youtuber.Thumbnail, e)}>
+>>>>>>> 668f46b ([TEST] ImageUrl 선택 시 미출력)
       <ThumbnailContainer>
         <ThumbnailImage src={youtuber.Thumbnail}></ThumbnailImage>
       </ThumbnailContainer>
