@@ -48,7 +48,7 @@ export default function SearchTemplate({
   searchInput,
   handleHover,
   setSearchInput,
-  buttonText,
+  hoverState,
   previewList,
   selectedList,
   addThumbnail,
@@ -97,7 +97,7 @@ export default function SearchTemplate({
       ) : (
         <>
           <ButtonContainer onMouseOver={handleHover} onMouseOut={handleHover}>
-            <Button text={buttonText}></Button>
+            <Button text={hoverState ? '도와주세요' : '건너뛰기'}></Button>
           </ButtonContainer>
         </>
       )}
