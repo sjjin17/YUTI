@@ -26,6 +26,7 @@ const TextContainer = styled.div`
   height: 100%;
   display: grid;
   align-items: center;
+  margin: 5% auto;
 `;
 
 const SearchContainer = styled.div`
@@ -52,10 +53,9 @@ export default function SearchTemplate({
   selectedList,
   addThumbnail,
 }) {
-  console.log('template', selectedList);
   return (
     <Container>
-      {searchState === true ? (
+      {searchState || selectedList.length ? (
         <div>
           <TextContainer>
             <Heading text="더 나은 추천을 위해 데이터를 쌓아주세요"></Heading>
@@ -82,14 +82,14 @@ export default function SearchTemplate({
       )}
       <SearchContainer>
         <SearchBar setSearchInput={setSearchInput}></SearchBar>
-        {searchState && (
+        {(searchState || selectedList.length) && (
           <AutoSearch
             previewList={previewList}
             addThumbnail={addThumbnail}
           ></AutoSearch>
         )}
       </SearchContainer>
-      {searchState === true ? (
+      {searchState || selectedList.length ? (
         <ButtonContainer>
           <Button text="선택완료"></Button>
         </ButtonContainer>
