@@ -22,10 +22,14 @@ export default function Search() {
   const [searchInput, setSearchInput] = useState('');
   const [selectedList, setSelectedList] = useState([]);
 
-  function addThumbnail(thumbnail) {
-    setSelectedList(prev => {
-      return [...prev, thumbnail];
-    });
+  function editSelected(youtuber) {
+    if (selectedList.includes(youtuber)) {
+      setSelectedList(prev => prev.filter(selected => selected !== youtuber));
+    } else {
+      setSelectedList(prev => {
+        return [...prev, youtuber];
+      });
+    }
   }
 
   function handleHover() {
@@ -42,7 +46,7 @@ export default function Search() {
           setSearchInput={setSearchInput}
           previewList={tempYoutubers}
           selectedList={selectedList}
-          addThumbnail={addThumbnail}
+          editSelected={editSelected}
         ></SearchTemplate>
       </Container>
     </>

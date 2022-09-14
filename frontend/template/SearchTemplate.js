@@ -51,7 +51,7 @@ export default function SearchTemplate({
   hoverState,
   previewList,
   selectedList,
-  addThumbnail,
+  editSelected,
 }) {
   return (
     <Container>
@@ -67,7 +67,10 @@ export default function SearchTemplate({
               fontSize="20px"
             ></Heading>
           </TextContainer>
-          <MyYoutubers selectedList={selectedList}></MyYoutubers>
+          <MyYoutubers
+            selectedList={selectedList}
+            editSelected={editSelected}
+          ></MyYoutubers>
         </div>
       ) : (
         <>
@@ -86,7 +89,7 @@ export default function SearchTemplate({
         {searchInput && (
           <AutoSearch
             previewList={previewList}
-            addThumbnail={addThumbnail}
+            editSelected={editSelected}
           ></AutoSearch>
         )}
       </SearchContainer>
