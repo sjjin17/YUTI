@@ -13,6 +13,7 @@ const AutoSearchContainer = styled.div`
   display: flex;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   flex-wrap: wrap;
   overflow-y: scroll;
 =======
@@ -21,6 +22,10 @@ const AutoSearchContainer = styled.div`
   flex-wrap: wrap;
   overflow-y: scroll;
 >>>>>>> 668f46b ([TEST] ImageUrl 선택 시 미출력)
+=======
+  flex-wrap: wrap;
+  overflow-y: scroll;
+>>>>>>> 8eab706d354fc18f6e5158befb871a602f13c642
 `;
 
 const AutoSearchWrap = styled.ul`
