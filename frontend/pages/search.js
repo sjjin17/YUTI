@@ -20,7 +20,6 @@ const tempYoutubers = [
 export default function Search() {
   const [hoverState, setHoverState] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-  const [buttonText, setButtonText] = useState('건너뛰기');
   const [selectedList, setSelectedList] = useState([]);
 
   function addThumbnail(thumbnail) {
@@ -33,17 +32,12 @@ export default function Search() {
     setHoverState(!hoverState);
   }
 
-  useEffect(() => {
-    hoverState ? setButtonText('도와주세요') : setButtonText('건너뛰기');
-  }, [hoverState]);
-
   return (
     <>
       <Container>
         <SearchTemplate
           hoverState={hoverState}
           handleHover={handleHover}
-          buttonText={buttonText}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           previewList={tempYoutubers}
