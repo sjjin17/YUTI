@@ -33,9 +33,9 @@ const ThumbnailImage = styled.img`
   object-fit: cover;
 `;
 
-export default function AutoSearchData({ youtuber }) {
+export default function AutoSearchData({ youtuber, addThumbnail }) {
   return (
-    <AutoSearchDataContainer>
+    <AutoSearchDataContainer onClick={e => addThumbnail(youtuber.Thumbnail, e)}>
       <ThumbnailContainer>
         <ThumbnailImage src={youtuber.Thumbnail}></ThumbnailImage>
       </ThumbnailContainer>
