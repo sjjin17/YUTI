@@ -3,6 +3,7 @@ import Button from '../atom/Button';
 import styled from '@emotion/styled';
 import SearchBar from '../atom/SearchBar';
 import AutoSearch from '../molecule/AutoSearch';
+import MyYoutubers from '../molecule/MyYoutubers';
 import { MAIN_COLOR } from '../const';
 
 const Container = styled.div`
@@ -48,7 +49,10 @@ export default function SearchTemplate({
   setSearchInput,
   buttonText,
   previewList,
+  selectedList,
+  addThumbnail,
 }) {
+  console.log('template', selectedList);
   return (
     <Container>
       {searchState === true ? (
@@ -63,6 +67,7 @@ export default function SearchTemplate({
               fontSize="20px"
             ></Heading>
           </TextContainer>
+          <MyYoutubers selectedList={selectedList}></MyYoutubers>
         </div>
       ) : (
         <>
@@ -77,14 +82,24 @@ export default function SearchTemplate({
       )}
       <SearchContainer>
         <SearchBar setSearchInput={setSearchInput}></SearchBar>
-        {searchState && <AutoSearch previewList={previewList}></AutoSearch>}
+        {searchState && (
+          <AutoSearch
+            previewList={previewList}
+            addThumbnail={addThumbnail}
+          ></AutoSearch>
+        )}
       </SearchContainer>
-      <ButtonContainer>
-        <Button text="선택완료"></Button>
-      </ButtonContainer>
-      <ButtonContainer onMouseOver={handleHover} onMouseOut={handleHover}>
-        <Button text={buttonText}></Button>
-      </ButtonContainer>
+      {searchState === true ? (
+        <ButtonContainer>
+          <Button text="선택완료"></Button>
+        </ButtonContainer>
+      ) : (
+        <>
+          <ButtonContainer onMouseOver={handleHover} onMouseOut={handleHover}>
+            <Button text={buttonText}></Button>
+          </ButtonContainer>
+        </>
+      )}
     </Container>
   );
 }
