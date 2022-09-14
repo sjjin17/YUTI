@@ -5,17 +5,19 @@ const DelImage = styled.img`
   position: absolute;
   z-index: 1;
   top: -10px;
+  right: 4px;
+  cursor: pointer;
   }
 `;
 
-export default function BtnDel({ youtuber, editSelected }) {
+export default function BtnDel({ youtuber, delSelected }) {
   const dellImagePath = `images/Btndel.png`;
 
   return (
     <DelImage
       src={dellImagePath}
       alt="delBtn"
-      onClick={e => editSelected(youtuber)}
+      onClick={() => delSelected(youtuber)}
     />
   );
 }

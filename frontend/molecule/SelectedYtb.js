@@ -6,10 +6,10 @@ const SelectedYtbContainer = styled.span`
   position: relative;
 `;
 
-export default function selectedYtb({ youtuber, editSelected }) {
+export default function selectedYtb({ youtuber, delSelected }) {
   return (
     <SelectedYtbContainer>
-      <BtnDel editSelected={editSelected} youtuber={youtuber}></BtnDel>
+      <BtnDel delSelected={delSelected} youtuber={youtuber}></BtnDel>
       <YoutuberImage
         imageUrl={youtuber.Thumbnail}
         youtuberName="name"

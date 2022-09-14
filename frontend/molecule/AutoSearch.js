@@ -23,7 +23,7 @@ const AutoSearchWrap = styled.ul`
   position: relative;
 `;
 
-export default function AutoSearch({ previewList, editSelected }) {
+export default function AutoSearch({ previewList, addSelected }) {
   return (
     <AutoSearchContainer>
       <AutoSearchWrap>
@@ -31,7 +31,7 @@ export default function AutoSearch({ previewList, editSelected }) {
           <AutoSearchData
             key={idx}
             youtuber={youtuber}
-            editSelected={editSelected}
+            addSelected={addSelected}
           ></AutoSearchData>
         ))}
       </AutoSearchWrap>
