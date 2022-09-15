@@ -1,9 +1,19 @@
 import YoutuberImage from '../atom/YoutuberImage';
+import BtnDel from '../atom/BtnDel';
+import styled from '@emotion/styled';
 
-export default function selectedYtb({ imageUrl }) {
+const SelectedYtbContainer = styled.span`
+  position: relative;
+`;
+
+export default function selectedYtb({ youtuber, delSelected }) {
   return (
-    <span>
-      <YoutuberImage imageUrl={imageUrl} youtuberName="name"></YoutuberImage>
-    </span>
+    <SelectedYtbContainer>
+      <BtnDel delSelected={delSelected} youtuber={youtuber}></BtnDel>
+      <YoutuberImage
+        imageUrl={youtuber.Thumbnail}
+        youtuberName="name"
+      ></YoutuberImage>
+    </SelectedYtbContainer>
   );
 }

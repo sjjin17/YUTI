@@ -7,11 +7,15 @@ const YoutuberContainer = styled.div`
   margin: 5% auto;
 `;
 
-export default function MyYoutubers({ selectedList }) {
+export default function MyYoutubers({ selectedList, delSelected }) {
   return (
     <YoutuberContainer>
-      {selectedList.map((thumbnail, idx) => (
-        <SelectedYtb key={idx} imageUrl={thumbnail}></SelectedYtb>
+      {selectedList.map((youtuber, idx) => (
+        <SelectedYtb
+          key={idx}
+          youtuber={youtuber}
+          delSelected={delSelected}
+        ></SelectedYtb>
       ))}
     </YoutuberContainer>
   );
