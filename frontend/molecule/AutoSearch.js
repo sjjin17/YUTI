@@ -23,11 +23,11 @@ const AutoSearchWrap = styled.ul`
   position: relative;
 `;
 
-export default function AutoSearch({ previewList, addSelected }) {
+export default function AutoSearch({ searchResultList, addSelected }) {
   return (
     <AutoSearchContainer>
       <AutoSearchWrap>
-        {previewList.map((youtuber, idx) => (
+        {searchResultList.map((youtuber, idx) => (
           <AutoSearchData
             key={idx}
             youtuber={youtuber}

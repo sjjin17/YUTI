@@ -49,7 +49,7 @@ export default function SearchTemplate({
   handleHover,
   setSearchInput,
   hoverState,
-  previewList,
+  searchResultList,
   selectedList,
   addSelected,
   delSelected,
@@ -89,7 +89,7 @@ export default function SearchTemplate({
 
         {searchInput && (
           <AutoSearch
-            previewList={previewList}
+            searchResultList={searchResultList}
             addSelected={addSelected}
           ></AutoSearch>
         )}

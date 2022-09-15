@@ -46,7 +46,7 @@ export default function Search() {
           handleHover={handleHover}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
-          previewList={tempYoutubers}
+          searchResultList={tempYoutubers}
           selectedList={selectedList}
           addSelected={addSelected}
           delSelected={delSelected}
