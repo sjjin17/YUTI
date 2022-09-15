@@ -56,7 +56,7 @@ export default function SearchTemplate({
 }) {
   return (
     <Container>
-      {searchInput || selectedList.length ? (
+      {searchInput || selectedList.length > 0 ? (
         <div>
           <TextContainer>
             <Heading text="더 나은 추천을 위해 데이터를 쌓아주세요"></Heading>
