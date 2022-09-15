@@ -11,21 +11,8 @@ const AutoSearchContainer = styled.div`
   margin-top: 2.5%;
   margin-bottom: 5%;
   display: flex;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   flex-wrap: wrap;
   overflow-y: scroll;
-=======
->>>>>>> 3aca908 ([FEATURE] 검색 시 미리보기)
-=======
-  flex-wrap: wrap;
-  overflow-y: scroll;
->>>>>>> 668f46b ([TEST] ImageUrl 선택 시 미출력)
-=======
-  flex-wrap: wrap;
-  overflow-y: scroll;
->>>>>>> 8eab706d354fc18f6e5158befb871a602f13c642
 `;
 
 const AutoSearchWrap = styled.ul`
@@ -36,15 +23,15 @@ const AutoSearchWrap = styled.ul`
   position: relative;
 `;
 
-export default function AutoSearch({ previewList, addThumbnail }) {
+export default function AutoSearch({ searchResultList, addSelected }) {
   return (
     <AutoSearchContainer>
       <AutoSearchWrap>
-        {previewList.map((youtuber, idx) => (
+        {searchResultList.map((youtuber, idx) => (
           <AutoSearchData
             key={idx}
             youtuber={youtuber}
-            addThumbnail={addThumbnail}
+            addSelected={addSelected}
           ></AutoSearchData>
         ))}
       </AutoSearchWrap>

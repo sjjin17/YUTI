@@ -49,13 +49,14 @@ export default function SearchTemplate({
   handleHover,
   setSearchInput,
   hoverState,
-  previewList,
+  searchResultList,
   selectedList,
-  addThumbnail,
+  addSelected,
+  delSelected,
 }) {
   return (
     <Container>
-      {searchInput || selectedList.length ? (
+      {searchInput || selectedList.length > 0 ? (
         <div>
           <TextContainer>
             <Heading text="더 나은 추천을 위해 데이터를 쌓아주세요"></Heading>
@@ -67,7 +68,10 @@ export default function SearchTemplate({
               fontSize="20px"
             ></Heading>
           </TextContainer>
-          <MyYoutubers selectedList={selectedList}></MyYoutubers>
+          <MyYoutubers
+            selectedList={selectedList}
+            delSelected={delSelected}
+          ></MyYoutubers>
         </div>
       ) : (
         <>
@@ -85,8 +89,8 @@ export default function SearchTemplate({
 
         {searchInput && (
           <AutoSearch
-            previewList={previewList}
-            addThumbnail={addThumbnail}
+            searchResultList={searchResultList}
+            addSelected={addSelected}
           ></AutoSearch>
         )}
       </SearchContainer>
