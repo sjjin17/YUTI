@@ -100,7 +100,6 @@ export default function result() {
 
   return (
     <>
-      <Script src="https://developers.kakao.com/sdk/js/kakao.js"></Script>
       <ResultTemplate
         mbti={mbti}
         resultText={resultText(mbti)}
