@@ -1,4 +1,3 @@
-import Script from 'next/script';
 import { useEffect } from 'react';
 import ResultTemplate from '../template/ResultTemplate';
 
