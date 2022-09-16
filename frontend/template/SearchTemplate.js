@@ -24,7 +24,6 @@ const Container = styled.div`
 const TextContainer = styled.div`
   width: 100%;
   height: 100%;
-  display: grid;
   align-items: center;
   margin: 5% auto;
 `;
@@ -76,7 +75,13 @@ export default function SearchTemplate({
       ) : (
         <>
           <TextContainer>
-            <Heading text="즐겨보는 유튜버를 알려주세요"></Heading>
+            <Heading
+              text={
+                <>
+                  즐겨보는 <strong>유튜버</strong>를 알려주세요
+                </>
+              }
+            ></Heading>
           </TextContainer>
           <TextContainer>
             MBTI별 유튜버를 정확히 추천하기 위해서는 많은 데이터가 필요해요. 더
@@ -91,6 +96,7 @@ export default function SearchTemplate({
           <AutoSearch
             searchResultList={searchResultList}
             addSelected={addSelected}
+            searchInput={searchInput}
           ></AutoSearch>
         )}
       </SearchContainer>

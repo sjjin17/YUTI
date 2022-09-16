@@ -42,8 +42,7 @@ const ShareContainer = styled.div`
 
 export default function ResultTemplate({
   mbti,
-  resultText,
-  resultYoutubers,
+  mbtiResult,
   url,
   handleCopyUrl,
   handleKakaoShare,
@@ -54,7 +53,7 @@ export default function ResultTemplate({
     <Container>
       <Heading text="당신의 유튜버 스타일" fontSize="20px" textAlign="center" />
       <Image src={mbtiImagePath} alt={mbti} width={200} height={200} />
-      <Heading text={resultText} fontSize="20px" textAlign="center" />
+      <Heading text={mbtiResult.desc} fontSize="20px" textAlign="center" />
       <Image
         src="/images/dummy.png"
         alt="dummyImage"
@@ -62,7 +61,7 @@ export default function ResultTemplate({
         height={200}
       />
       <ResultContainer>
-        {resultYoutubers.map((youtuberInfo, idx) => (
+        {mbtiResult.likeYoutubers.map((youtuberInfo, idx) => (
           <YoutuberInfo
             key={idx}
             idx={idx}

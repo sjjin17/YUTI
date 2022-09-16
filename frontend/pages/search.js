@@ -11,23 +11,33 @@ export default function Search() {
   const [searchState, setSearchState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-  const [buttonText, setButtonText] = useState('건너뛰기');
+  const [selectedList, setSelectedList] = useState([]);
+  const [searchResultList, setSearchResultList] = useState([]);
+
+  function addSelected(youtuber) {
+    if (!selectedList.includes(youtuber)) {
+      setSelectedList(prev => {
+        return [...prev, youtuber];
+      });
+    }
+  }
+
+  function delSelected(youtuber) {
+    setSelectedList(prev => prev.filter(selected => selected !== youtuber));
+  }
 
   function handleHover() {
     setHoverState(!hoverState);
   }
 
   useEffect(() => {
-    if (searchInput && !searchState) {
-      setSearchState(true);
-    } else if (!searchInput) {
-      setSearchState(false);
+    // 임시코드, 이후 통신 코드로 수정
+    if (searchInput === '실패') {
+      setSearchResultList([]);
+    } else {
+      setSearchResultList(tempYoutubers);
     }
   }, [searchInput]);
-
-  useEffect(() => {
-    hoverState ? setButtonText('도와주세요') : setButtonText('건너뛰기');
-  }, [hoverState]);
 
   return (
     <>
@@ -39,6 +49,10 @@ export default function Search() {
           buttonText={buttonText}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
+          searchResultList={searchResultList}
+          selectedList={selectedList}
+          addSelected={addSelected}
+          delSelected={delSelected}
         ></SearchTemplate>
       </Container>
     </>
