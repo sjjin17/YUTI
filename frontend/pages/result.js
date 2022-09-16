@@ -1,6 +1,23 @@
+import Script from 'next/script';
+import { useEffect } from 'react';
 import ResultTemplate from '../template/ResultTemplate';
 
 export default function result() {
+  useEffect(() => {
+    if (window.Kakao) {
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+      }
+    }
+  }, []);
+
+  const handleKakaoShare = () => {
+    window.Kakao.Share.createCustomButton({
+      container: '#kakaotalk-sharing-btn',
+      templateId: 82753,
+    });
+  };
+
   // dummyData
   const mbti = 'ENFP';
   const resultYoutubers = [
@@ -84,12 +101,14 @@ export default function result() {
 
   return (
     <>
+      <Script src="https://developers.kakao.com/sdk/js/kakao.js"></Script>
       <ResultTemplate
         mbti={mbti}
         resultText={resultText(mbti)}
         resultYoutubers={resultYoutubers}
         url={INDEX_URL}
         handleCopyUrl={handleCopyUrl}
+        handleKakaoShare={handleKakaoShare}
       />
     </>
   );

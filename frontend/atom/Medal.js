@@ -6,8 +6,8 @@ const MedalImage = styled.img`
   z-index: 1;
   top: -13px;
   @media (min-width: 571px) {
-    width: 33px;
-    top: -23px;
+    width: 30px;
+    top: -16px;
   }
 `;
 

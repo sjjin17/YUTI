@@ -46,6 +46,7 @@ export default function ResultTemplate({
   resultYoutubers,
   url,
   handleCopyUrl,
+  handleKakaoShare,
 }) {
   const mbtiImagePath = `/images/${mbti}.png`;
 
@@ -72,7 +73,7 @@ export default function ResultTemplate({
       </ResultContainer>
       <Heading text="결과 공유하기" fontSize="15px" textAlign="center" />
       <ShareContainer>
-        <KakaoShare />
+        <KakaoShare onClick={handleKakaoShare} />
         <FacebookShareButton url={url}>
           <FacebookIcon size={45} round={true} borderRadius={24} />
         </FacebookShareButton>
