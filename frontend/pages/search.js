@@ -21,6 +21,7 @@ export default function Search() {
   const [hoverState, setHoverState] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [selectedList, setSelectedList] = useState([]);
+  const [searchResultList, setSearchResultList] = useState([]);
 
   function addSelected(youtuber) {
     if (!selectedList.includes(youtuber)) {
@@ -38,6 +39,15 @@ export default function Search() {
     setHoverState(!hoverState);
   }
 
+  useEffect(() => {
+    // 임시코드, 이후 통신 코드로 수정
+    if (searchInput === '실패') {
+      setSearchResultList([]);
+    } else {
+      setSearchResultList(tempYoutubers);
+    }
+  }, [searchInput]);
+
   return (
     <>
       <Container>
@@ -46,7 +56,7 @@ export default function Search() {
           handleHover={handleHover}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
-          searchResultList={tempYoutubers}
+          searchResultList={searchResultList}
           selectedList={selectedList}
           addSelected={addSelected}
           delSelected={delSelected}
