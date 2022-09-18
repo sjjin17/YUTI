@@ -7,40 +7,46 @@ import MyYoutubers from '../molecule/MyYoutubers';
 import { MAIN_COLOR } from '../const';
 
 const Container = styled.div`
-  width: 100%;
-  min-width: 100%;
+  width: 80%;
+  min-width: 80%;
   height: 90%;
-  padding: 10px 20px 0px 20px;
   margin: 0 auto;
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-rows: 3fr 5fr 2fr;
+  grid-template-rows: 3fr 5fr 2fr 60px;
   @media (min-height: 700px) {
     height: 630px;
+  }
+  @media (min-width: 571px) {
+    width: 571px;
   }
 `;
 
 const TextContainer = styled.div`
-  width: 100%;
+  width: 80%;
   height: 100%;
   align-items: center;
-  margin: 5% auto;
 `;
 
 const SearchContainer = styled.div`
-  width: 100%;
+  width: 80%;
   height: 100%;
   display: grid;
   align-items: center;
 `;
 
 const ButtonContainer = styled.div`
-  width: 100%;
+  width: 80%;
   height: 100%;
-  display: grid;
+  display: flex;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
+  button {
+    width: 70%;
+    height: 100%;
+  }
 `;
 
 export default function SearchTemplate({
@@ -78,10 +84,11 @@ export default function SearchTemplate({
             <Heading
               text={
                 <>
-                  즐겨보는 <strong>유튜버</strong>를 알려주세요
+                  즐겨보는 <strong>유튜버</strong>를
                 </>
               }
             ></Heading>
+            <Heading text="알려주세요!"></Heading>
           </TextContainer>
           <TextContainer>
             MBTI별 유튜버를 정확히 추천하기 위해서는 많은 데이터가 필요해요. 더

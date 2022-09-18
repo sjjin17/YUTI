@@ -2,11 +2,6 @@ import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import SearchTemplate from '../template/SearchTemplate';
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const tempYoutubers = [
   { Thumbnail: 'images/firstRank.png', name: '1번', subscribers: '1' },
   { Thumbnail: 'images/secondRank.png', name: '2번', subscribers: '2' },
@@ -49,19 +44,15 @@ export default function Search() {
   }, [searchInput]);
 
   return (
-    <>
-      <Container>
-        <SearchTemplate
-          hoverState={hoverState}
-          handleHover={handleHover}
-          searchInput={searchInput}
-          setSearchInput={setSearchInput}
-          searchResultList={searchResultList}
-          selectedList={selectedList}
-          addSelected={addSelected}
-          delSelected={delSelected}
-        ></SearchTemplate>
-      </Container>
-    </>
+    <SearchTemplate
+      hoverState={hoverState}
+      handleHover={handleHover}
+      searchInput={searchInput}
+      setSearchInput={setSearchInput}
+      searchResultList={searchResultList}
+      selectedList={selectedList}
+      addSelected={addSelected}
+      delSelected={delSelected}
+    ></SearchTemplate>
   );
 }
