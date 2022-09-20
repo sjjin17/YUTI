@@ -41,3 +41,4 @@ yarn-error.log*
 *.iml
 
 backend/.idea
+.idea
