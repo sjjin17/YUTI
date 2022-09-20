@@ -1,0 +1,34 @@
+= YUTI API Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[introduction]]
+== 소개
+
+SSAFY 7기 특화5반 A502팀
+
+YUTI REST API 명세서입니다.
+
+---
+
+[[Youtuber-검색]]
+== Youtuber 검색
+
+=== Http Request
+include::{snippets}/youtuber-search/http-request.adoc[]
+
+=== Path parameters
+include::{snippets}/youtuber-search/path-parameters.adoc[]
+
+=== Http Response
+include::{snippets}/youtuber-search/http-response.adoc[]
+
+=== Response fields
+include::{snippets}/youtuber-search/response-fields.adoc[]
+
+---
+
