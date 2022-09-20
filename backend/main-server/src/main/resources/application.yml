@@ -1,0 +1,3 @@
+es:
+  host: j7a502.p.ssafy.io:9200
+  index: youtuber_analyzer
