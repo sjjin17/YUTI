@@ -126,3 +126,4 @@ Temporary Items
 
 .gradle
 *.lock
+build
