@@ -5,7 +5,12 @@ import SearchTemplate from '../template/SearchTemplate';
 const tempYoutubers = [
   { Thumbnail: 'images/firstRank.png', name: '1번', subscribers: '1' },
   { Thumbnail: 'images/secondRank.png', name: '2번', subscribers: '2' },
-  { Thumbnail: 'images/thirdRank.png', name: '3번', subscribers: '3' },
+  {
+    Thumbnail:
+      'https://yt3.ggpht.com/ytc/AMLnZu-OoCj8oG4hssfpUAvZ5EPCjBu21krVcB6tkVFsQA=s176-c-k-c0x00ffffff-no-rj-mo',
+    name: '3번',
+    subscribers: '3',
+  },
   { Thumbnail: 'images/thirdRank.png', name: '4번', subscribers: '4' },
   { Thumbnail: 'images/thirdRank.png', name: '3번', subscribers: '3' },
   { Thumbnail: 'images/thirdRank.png', name: '3번', subscribers: '3' },

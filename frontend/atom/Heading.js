@@ -4,7 +4,6 @@ import { MAIN_COLOR } from '../const';
 
 const Text = styled.div`
   color: black;
-  font-weight: bold;
   strong {
     color: ${MAIN_COLOR};
   }
@@ -14,6 +13,7 @@ export default function Heading({
   color = 'black',
   fontSize = 30,
   textAlign = 'left',
+  fontWeight = 'bold',
 }) {
-  return <Text style={{ color, fontSize, textAlign }}>{text}</Text>;
+  return <Text style={{ color, fontSize, textAlign, fontWeight }}>{text}</Text>;
 }
