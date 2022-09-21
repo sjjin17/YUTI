@@ -23,7 +23,7 @@ const ThumbnailContainer = styled.div`
 
 const TextContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
   margin: 0 5px;
 `;
 
@@ -42,15 +42,19 @@ export default function AutoSearchData({ youtuber, addSelected }) {
   return (
     <AutoSearchDataContainer onClick={() => addSelected(youtuber)}>
       <ThumbnailContainer>
-        <ThumbnailImage src={youtuber.Thumbnail}></ThumbnailImage>
+        <ThumbnailImage src={youtuber.thumbnail}></ThumbnailImage>
       </ThumbnailContainer>
       <TextContainer>
-        <Heading text={youtuber.name}></Heading>
         <Heading
+          text={youtuber.channelName}
+          fontSize="25px"
+          fontWeight="normal"
+        ></Heading>
+        {/* <Heading
           text={`구독자: ${youtuber.subscribers}명`}
           fontSize="15px"
           fontWeight="normal"
-        ></Heading>
+        ></Heading> */}
       </TextContainer>
     </AutoSearchDataContainer>
   );
