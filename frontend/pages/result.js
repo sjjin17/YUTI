@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ResultTemplate from '../template/ResultTemplate';
 
 // dummyData
-const mbti = 'ENFP';
+const mbti = 'INFP';
 const resultYoutubers = [
   {
     imageUrl:
@@ -22,30 +22,220 @@ const resultYoutubers = [
 ];
 const INDEX_URL = 'https://j7a502.p.ssafy.io/';
 
-const MBTI_TEXT = {
-  ENFP: (
-    <>
-      시끌벅적한 영상을 즐기는 <strong>프로 덕질러</strong>
-    </>
-  ),
-  INFP: '인프피 관련 영상을 즐겨보는 나르시시스트',
-  ENFJ: '시민의식 깨우는 영상을 즐기는 희열러',
-  INFJ: '미정',
-  ENTJ: '유튜브에서도 자기계발 영상 보는 갓생러',
-  INTJ: '심오하면서 이론적인 영상을 즐기는 탐구러',
-  ENTP: '지루한 건 절대 싫어! 웃긴 영상 찾아다니는 웃음 사냥꾼',
-  INTP: '웃긴 밈 뇌절할 때까지 찾아보는 과몰입러',
-  ESFP: '미정',
-  ISFP: '실제 사건 다루는 영상을 즐겨보는 호기심러',
-  ESTP: '미정',
-  ISFP: '이어폰 필수인 ASMR 중독자',
-  ESFJ: '미정',
-  ISFJ: '노래 모음, 드라마 하이라이트 보는 요약러',
-  ESTJ: '검색은 유튜브로! 프로 검색러',
-  ISTJ: '미정',
+const MBTI_RESULT = {
+  ENFP: {
+    desc: (
+      <>
+        대화에서 뒤쳐질 수 없어서, <br />
+        유명한 유튜버는 전부 파악중인
+        <strong> 핵인싸</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 1,
+      재미: 5,
+      대리만족: 2,
+      인싸력: 5,
+    },
+  },
+  INFP: {
+    desc: (
+      <>
+        인프피 관련 영상을 즐겨보는 <br /> <strong>프로 공감러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 1,
+      재미: 3,
+      대리만족: 4,
+      공감력: 5,
+    },
+  },
+  ENFJ: {
+    desc: (
+      <>
+        시민의식 깨우는 영상을 즐기는 <strong>희열러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 2,
+      재미: 2,
+      대리만족: 5,
+      사명감: 5,
+    },
+  },
+  INFJ: {
+    desc: (
+      <>
+        감성에 죽고 감성에 산다, <strong>감죽감살</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 3,
+      재미: 3,
+      대리만족: 4,
+      감성: 5,
+    },
+  },
+  ENTJ: {
+    desc: (
+      <>
+        유튜브에서도 자기계발 영상 보는 <strong>갓생러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 4,
+      재미: 1,
+      대리만족: 3,
+      열정: 5,
+    },
+  },
+  INTJ: {
+    desc: (
+      <>
+        세상 모든 정보 다 습득하고 싶어하는 <br /> <strong>알쓸신잡러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 5,
+      재미: 2,
+      대리만족: 2,
+      호기심: 5,
+    },
+  },
+  ENTP: {
+    desc: (
+      <>
+        너넨 ○○ 모르지? 확고한 취향의 <br /> <strong>자발적 아웃사이더</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 2,
+      재미: 3,
+      대리만족: 1,
+      홍대병: 5,
+    },
+  },
+  INTP: {
+    desc: (
+      <>
+        호기심은 많지만 짧은 영상을 즐겨보는 <br /> <strong>쇼츠 중독자</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 4,
+      재미: 1,
+      대리만족: 1,
+      속도감: 5,
+    },
+  },
+  ESFP: {
+    desc: (
+      <>
+        모든 영상과 친하게 지내는 <strong>사교러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 4,
+      재미: 4,
+      대리만족: 1,
+      친화력: 5,
+    },
+  },
+  ISFP: {
+    desc: (
+      <>
+        트랜드에 민감한 유튜브계의 <strong>얼리어답터</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 1,
+      재미: 5,
+      대리만족: 1,
+      트렌디: 5,
+    },
+  },
+  ESTP: {
+    desc: (
+      <>
+        가만히는 못있는 <strong>오감 만족러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 1,
+      재미: 4,
+      대리만족: 2,
+      관종력: 5,
+    },
+  },
+  ISTP: {
+    desc: (
+      <>
+        유튜브로 세상을 탐색하는 <strong>프로 탐구러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 2,
+      재미: 4,
+      대리만족: 2,
+      관찰력: 5,
+    },
+  },
+  ESFJ: {
+    desc: (
+      <>
+        재미없는 건 쳐다보지도 않는 <br /> <strong>분위기 메이커</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 1,
+      재미: 5,
+      대리만족: 2,
+      진행력: 5,
+    },
+  },
+  ISFJ: {
+    desc: (
+      <>
+        어디든 갈 수 있어! <strong>방구석 여행러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 2,
+      재미: 3,
+      대리만족: 5,
+      몰입력: 5,
+    },
+  },
+  ESTJ: {
+    desc: (
+      <>
+        검색은 유튜브로! <strong>프로 검색러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 5,
+      재미: 2,
+      대리만족: 1,
+      생활력: 5,
+    },
+  },
+  ISTJ: {
+    desc: (
+      <>
+        팩트 없이 못사는 <strong>팩트 체크러</strong>
+      </>
+    ),
+    gageInfos: {
+      정보: 4,
+      재미: 3,
+      대리만족: 2,
+      현실주의: 5,
+    },
+  },
 };
 
-export default function result() {
+export default function Result() {
   useEffect(() => {
     if (window.Kakao) {
       if (!window.Kakao.isInitialized()) {
@@ -56,13 +246,15 @@ export default function result() {
 
   const [mbtiResult, setMbtiResult] = useState({
     desc: '',
+    gageInfos: {},
     likeYoutubers: [],
   });
 
   useEffect(() => {
     setMbtiResult({
       likeYoutubers: resultYoutubers,
-      desc: MBTI_TEXT[mbti],
+      desc: MBTI_RESULT[mbti].desc,
+      gageInfos: MBTI_RESULT[mbti].gageInfos,
     });
   }, []);
 
