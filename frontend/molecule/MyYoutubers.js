@@ -4,7 +4,8 @@ import SelectedYtb from './SelectedYtb';
 const YoutuberContainer = styled.div`
   display: flex;
   align-items: start;
-  margin: 5% auto;
+  justify-content: start;
+  margin: 5% 0;
 `;
 
 export default function MyYoutubers({ selectedList, delSelected }) {
