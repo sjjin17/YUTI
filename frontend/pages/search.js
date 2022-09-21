@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import SearchTemplate from '../template/SearchTemplate';
+import axios from 'axios';
 
 const tempYoutubers = [
   { Thumbnail: 'images/firstRank.png', name: '1번', subscribers: '1' },
@@ -46,6 +47,11 @@ export default function Search() {
     } else {
       setSearchResultList(tempYoutubers);
     }
+    axios
+      .get(`http://localhost:8080/api/v1/youtubers/${searchInput}`)
+      .then(res => {
+        console.log(res);
+      });
   }, [searchInput]);
 
   return (
