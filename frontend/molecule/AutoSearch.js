@@ -7,7 +7,7 @@ import { MAIN_COLOR } from '../const';
 const AutoSearchContainer = styled.div`
   z-index: 3;
   width: 100%;
-  height: 50vh;
+  height: 45vh;
   background-color: #fff;
   border: 2px hidden;
   margin-top: 2.5%;
@@ -23,7 +23,7 @@ const AutoSearchContainer = styled.div`
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: ${MAIN_COLOR};
+    background-color: rgb(0, 0, 0, 0.1);
     border-right: none;
     border-left: none;
   }
@@ -34,11 +34,12 @@ const AutoSearchContainer = styled.div`
 `;
 
 const AutoSearchWrap = styled.ul`
-  height: 80%;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   position: relative;
+  padding: 0px;
 `;
 
 const TextContainer = styled.div`
