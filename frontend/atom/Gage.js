@@ -21,28 +21,16 @@ const GageBox = styled.div`
 `;
 
 export default function Gage({ gageNumber, index }) {
-  const emptyNumber = 5 - gageNumber;
-  if (index < 3) {
-    return (
-      <GageContainer>
-        {[...Array(gageNumber)].map((empty, idx) => (
-          <GageBox key={idx} color={MAIN_COLOR} />
-        ))}
-        {[...Array(emptyNumber)].map((empty, idx) => (
-          <GageBox key={idx} color="white" />
-        ))}
-      </GageContainer>
-    );
-  } else {
-    return (
-      <GageContainer>
-        {[...Array(gageNumber)].map((empty, idx) => (
-          <GageBox key={idx} color={SUB_COLOR} />
-        ))}
-        {[...Array(emptyNumber)].map((empty, idx) => (
-          <GageBox key={idx} color="white" />
-        ))}
-      </GageContainer>
-    );
-  }
+  return (
+    <GageContainer>
+      {[...Array(5)].map((_value, idx) => (
+        <GageBox
+          key={idx}
+          color={
+            idx < gageNumber ? (index < 3 ? MAIN_COLOR : SUB_COLOR) : 'white'
+          }
+        />
+      ))}
+    </GageContainer>
+  );
 }
