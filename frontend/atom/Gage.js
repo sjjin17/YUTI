@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MAIN_COLOR } from '../const';
+import { MAIN_COLOR, SUB_COLOR } from '../const';
 
 const GageContainer = styled.div`
   display: flex;
@@ -37,7 +37,7 @@ export default function Gage({ gageNumber, index }) {
     return (
       <GageContainer>
         {[...Array(gageNumber)].map((empty, idx) => (
-          <GageBox key={idx} color="#1BF7AA" />
+          <GageBox key={idx} color={SUB_COLOR} />
         ))}
         {[...Array(emptyNumber)].map((empty, idx) => (
           <GageBox key={idx} color="white" />

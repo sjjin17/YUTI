@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import ResultTemplate from '../template/ResultTemplate';
 
 // dummyData
-const mbti = 'INFP';
 const resultYoutubers = [
   {
     imageUrl:
@@ -31,6 +31,7 @@ const MBTI_RESULT = {
         <strong> 핵인싸</strong>
       </>
     ),
+    shareDesc: '대화에서 뒤쳐질 수 없어서, 유명 유튜버는 전부 파악중인 핵인싸',
     gageInfos: {
       정보: 1,
       재미: 5,
@@ -44,6 +45,7 @@ const MBTI_RESULT = {
         인프피 관련 영상을 즐겨보는 <br /> <strong>프로 공감러</strong>
       </>
     ),
+    shareDesc: '인프피 관련 영상을 즐겨보는 프로 공감러',
     gageInfos: {
       정보: 1,
       재미: 3,
@@ -57,6 +59,7 @@ const MBTI_RESULT = {
         시민의식 깨우는 영상을 즐기는 <strong>희열러</strong>
       </>
     ),
+    shareDesc: '시민의식 깨우는 영상을 즐기는 희열러',
     gageInfos: {
       정보: 2,
       재미: 2,
@@ -70,6 +73,7 @@ const MBTI_RESULT = {
         감성에 죽고 감성에 산다, <strong>감죽감살</strong>
       </>
     ),
+    shareDesc: '감성에 죽고 감성에 산다, 감죽감살',
     gageInfos: {
       정보: 3,
       재미: 3,
@@ -83,6 +87,7 @@ const MBTI_RESULT = {
         유튜브에서도 자기계발 영상 보는 <strong>갓생러</strong>
       </>
     ),
+    shareDesc: '유튜브에서도 자기계발 영상 보는 갓생러 ',
     gageInfos: {
       정보: 4,
       재미: 1,
@@ -96,6 +101,7 @@ const MBTI_RESULT = {
         세상 모든 정보 다 습득하고 싶어하는 <br /> <strong>알쓸신잡러</strong>
       </>
     ),
+    shareDesc: '세상 모든 정보 다 습득하고 싶어하는 알쓸신잡러',
     gageInfos: {
       정보: 5,
       재미: 2,
@@ -109,6 +115,7 @@ const MBTI_RESULT = {
         너넨 ○○ 모르지? 확고한 취향의 <br /> <strong>자발적 아웃사이더</strong>
       </>
     ),
+    shareDesc: '너넨 ○○모르지? 확고한 취향의 자발적 아웃사이더',
     gageInfos: {
       정보: 2,
       재미: 3,
@@ -122,6 +129,7 @@ const MBTI_RESULT = {
         호기심은 많지만 짧은 영상을 즐겨보는 <br /> <strong>쇼츠 중독자</strong>
       </>
     ),
+    shareDesc: '호기심은 많지만 짧은 영상을 즐겨보는 쇼츠 중독자',
     gageInfos: {
       정보: 4,
       재미: 1,
@@ -135,6 +143,7 @@ const MBTI_RESULT = {
         모든 영상과 친하게 지내는 <strong>사교러</strong>
       </>
     ),
+    shareDesc: '모든 영상과 친하게 지내는 사교러',
     gageInfos: {
       정보: 4,
       재미: 4,
@@ -148,6 +157,7 @@ const MBTI_RESULT = {
         트랜드에 민감한 유튜브계의 <strong>얼리어답터</strong>
       </>
     ),
+    shareDesc: '트랜드에 민감한 유튜브계의 얼리어답터',
     gageInfos: {
       정보: 1,
       재미: 5,
@@ -161,6 +171,7 @@ const MBTI_RESULT = {
         가만히는 못있는 <strong>오감 만족러</strong>
       </>
     ),
+    shareDesc: '가만히는 못있는 오감 만족러',
     gageInfos: {
       정보: 1,
       재미: 4,
@@ -174,6 +185,7 @@ const MBTI_RESULT = {
         유튜브로 세상을 탐색하는 <strong>프로 탐구러</strong>
       </>
     ),
+    shareDesc: '유튜브로 세상을 탐색하는 프로 탐구러',
     gageInfos: {
       정보: 2,
       재미: 4,
@@ -187,6 +199,7 @@ const MBTI_RESULT = {
         재미없는 건 쳐다보지도 않는 <br /> <strong>분위기 메이커</strong>
       </>
     ),
+    shareDesc: '재미없는 건 쳐다보지도 않는 분위기 메이커',
     gageInfos: {
       정보: 1,
       재미: 5,
@@ -200,6 +213,7 @@ const MBTI_RESULT = {
         어디든 갈 수 있어! <strong>방구석 여행러</strong>
       </>
     ),
+    shareDesc: '어디든 갈 수 있어! 방구석 여행러',
     gageInfos: {
       정보: 2,
       재미: 3,
@@ -213,6 +227,7 @@ const MBTI_RESULT = {
         검색은 유튜브로! <strong>프로 검색러</strong>
       </>
     ),
+    shareDesc: '검색은 유튜브로! 프로 검색러',
     gageInfos: {
       정보: 5,
       재미: 2,
@@ -226,6 +241,7 @@ const MBTI_RESULT = {
         팩트 없이 못사는 <strong>팩트 체크러</strong>
       </>
     ),
+    shareDesc: '팩트 없이 못사는 팩트 체크러',
     gageInfos: {
       정보: 4,
       재미: 3,
@@ -236,6 +252,8 @@ const MBTI_RESULT = {
 };
 
 export default function Result() {
+  const router = useRouter();
+  const { mbti } = router.query;
   useEffect(() => {
     if (window.Kakao) {
       if (!window.Kakao.isInitialized()) {
@@ -251,12 +269,14 @@ export default function Result() {
   });
 
   useEffect(() => {
-    setMbtiResult({
-      likeYoutubers: resultYoutubers,
-      desc: MBTI_RESULT[mbti].desc,
-      gageInfos: MBTI_RESULT[mbti].gageInfos,
-    });
-  }, []);
+    if (mbti) {
+      setMbtiResult({
+        likeYoutubers: resultYoutubers,
+        desc: MBTI_RESULT[mbti].desc,
+        gageInfos: MBTI_RESULT[mbti].gageInfos,
+      });
+    }
+  }, [mbti]);
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(INDEX_URL);
@@ -266,6 +286,14 @@ export default function Result() {
     window.Kakao.Share.createCustomButton({
       container: '#kakaotalk-sharing-btn',
       templateId: 82753,
+      templateArgs: {
+        mbti_desc: `${MBTI_RESULT[mbti].shareDesc}`,
+        mbti_image: '',
+        mbti: `${mbti}`,
+        likeYoutubers_first: `${mbtiResult.likeYoutubers[0].youtuberName}`,
+        likeYoutubers_second: `${mbtiResult.likeYoutubers[1].youtuberName}`,
+        likeYoutubers_third: `${mbtiResult.likeYoutubers[2].youtuberName}`,
+      },
     });
   };
 
