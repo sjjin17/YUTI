@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 const Container = styled.div`
-  height: 30px;
+  height: 50px;
   width: 100%;
   position: relative;
 `;
@@ -10,6 +10,15 @@ const Container = styled.div`
 const SearchInput = styled.input`
   border-width: 0 0 1px 0;
   width: 100%;
+  height: 100%;
+  font-size: 20px;
+  ::placeholder {
+    text-align: center;
+    font-size: 18px;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
 export default function SearchBar({ setSearchInput }) {
