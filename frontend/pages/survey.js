@@ -166,13 +166,13 @@ export default function Survey() {
   useEffect(() => {
     if (surveyNum < surveyList.length) return;
     console.log('hi');
-    getMbti();
+    saveMbti();
     Router.push({
       pathname: '/search',
     });
   }, [surveyNum]);
 
-  const getMbti = () => {
+  const saveMbti = () => {
     const MBTI = resultMbti.reduce((prev, cur, idx) => {
       return (prev += cur > 0 ? mbtiArray[idx][0] : mbtiArray[idx][1]);
     }, '');
