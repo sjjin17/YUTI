@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface YoutuberService {
 
-    List<YoutuberResponseDto> searchYoutuber(String keyword);
+    List<YoutuberResponseDto> searchYoutuber(String keyword, int offset);
 
 }

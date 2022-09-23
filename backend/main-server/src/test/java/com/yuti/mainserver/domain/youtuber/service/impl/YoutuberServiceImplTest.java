@@ -23,7 +23,7 @@ public class YoutuberServiceImplTest {
         String keyword = "삼성청년SW아카데미 Youtube채널 HELLOSSAFY";
 
         // when
-        List<YoutuberResponseDto> response = youtuberService.searchYoutuber(keyword);
+        List<YoutuberResponseDto> response = youtuberService.searchYoutuber(keyword, 0);
 
         // then
         assertThat(response.size()).isNotEqualTo(0);
@@ -36,7 +36,7 @@ public class YoutuberServiceImplTest {
         String keyword = "삼성청년";
 
         // when
-        List<YoutuberResponseDto> response = youtuberService.searchYoutuber(keyword);
+        List<YoutuberResponseDto> response = youtuberService.searchYoutuber(keyword, 0);
 
         // then
         assertThat(response.size()).isNotEqualTo(0);
@@ -49,7 +49,7 @@ public class YoutuberServiceImplTest {
         String keyword = "ㅅㅅㅊㄴ";
 
         // when
-        List<YoutuberResponseDto> response = youtuberService.searchYoutuber(keyword);
+        List<YoutuberResponseDto> response = youtuberService.searchYoutuber(keyword, 0);
 
         // then
         assertThat(response.size()).isNotEqualTo(0);
