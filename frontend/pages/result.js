@@ -45,7 +45,7 @@ const MBTI_TEXT = {
   ISTJ: '미정',
 };
 
-export default function result() {
+export default function Result() {
   useEffect(() => {
     if (window.Kakao) {
       if (!window.Kakao.isInitialized()) {

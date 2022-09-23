@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import AutoSearchData from './AutoSearchData';
 import Heading from '../atom/Heading';
@@ -56,7 +56,10 @@ export default function AutoSearch({
   searchResultList,
   addSelected,
   searchInput,
+  page,
 }) {
+  const pageClass = `${page}페이지`;
+
   return (
     <AutoSearchContainer>
       {searchResultList.length > 0 ? (
@@ -69,6 +72,7 @@ export default function AutoSearch({
               addSelected={addSelected}
             ></AutoSearchData>
           ))}
+          <div className={pageClass}>Loading</div>
         </AutoSearchWrap>
       ) : (
         <>
