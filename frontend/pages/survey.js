@@ -165,7 +165,6 @@ export default function Survey() {
 
   useEffect(() => {
     if (surveyNum < surveyList.length) return;
-    console.log('hi');
     saveMbti();
     Router.push({
       pathname: '/search',
