@@ -65,6 +65,7 @@ export default function SearchTemplate({
   addSelected,
   delSelected,
   page,
+  isLoaded,
 }) {
   return (
     <Container>
@@ -114,6 +115,7 @@ export default function SearchTemplate({
             addSelected={addSelected}
             searchInput={searchInput}
             page={page}
+            isLoaded={isLoaded}
           ></AutoSearch>
         )}
       </SearchContainer>

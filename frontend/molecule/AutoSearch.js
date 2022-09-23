@@ -57,9 +57,8 @@ export default function AutoSearch({
   addSelected,
   searchInput,
   page,
+  isLoaded,
 }) {
-  const pageClass = `${page}페이지`;
-
   return (
     <AutoSearchContainer>
       {searchResultList.length > 0 ? (
@@ -72,7 +71,7 @@ export default function AutoSearch({
               addSelected={addSelected}
             ></AutoSearchData>
           ))}
-          <div className={pageClass}>Loading</div>
+          {isLoaded && <div className={`${page}페이지`}>Loading</div>}
         </AutoSearchWrap>
       ) : (
         <>
