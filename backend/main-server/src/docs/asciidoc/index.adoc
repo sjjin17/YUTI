@@ -21,8 +21,8 @@ YUTI REST API 명세서입니다.
 === Http Request
 include::{snippets}/youtuber-search/http-request.adoc[]
 
-=== Path parameters
-include::{snippets}/youtuber-search/path-parameters.adoc[]
+=== Request parameters
+include::{snippets}/youtuber-search/request-parameters.adoc[]
 
 === Http Response
 include::{snippets}/youtuber-search/http-response.adoc[]

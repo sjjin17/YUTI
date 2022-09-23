@@ -28,9 +28,11 @@ public class YoutuberServiceImpl implements YoutuberService {
     private String index;
 
     @Override
-    public List<YoutuberResponseDto> searchYoutuber(String keyword) {
+    public List<YoutuberResponseDto> searchYoutuber(String keyword, int offset) {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(matchQuery("channel_name", keyword));
+        searchSourceBuilder.query(matchQuery("channel_name", keyword))
+                .from(offset)
+                .size(50);
 
         SearchRequest searchRequest = new SearchRequest(index);
         searchRequest.source(searchSourceBuilder);
