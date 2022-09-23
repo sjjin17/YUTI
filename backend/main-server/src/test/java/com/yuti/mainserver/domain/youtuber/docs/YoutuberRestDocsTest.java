@@ -15,14 +15,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(YoutuberApiController.class)
@@ -44,16 +43,19 @@ public class YoutuberRestDocsTest {
                 .channelId("UC_XI3ByFO1uZIIH-g-zJZiw")
                 .channelName("삼성청년SW아카데미 Youtube채널 HELLOSSAFY")
                 .thumbnail("https://yt3.ggpht.com/ytc/AMLnZu9qdR9T9_9OXz27_3lZVs4hfwECef2oUSylrcQv=s800-c-k-c0x00ffffff-no-rj").build());
-        given(youtuberService.searchYoutuber(anyString())).willReturn(response);
+        given(youtuberService.searchYoutuber(anyString(), anyInt())).willReturn(response);
 
         // when, then
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/youtubers/{keyword}", request))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/youtubers")
+                        .queryParam("keyword", request)
+                        .queryParam("offset", String.valueOf(0)))
                 .andExpect(status().isOk())
                 .andDo(document("youtuber-search",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("keyword").description("검색할 단어")
+                        requestParameters(
+                                parameterWithName("keyword").description("검색할 단어"),
+                                parameterWithName("offset").description("조회할 시작 번호")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("API 요청 성공 여부").type(JsonFieldType.BOOLEAN),
