@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SurveyTemplate from '../template/SurveyTemplate';
 import styled from '@emotion/styled';
+import Router from 'next/router';
 
 const Container = styled.div`
   display: flex;
@@ -162,10 +163,20 @@ export default function Survey() {
   const [resultMbti, setResultMbti] = useState([0, 0, 0, 0]);
   const [surveyNum, setSurveyNum] = useState(0);
 
+  useEffect(() => {
+    if (surveyNum < surveyList.length) return;
+    console.log('hi');
+    getMbti();
+    Router.push({
+      pathname: '/search',
+    });
+  }, [surveyNum]);
+
   const getMbti = () => {
-    return resultMbti.reduce((prev, cur, idx) => {
+    const MBTI = resultMbti.reduce((prev, cur, idx) => {
       return (prev += cur > 0 ? mbtiArray[idx][0] : mbtiArray[idx][1]);
     }, '');
+    window.localStorage.setItem('mbti', MBTI);
   };
 
   const pageChange = () => {
@@ -187,9 +198,7 @@ export default function Survey() {
 
   return (
     <>
-      {surveyNum >= 12 ? (
-        <div style={{ color: 'black' }}>{getMbti()}</div>
-      ) : (
+      {surveyNum < surveyList.length && (
         <Container>
           <SurveyTemplate
             survey={surveyList[surveyNum]}
