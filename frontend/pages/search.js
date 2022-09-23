@@ -2,20 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import SearchTemplate from '../template/SearchTemplate';
 import axios from '../utils/axios';
 
-const tempYoutubers = [
-  { thumbnail: 'images/firstRank.png', channelName: '1번' },
-  { thumbnail: 'images/secondRank.png', channelName: '2번' },
-  {
-    thumbnail:
-      'https://yt3.ggpht.com/ytc/AMLnZu-OoCj8oG4hssfpUAvZ5EPCjBu21krVcB6tkVFsQA=s176-c-k-c0x00ffffff-no-rj-mo',
-    name: '3번',
-  },
-  { thumbnail: 'images/thirdRank.png', channelName: '4번' },
-  { thumbnail: 'images/thirdRank.png', channelName: '5번' },
-  { thumbnail: 'images/thirdRank.png', channelName: '6번' },
-  { thumbnail: 'images/thirdRank.png', channelName: '7번' },
-];
-
 export default function Search() {
   const [hoverState, setHoverState] = useState(false);
   const [searchInput, setSearchInput] = useState('');
@@ -23,12 +9,31 @@ export default function Search() {
   const [searchResultList, setSearchResultList] = useState([]);
   const [page, setPage] = useState(0);
   const [io, setIo] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(true);
 
-  const fetchResultList = () => {
-    if (searchInput) {
-      setSearchResultList(prev => {
-        return [...prev, ...tempYoutubers];
-      });
+  const fetchResultList = async () => {
+    if (page === 1) {
+      return;
+    } else if (searchInput) {
+      try {
+        const params = {
+          keyword: searchInput,
+          offset: searchResultList.length,
+        };
+        const { data } = await axios.get(`api/v1/youtubers/`, {
+          params,
+        });
+        setSearchResultList(prev => {
+          return [...prev, ...data.data];
+        });
+        if (!page) {
+          setPage(1);
+          setIsLoaded(false);
+        }
+      } catch {
+        setSearchResultList([]);
+        setPage(0);
+      }
     } else {
       setSearchResultList([]);
       setPage(0);
@@ -62,14 +67,24 @@ export default function Search() {
       registerObservingEl(target);
     }
   }
+
   useEffect(() => {
-    setScrollTarget();
-  }, [io]);
+    if (searchResultList.length) {
+      setIsLoaded(true);
+    }
+  }, [searchResultList.length]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      setScrollTarget();
+    }
+  }, [isLoaded]);
 
   useEffect(() => {
     const targetObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          setIsLoaded(false);
           setPage(page + 1);
           if (io !== null) {
             io.disconnect();
@@ -79,7 +94,15 @@ export default function Search() {
     });
     setIo(targetObserver);
     fetchResultList();
-  }, [page, searchInput]);
+  }, [page]);
+
+  useEffect(() => {
+    if (searchInput) {
+      setSearchResultList([]);
+      setPage(0);
+      fetchResultList();
+    }
+  }, [searchInput]);
 
   return (
     <SearchTemplate
@@ -92,6 +115,7 @@ export default function Search() {
       addSelected={addSelected}
       delSelected={delSelected}
       page={page}
+      isLoaded={isLoaded}
     ></SearchTemplate>
   );
 }
