@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import SearchTemplate from '../template/SearchTemplate';
 import axios from '../utils/axios';
 

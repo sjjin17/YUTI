@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import AutoSearchData from './AutoSearchData';
 import Heading from '../atom/Heading';
