@@ -1,6 +1,6 @@
 package com.yuti.mainserver.domain.youtuber.api;
 
-import com.yuti.mainserver.domain.youtuber.Service.YoutuberService;
+import com.yuti.mainserver.domain.youtuber.service.YoutuberService;
 import com.yuti.mainserver.global.api.BasicResponse;
 import com.yuti.mainserver.global.api.CommonResponse;
 import lombok.RequiredArgsConstructor;

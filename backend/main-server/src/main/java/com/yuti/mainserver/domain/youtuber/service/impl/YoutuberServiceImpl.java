@@ -1,6 +1,6 @@
-package com.yuti.mainserver.domain.youtuber.Service.ServiceImpl;
+package com.yuti.mainserver.domain.youtuber.service.impl;
 
-import com.yuti.mainserver.domain.youtuber.Service.YoutuberService;
+import com.yuti.mainserver.domain.youtuber.service.YoutuberService;
 import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.action.search.SearchRequest;

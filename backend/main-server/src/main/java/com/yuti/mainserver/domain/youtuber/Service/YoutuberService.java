@@ -1,4 +1,4 @@
-package com.yuti.mainserver.domain.youtuber.Service;
+package com.yuti.mainserver.domain.youtuber.service;
 
 import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
 
