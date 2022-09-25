@@ -1,5 +1,6 @@
-package com.yuti.logging.domain.log.dto;
+package com.yuti.logging.pipeline.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,13 +9,9 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SurveyRequestDto {
 
-    @NotEmpty
-    private String pageNo;
-    @NotNull
-    private long timeDiff;
-    @NotEmpty
-    private String answer;
-
+    private String mbti;
+    private String youtuber;
 }
