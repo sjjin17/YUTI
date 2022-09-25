@@ -1,6 +1,6 @@
 package com.yuti.mainserver.domain.youtuber.service.impl;
 
-import com.yuti.mainserver.domain.youtuber.Service.YoutuberService;
+import com.yuti.mainserver.domain.youtuber.service.YoutuberService;
 import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
