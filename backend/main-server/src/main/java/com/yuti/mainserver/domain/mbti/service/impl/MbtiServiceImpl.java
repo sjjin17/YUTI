@@ -2,9 +2,7 @@ package com.yuti.mainserver.domain.mbti.service.impl;
 
 import com.yuti.mainserver.domain.mbti.domain.MBTI;
 import com.yuti.mainserver.domain.mbti.dto.MbtiRecommendResponseDto;
-import com.yuti.mainserver.domain.mbti.dto.MbtiResultRequestDto;
 import com.yuti.mainserver.domain.mbti.service.MbtiService;
-import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
 import com.yuti.mainserver.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.action.search.SearchRequest;
@@ -13,7 +11,6 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
-import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.MultiBucketsAggregation;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -39,17 +36,12 @@ public class MbtiServiceImpl implements MbtiService {
     private final RestHighLevelClient restHighLevelClient;
 
     @Override
-    public List<MbtiRecommendResponseDto> recommendYoutubers(MbtiResultRequestDto resultRequestDto) {
-        if(!Arrays.stream(MBTI.values()).anyMatch(mbti -> mbti.toString().equals(resultRequestDto.getMbti())))
+    public List<MbtiRecommendResponseDto> recommendYoutubers(String mbti) {
+        if(!Arrays.stream(MBTI.values()).anyMatch(mbtiEnum -> mbtiEnum.toString().equals(mbti)))
             throw new CustomException("유효한 MBTI가 아닙니다.");
 
-        /**
-         * MbtiResultRequestDto 를 Elasticsearch의 mbti_result 인덱스에 저장할 수 있도록
-         * kafka로 넘기는 코드 필요합니다.
-         */
-
         try{
-            List<String> top3ChannelIds = recommendTop3(resultRequestDto.getMbti());
+            List<String> top3ChannelIds = recommendTop3(mbti);
             SearchResponse top3Youtubers = findYoutuberInfo(top3ChannelIds);
 
             return Arrays.stream(top3Youtubers.getHits().getHits())
@@ -61,7 +53,7 @@ public class MbtiServiceImpl implements MbtiService {
     }
 
     private List<String> recommendTop3(String mbti) throws IOException {
-        SearchRequest aggRequest = new SearchRequest("mbti_result");
+        SearchRequest aggRequest = new SearchRequest("mbti-result");
         aggRequest.source(new SearchSourceBuilder()
                 .query(termQuery("mbti", mbti))
                 .aggregation(AggregationBuilders.terms("youtuber_aggs")

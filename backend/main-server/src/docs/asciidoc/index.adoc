@@ -38,8 +38,8 @@ include::{snippets}/youtuber-search/response-fields.adoc[]
 === Http Request
 include::{snippets}/recommend-youtuber/http-request.adoc[]
 
-=== Request body
-include::{snippets}/recommend-youtuber/request-body.adoc[]
+=== Path parameters
+include::{snippets}/recommend-youtuber/path-parameters.adoc[]
 
 === Http Response
 include::{snippets}/recommend-youtuber/http-response.adoc[]

@@ -1,7 +1,6 @@
 package com.yuti.mainserver.domain.mbti.service.impl;
 
 import com.yuti.mainserver.domain.mbti.dto.MbtiRecommendResponseDto;
-import com.yuti.mainserver.domain.mbti.dto.MbtiResultRequestDto;
 import com.yuti.mainserver.domain.mbti.service.MbtiService;
 import com.yuti.mainserver.global.exception.CustomException;
 import org.junit.jupiter.api.Test;
@@ -27,10 +26,9 @@ public class MbtiServiceImplTest {
                     for(int l = 0; l < "PJ".length(); l++) {
                         //given
                         String mbti = ""+ "EI".charAt(i) + "SN".charAt(j) + "FT".charAt(k) + "PJ".charAt(l);
-                        MbtiResultRequestDto requestDto = MbtiResultRequestDto.builder().mbti(mbti).build();
 
                         //when
-                        List<MbtiRecommendResponseDto> responseDtos = mbtiService.recommendYoutubers(requestDto);
+                        List<MbtiRecommendResponseDto> responseDtos = mbtiService.recommendYoutubers(mbti);
 
                         //then
                         assertThat(responseDtos.size()).isEqualTo(3);
@@ -44,10 +42,9 @@ public class MbtiServiceImplTest {
     public void 유효하지않은_MBTI_추천_실패() {
         //given
         String mbti = "NNNN";
-        MbtiResultRequestDto requestDto = MbtiResultRequestDto.builder().mbti(mbti).build();
 
         //when, then
-        assertThatThrownBy(() -> mbtiService.recommendYoutubers(requestDto))
+        assertThatThrownBy(() -> mbtiService.recommendYoutubers(mbti))
                 .isInstanceOf(CustomException.class);
     }
 }

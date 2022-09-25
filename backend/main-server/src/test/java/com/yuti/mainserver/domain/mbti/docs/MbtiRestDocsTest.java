@@ -3,15 +3,12 @@ package com.yuti.mainserver.domain.mbti.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yuti.mainserver.domain.mbti.api.MbtiApiController;
 import com.yuti.mainserver.domain.mbti.dto.MbtiRecommendResponseDto;
-import com.yuti.mainserver.domain.mbti.dto.MbtiResultRequestDto;
 import com.yuti.mainserver.domain.mbti.service.MbtiService;
-import com.yuti.mainserver.domain.youtuber.api.YoutuberApiController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,11 +16,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(MbtiApiController.class)
@@ -43,11 +43,6 @@ public class MbtiRestDocsTest {
     public void mbti_youtuber추천() throws Exception {
         //given
         String mbti = "mbti";
-        String youtuber = "channel_id_1,channel_id_2";
-        MbtiResultRequestDto requestDto = MbtiResultRequestDto.builder()
-                .mbti(mbti)
-                .youtuber(youtuber)
-                .build();
         List<MbtiRecommendResponseDto> response = new ArrayList<>();
         for(int i = 1; i <= 3; i++) {
             response.add(MbtiRecommendResponseDto.builder()
@@ -55,19 +50,16 @@ public class MbtiRestDocsTest {
                     .channelName("channel_name_"+i)
                     .thumbnail("thumbnail_"+i).build());
         }
-        given(mbtiService.recommendYoutubers(any(MbtiResultRequestDto.class))).willReturn(response);
+        given(mbtiService.recommendYoutubers(anyString())).willReturn(response);
 
         //when, then
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/v1/mbti")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDto)))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/mbti/{mbti}", mbti))
                 .andExpect(status().isOk())
                 .andDo(document("recommend-youtuber",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("mbti").description("MBTI 결과"),
-                                fieldWithPath("youtuber").description("구독하는 유튜버(, 구분자로)")
+                        pathParameters(
+                                parameterWithName("mbti").description("mbti")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("API 요청 성공 여부").type(JsonFieldType.BOOLEAN),
