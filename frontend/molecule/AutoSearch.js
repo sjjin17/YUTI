@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import AutoSearchData from './AutoSearchData';
 import Heading from '../atom/Heading';
@@ -71,7 +71,7 @@ export default function AutoSearch({
               addSelected={addSelected}
             ></AutoSearchData>
           ))}
-          {isLoaded && <div className={`${page}페이지`}>Loading</div>}
+          {isLoaded && <div className={`${page}페이지`}></div>}
         </AutoSearchWrap>
       ) : (
         <>
