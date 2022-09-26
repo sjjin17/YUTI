@@ -25,7 +25,6 @@ import java.util.Date;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProduceController {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
