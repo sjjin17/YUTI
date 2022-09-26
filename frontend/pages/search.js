@@ -1,6 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import SearchTemplate from '../template/SearchTemplate';
 import axios from '../utils/axios';
+
+const tempYoutubers = [
+  { thumbnail: 'images/firstRank.png', channelName: '1번' },
+  { thumbnail: 'images/secondRank.png', channelName: '2번' },
+  {
+    thumbnail:
+      'https://yt3.ggpht.com/ytc/AMLnZu-OoCj8oG4hssfpUAvZ5EPCjBu21krVcB6tkVFsQA=s176-c-k-c0x00ffffff-no-rj-mo',
+    name: '3번',
+  },
+  { thumbnail: 'images/thirdRank.png', channelName: '4번' },
+  { thumbnail: 'images/thirdRank.png', channelName: '5번' },
+  { thumbnail: 'images/thirdRank.png', channelName: '6번' },
+  { thumbnail: 'images/thirdRank.png', channelName: '7번' },
+];
 
 export default function Search() {
   const [hoverState, setHoverState] = useState(false);

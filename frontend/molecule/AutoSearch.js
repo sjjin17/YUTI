@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import AutoSearchData from './AutoSearchData';
 import Heading from '../atom/Heading';
@@ -59,6 +59,8 @@ export default function AutoSearch({
   page,
   isLoaded,
 }) {
+  const pageClass = `${page}페이지`;
+
   return (
     <AutoSearchContainer>
       {searchResultList.length > 0 ? (
