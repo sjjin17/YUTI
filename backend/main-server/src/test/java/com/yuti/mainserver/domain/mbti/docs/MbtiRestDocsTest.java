@@ -70,4 +70,23 @@ public class MbtiRestDocsTest {
                                 fieldWithPath("thumbnail").description("유튜버 썸네일 주소").type(JsonFieldType.STRING))
                 ));
     }
+
+    @Test
+    public void 설문_참여_인원() throws Exception {
+        //given
+        Long response = 50000000L;
+        given(mbtiService.findAllParticipant()).willReturn(response);
+
+        //when, then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/mbti"))
+                .andExpect(status().isOk())
+                .andDo(document("the-number-of-participants",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("success").description("API 요청 성공 여부").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("data").description("설문 참여 인원").type(JsonFieldType.NUMBER)
+                        )
+                ));
+    }
 }
