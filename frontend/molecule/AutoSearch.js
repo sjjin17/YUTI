@@ -59,8 +59,6 @@ export default function AutoSearch({
   page,
   isLoaded,
 }) {
-  const pageClass = `${page}페이지`;
-
   return (
     <AutoSearchContainer>
       {searchResultList.length > 0 ? (
