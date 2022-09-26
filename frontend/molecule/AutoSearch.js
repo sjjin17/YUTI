@@ -71,7 +71,9 @@ export default function AutoSearch({
               addSelected={addSelected}
             ></AutoSearchData>
           ))}
-          {isLoaded && <div className={`${page}페이지`}></div>}
+          {isLoaded && (
+            <div className={`${page}페이지`}>더 이상 검색결과가 없습니다.</div>
+          )}
         </AutoSearchWrap>
       ) : (
         <>
