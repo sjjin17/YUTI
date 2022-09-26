@@ -1,3 +1,14 @@
 es:
   host: j7a502.p.ssafy.io:9200
-  index: youtuber_analyzer
+  index: youtuber-analyzer
+
+youtube:
+  key: AIzaSyBfd5es8yHwOVnuARf3ehWizJc6hgf1e0c
+
+spring:
+  kafka:
+    bootstrap-servers: j7a502.p.ssafy.io:9092
+    producer:
+      acks: 1
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
