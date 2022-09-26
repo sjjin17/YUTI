@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -63,7 +64,6 @@ public class YoutuberServiceImpl implements YoutuberService {
 
         try{
             SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-            searchResponse.getHits().getHits();
 
             if(searchResponse.getHits().getTotalHits().value == 0) {
                 return searchUsingYoutubeApi(keyword);
@@ -94,7 +94,18 @@ public class YoutuberServiceImpl implements YoutuberService {
                 .collect(Collectors.toList());
 
         Gson gson = new Gson();
-        searchYoutubers.forEach(youtuber -> { sendDataToKafka("youtuber-analyzer", gson.toJson(youtuber)); });
+        searchYoutubers.forEach(youtuber -> {
+            try {
+                SearchResponse status = restHighLevelClient.search(
+                        new SearchRequest(index).source(
+                                new SearchSourceBuilder().query(termQuery("channel_id", youtuber.getChannelId()))
+                        ), RequestOptions.DEFAULT);
+                if(status.getHits().getTotalHits().value == 0)
+                    sendDataToKafka("youtuber-analyzer", gson.toJson(youtuber));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         return searchYoutubers;
     }
