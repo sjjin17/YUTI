@@ -48,3 +48,15 @@ include::{snippets}/recommend-youtuber/http-response.adoc[]
 include::{snippets}/recommend-youtuber/response-fields.adoc[]
 
 ---
+
+[[설문참여인원-조회]]
+== 설문참여 인원 조회 API
+
+=== Http Request
+include::{snippets}/the-number-of-participants/http-request.adoc[]
+
+=== Http Response
+include::{snippets}/the-number-of-participants/http-response.adoc[]
+
+=== Response fields
+include::{snippets}/the-number-of-participants/response-fields.adoc[]
