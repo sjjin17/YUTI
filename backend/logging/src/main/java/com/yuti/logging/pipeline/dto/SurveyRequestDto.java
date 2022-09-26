@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -13,5 +14,5 @@ import javax.validation.constraints.NotNull;
 public class SurveyRequestDto {
 
     private String mbti;
-    private String youtuber;
+    private List<String> youtuber;
 }

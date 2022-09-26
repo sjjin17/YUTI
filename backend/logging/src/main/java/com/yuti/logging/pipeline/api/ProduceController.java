@@ -31,9 +31,7 @@ public class ProduceController {
         MbtiResultVO mbtiResultVO = new MbtiResultVO(sdfDate.format(now), requestDto.getMbti(), requestDto.getYoutuber(), userAgentName, userIpAddress);
         String jsonMbtiResultLog = gson.toJson(mbtiResultVO);
 
-        String content = "{\"schema\":{\"type\":\"struct\",\"fields\":[{\"type\":\"string\",\"optional\":false,\"field\":\"mbti\"},{\"type\":\"string\",\"optional\":true,\"field\":\"youtuber\"}],\"optional\":false,\"name\":\"mbti-result\"},\"payload\":{" +
-                "\"mbti\": " + "\""+ requestDto.getMbti() +"\"" + ",\"youtuber\":" + "\"" + requestDto.getYoutuber() +"\"" + "}}";
-        kafkaTemplate.send("mbti-result", content ).addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
+        kafkaTemplate.send("mbti-result", jsonMbtiResultLog ).addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
             public void onFailure(Throwable ex) {
                 log.error(ex.getMessage(), ex);
