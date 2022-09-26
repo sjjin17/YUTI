@@ -102,6 +102,11 @@ export default function Search() {
       setPage(0);
       fetchResultList();
     }
+    axios
+      .get(`http://localhost:8080/api/v1/youtubers/${searchInput}`)
+      .then(res => {
+        console.log(res);
+      });
   }, [searchInput]);
 
   return (
