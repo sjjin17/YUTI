@@ -80,8 +80,7 @@ public class ProduceController {
 
     @PostMapping("/log/share-main")
     public ResponseEntity<?> shareMain(@RequestHeader("user-agent") String userAgent,
-                                       @RequestHeader("x-forwarded-for") String userIpAddress,
-                                       @PathVariable String mbti) throws URISyntaxException {
+                                       @RequestHeader("x-forwarded-for") String userIpAddress) throws URISyntaxException {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
         Date now = new Date();
         Gson gson = new Gson();
