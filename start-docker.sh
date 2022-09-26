@@ -1,7 +1,7 @@
 cd frontend
 
 echo "========== [FrontEnd] npm installing... =========="
-npm install
+npm i -f
 
 echo "========== [FrontEnd] Build Process... =========="
 npm run build
