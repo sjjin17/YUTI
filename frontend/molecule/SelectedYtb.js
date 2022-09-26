@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 
 const SelectedYtbContainer = styled.span`
   position: relative;
+  margin: 0 1%;
 `;
 
 export default function selectedYtb({ youtuber, delSelected }) {
@@ -11,7 +12,7 @@ export default function selectedYtb({ youtuber, delSelected }) {
     <SelectedYtbContainer>
       <BtnDel delSelected={delSelected} youtuber={youtuber}></BtnDel>
       <YoutuberImage
-        imageUrl={youtuber.Thumbnail}
+        imageUrl={youtuber.thumbnail}
         youtuberName="name"
       ></YoutuberImage>
     </SelectedYtbContainer>
