@@ -6,7 +6,7 @@ export default function KakaoRedirect() {
   const router = useRouter();
   const redirectURL = router.query.url;
 
-  const kakaoShareMain = async () => {
+  const kakaoShareMain = () => {
     axios({
       method: 'POST',
       url: '/log/share-main',
@@ -15,7 +15,7 @@ export default function KakaoRedirect() {
     });
   };
 
-  const kakaoShareResult = async mbti => {
+  const kakaoShareResult = mbti => {
     axios({
       method: 'POST',
       url: `/log/share-result/${mbti}`,
