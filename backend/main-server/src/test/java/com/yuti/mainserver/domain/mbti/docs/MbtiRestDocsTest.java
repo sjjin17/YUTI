@@ -1,8 +1,9 @@
-package com.yuti.mainserver.domain.youtuber.docs;
+package com.yuti.mainserver.domain.mbti.docs;
 
-import com.yuti.mainserver.domain.youtuber.service.YoutuberService;
-import com.yuti.mainserver.domain.youtuber.api.YoutuberApiController;
-import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yuti.mainserver.domain.mbti.api.MbtiApiController;
+import com.yuti.mainserver.domain.mbti.dto.MbtiRecommendResponseDto;
+import com.yuti.mainserver.domain.mbti.service.MbtiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -15,47 +16,50 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(YoutuberApiController.class)
+@WebMvcTest(MbtiApiController.class)
 @AutoConfigureRestDocs
-public class YoutuberRestDocsTest {
+public class MbtiRestDocsTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private YoutuberService youtuberService;
+    private MbtiService mbtiService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
-    public void youtuber_검색() throws Exception {
-        // given
-        String request = "삼성청년";
-        List<YoutuberResponseDto> response = new ArrayList<>();
-        response.add(YoutuberResponseDto.builder()
-                .channelId("UC_XI3ByFO1uZIIH-g-zJZiw")
-                .channelName("삼성청년SW아카데미 Youtube채널 HELLOSSAFY")
-                .thumbnail("https://yt3.ggpht.com/ytc/AMLnZu9qdR9T9_9OXz27_3lZVs4hfwECef2oUSylrcQv=s800-c-k-c0x00ffffff-no-rj").build());
-        given(youtuberService.searchYoutuber(anyString(), anyInt())).willReturn(response);
+    public void mbti_youtuber추천() throws Exception {
+        //given
+        String mbti = "mbti";
+        List<MbtiRecommendResponseDto> response = new ArrayList<>();
+        for(int i = 1; i <= 3; i++) {
+            response.add(MbtiRecommendResponseDto.builder()
+                    .channelId("channel_id_"+i)
+                    .channelName("channel_name_"+i)
+                    .thumbnail("thumbnail_"+i).build());
+        }
+        given(mbtiService.recommendYoutubers(anyString())).willReturn(response);
 
-        // when, then
-        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/youtubers")
-                        .queryParam("keyword", request)
-                        .queryParam("offset", String.valueOf(0)))
+        //when, then
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/mbti/{mbti}", mbti))
                 .andExpect(status().isOk())
-                .andDo(document("youtuber-search",
+                .andDo(document("recommend-youtuber",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
-                        requestParameters(
-                                parameterWithName("keyword").description("검색할 단어"),
-                                parameterWithName("offset").description("조회할 시작 번호")
+                        pathParameters(
+                                parameterWithName("mbti").description("mbti")
                         ),
                         responseFields(
                                 fieldWithPath("success").description("API 요청 성공 여부").type(JsonFieldType.BOOLEAN),
@@ -64,6 +68,6 @@ public class YoutuberRestDocsTest {
                                 fieldWithPath("channelId").description("유튜버 채널 id").type(JsonFieldType.STRING),
                                 fieldWithPath("channelName").description("유튜버 채널명").type(JsonFieldType.STRING),
                                 fieldWithPath("thumbnail").description("유튜버 썸네일 주소").type(JsonFieldType.STRING))
-                        ));
+                ));
     }
 }
