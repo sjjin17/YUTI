@@ -5,13 +5,19 @@ import com.yuti.logging.pipeline.dto.DiffTimeRequestDto;
 import com.yuti.logging.pipeline.dto.SurveyRequestDto;
 import com.yuti.logging.pipeline.vo.DiffTimeVO;
 import com.yuti.logging.pipeline.vo.MbtiResultVO;
+import com.yuti.logging.pipeline.vo.ShareResultVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -48,6 +54,50 @@ public class ProduceController {
         String jsonDiffTimeLog = gson.toJson(diffTimeVO);
 
         sendDataToKafka("diff-time", jsonDiffTimeLog);
+    }
+
+    @PostMapping("/log/share-result/{mbti}")
+    public ResponseEntity<?> shareResult(@RequestHeader("user-agent") String userAgent,
+                                    @RequestHeader("x-forwarded-for") String userIpAddress,
+                                       @PathVariable String mbti) throws URISyntaxException {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+        Date now = new Date();
+        Gson gson = new Gson();
+
+        ShareResultVO shareResultVO = new ShareResultVO(sdfDate.format(now), userAgent, userIpAddress, "result");
+        String jsonShareResultVO = gson.toJson(shareResultVO);
+
+        sendDataToKafka("share-result", jsonShareResultVO);
+
+        URI redirectUri = new URI("https://j7a502.p.ssafy.io/"+mbti);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(redirectUri);
+
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                .headers(httpHeaders)
+                .body(null);
+    }
+
+    @PostMapping("/log/share-main")
+    public ResponseEntity<?> shareMain(@RequestHeader("user-agent") String userAgent,
+                                       @RequestHeader("x-forwarded-for") String userIpAddress,
+                                       @PathVariable String mbti) throws URISyntaxException {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+        Date now = new Date();
+        Gson gson = new Gson();
+
+        ShareResultVO shareResultVO = new ShareResultVO(sdfDate.format(now), userAgent, userIpAddress, "main");
+        String jsonShareResultVO = gson.toJson(shareResultVO);
+
+        sendDataToKafka("share-result", jsonShareResultVO);
+
+        URI redirectUri = new URI("https://j7a502.p.ssafy.io/");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(redirectUri);
+
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                .headers(httpHeaders)
+                .body(null);
     }
 
     private void sendDataToKafka(String topic, String data) {
