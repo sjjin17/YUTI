@@ -1,27 +1,48 @@
 import { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
 import SearchTemplate from '../template/SearchTemplate';
-
-const tempYoutubers = [
-  { Thumbnail: 'images/firstRank.png', name: '1번', subscribers: '1' },
-  { Thumbnail: 'images/secondRank.png', name: '2번', subscribers: '2' },
-  {
-    Thumbnail:
-      'https://yt3.ggpht.com/ytc/AMLnZu-OoCj8oG4hssfpUAvZ5EPCjBu21krVcB6tkVFsQA=s176-c-k-c0x00ffffff-no-rj-mo',
-    name: '3번',
-    subscribers: '3',
-  },
-  { Thumbnail: 'images/thirdRank.png', name: '4번', subscribers: '4' },
-  { Thumbnail: 'images/thirdRank.png', name: '3번', subscribers: '3' },
-  { Thumbnail: 'images/thirdRank.png', name: '3번', subscribers: '3' },
-  { Thumbnail: 'images/thirdRank.png', name: '3번', subscribers: '3' },
-];
+import axios from '../utils/axios';
 
 export default function Search() {
   const [hoverState, setHoverState] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [selectedList, setSelectedList] = useState([]);
   const [searchResultList, setSearchResultList] = useState([]);
+  const [page, setPage] = useState(0);
+  const [io, setIo] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(true);
+
+  const fetchResultList = async () => {
+    if (page === 1) {
+      return;
+    } else if (searchInput) {
+      try {
+        const params = {
+          keyword: searchInput,
+          offset: searchResultList.length,
+        };
+        const { data } = await axios.get(`api/v1/youtubers/`, {
+          params,
+        });
+        setSearchResultList(prev => {
+          return [...prev, ...data.data];
+        });
+        if (!page) {
+          setPage(1);
+          setIsLoaded(false);
+        }
+      } catch {
+        setSearchResultList([]);
+        setPage(0);
+      }
+    } else {
+      setSearchResultList([]);
+      setPage(0);
+    }
+  };
+
+  const registerObservingEl = el => {
+    io.observe(el);
+  };
 
   function addSelected(youtuber) {
     if (!selectedList.includes(youtuber)) {
@@ -39,13 +60,54 @@ export default function Search() {
     setHoverState(!hoverState);
   }
 
-  useEffect(() => {
-    // 임시코드, 이후 통신 코드로 수정
-    if (searchInput === '실패') {
-      setSearchResultList([]);
-    } else {
-      setSearchResultList(tempYoutubers);
+  function setScrollTarget() {
+    const currentTargetClass = `${page}페이지`;
+    const target = document.getElementsByClassName(currentTargetClass)[0];
+    if (target) {
+      registerObservingEl(target);
     }
+  }
+
+  useEffect(() => {
+    if (searchResultList.length) {
+      setIsLoaded(true);
+    }
+  }, [searchResultList.length]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      setScrollTarget();
+    }
+  }, [isLoaded]);
+
+  useEffect(() => {
+    const targetObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setIsLoaded(false);
+          setPage(page + 1);
+          if (io !== null) {
+            io.disconnect();
+          }
+        }
+      });
+    });
+    setIo(targetObserver);
+    fetchResultList();
+  }, [page]);
+
+  useEffect(() => {
+    if (searchInput) {
+      setSearchResultList([]);
+      setPage(0);
+      fetchResultList();
+    }
+    axios
+      .get(`api/v1/youtubers/${searchInput}`)
+      .then(res => {
+        setSearchResultList(res.data.data);
+      })
+      .catch(setSearchResultList([]));
   }, [searchInput]);
 
   return (
@@ -58,6 +120,8 @@ export default function Search() {
       selectedList={selectedList}
       addSelected={addSelected}
       delSelected={delSelected}
+      page={page}
+      isLoaded={isLoaded}
     ></SearchTemplate>
   );
 }
