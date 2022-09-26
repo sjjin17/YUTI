@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.yuti.logging.pipeline.dto.DiffTimeRequestDto;
 import com.yuti.logging.pipeline.dto.SurveyRequestDto;
 import com.yuti.logging.pipeline.vo.DiffTimeVO;
+import com.yuti.logging.pipeline.vo.LeaveVO;
 import com.yuti.logging.pipeline.vo.MbtiResultVO;
 import com.yuti.logging.pipeline.vo.ShareResultVO;
 import lombok.RequiredArgsConstructor;
@@ -97,6 +98,20 @@ public class ProduceController {
         return ResponseEntity.status(HttpStatus.SEE_OTHER)
                 .headers(httpHeaders)
                 .body(null);
+    }
+
+    @PostMapping("/log/leave")
+    public void leaveService(@RequestHeader("user-agent") String userAgent,
+                                       @RequestHeader("x-forwarded-for") String userIpAddress,
+                                          @RequestParam Integer pageNo) {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+        Date now = new Date();
+        Gson gson = new Gson();
+
+        LeaveVO leaveVO = new LeaveVO(sdfDate.format(now), userAgent, userIpAddress, pageNo);
+        String jsonLeaveVO = gson.toJson(leaveVO);
+
+        sendDataToKafka("leave-result", jsonLeaveVO);
     }
 
     private void sendDataToKafka(String topic, String data) {
