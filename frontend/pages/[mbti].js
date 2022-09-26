@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import ResultTemplate from '../template/ResultTemplate';
+import axios from '../utils/secondAxios';
 
-// dummyData
-const resultYoutubers = [
-  {
-    imageUrl:
-      'https://yt3.ggpht.com/ytc/AMLnZu-8RH15z7SK6uCXKe5ysc99eDuXKwvseJCwpmkSEg=s88-c-k-c0x00ffffff-no-rj',
-    youtuberName: '해쭈',
-  },
-  {
-    imageUrl:
-      'https://yt3.ggpht.com/ytc/AMLnZu88fElvXTdbMhtfvYjqbMGb3ULvOF_jPcBM_LPhIA=s176-c-k-c0x00ffffff-no-rj-mo',
-    youtuberName: '랄로',
-  },
-  {
-    imageUrl:
-      'https://yt3.ggpht.com/ytc/AMLnZu_k_amXQkaFEVP59pDt1tXg9Nlol0TXmiS5j7qwHg=s176-c-k-c0x00ffffff-no-rj-mo',
-    youtuberName: '우주하마',
-  },
-];
 const INDEX_URL = 'https://j7a502.p.ssafy.io/';
 
 const MBTI_RESULT = {
@@ -254,6 +237,30 @@ const MBTI_RESULT = {
 export default function Result() {
   const router = useRouter();
   const { mbti } = router.query;
+  const [mbtiResult, setMbtiResult] = useState({
+    desc: '',
+    gageInfos: {},
+    likeYoutubers: [],
+  });
+
+  const fetchResultYoutubers = async mbti => {
+    try {
+      const response = await axios.get(`/api/v1/mbti/${mbti}`);
+      setMbtiResult({
+        desc: MBTI_RESULT[mbti].desc,
+        gageInfos: MBTI_RESULT[mbti].gageInfos,
+        likeYoutubers: response.data.data,
+      });
+    } catch (err) {
+      console.log('err', error);
+      setMbtiResult({
+        desc: MBTI_RESULT[mbti].desc,
+        gageInfos: MBTI_RESULT[mbti].gageInfos,
+        likeYoutubers: [],
+      });
+    }
+  };
+
   useEffect(() => {
     if (window.Kakao) {
       if (!window.Kakao.isInitialized()) {
@@ -262,19 +269,9 @@ export default function Result() {
     }
   }, []);
 
-  const [mbtiResult, setMbtiResult] = useState({
-    desc: '',
-    gageInfos: {},
-    likeYoutubers: [],
-  });
-
   useEffect(() => {
     if (mbti) {
-      setMbtiResult({
-        likeYoutubers: resultYoutubers,
-        desc: MBTI_RESULT[mbti].desc,
-        gageInfos: MBTI_RESULT[mbti].gageInfos,
-      });
+      fetchResultYoutubers(mbti);
     }
   }, [mbti]);
 
