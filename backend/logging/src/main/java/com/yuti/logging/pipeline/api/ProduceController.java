@@ -57,7 +57,7 @@ public class ProduceController {
     }
 
     @PostMapping("/log/share-result/{mbti}")
-    public ResponseEntity<?> shareResult(@RequestHeader("user-agent") String userAgent,
+    public void shareResult(@RequestHeader("user-agent") String userAgent,
                                     @RequestHeader("x-forwarded-for") String userIpAddress,
                                        @PathVariable String mbti) throws URISyntaxException {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
@@ -68,18 +68,10 @@ public class ProduceController {
         String jsonShareResultVO = gson.toJson(shareResultVO);
 
         sendDataToKafka("share-result", jsonShareResultVO);
-
-        URI redirectUri = new URI("https://j7a502.p.ssafy.io/"+mbti);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(redirectUri);
-
-        return ResponseEntity.status(HttpStatus.SEE_OTHER)
-                .headers(httpHeaders)
-                .body(null);
     }
 
     @PostMapping("/log/share-main")
-    public ResponseEntity<?> shareMain(@RequestHeader("user-agent") String userAgent,
+    public void shareMain(@RequestHeader("user-agent") String userAgent,
                                        @RequestHeader("x-forwarded-for") String userIpAddress) throws URISyntaxException {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
         Date now = new Date();
@@ -89,14 +81,6 @@ public class ProduceController {
         String jsonShareResultVO = gson.toJson(shareResultVO);
 
         sendDataToKafka("share-result", jsonShareResultVO);
-
-        URI redirectUri = new URI("https://j7a502.p.ssafy.io/");
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(redirectUri);
-
-        return ResponseEntity.status(HttpStatus.SEE_OTHER)
-                .headers(httpHeaders)
-                .body(null);
     }
 
     @PostMapping("/log/leave")
