@@ -103,10 +103,11 @@ export default function Search() {
       fetchResultList();
     }
     axios
-      .get(`http://localhost:8080/api/v1/youtubers/${searchInput}`)
+      .get(`api/v1/youtubers/${searchInput}`)
       .then(res => {
-        console.log(res);
-      });
+        setSearchResultList(res.data.data);
+      })
+      .catch(setSearchResultList([]));
   }, [searchInput]);
 
   return (
