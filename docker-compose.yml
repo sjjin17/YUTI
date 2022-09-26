@@ -25,10 +25,10 @@ services:
     ports:
       - "9090:9090"
 
-  backend-youtuber-search:
-    container_name: youtuber-search
+  backend-log-producer:
+    container_name: log-producer
     build:
-      context: ./backend/youtuber-search
+      context: ./backend/logging
       dockerfile: Dockerfile
     ports:
       - "8888:8888"
