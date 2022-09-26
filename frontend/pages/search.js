@@ -20,7 +20,7 @@ export default function Search() {
     const mbtiData = { mbti: myMbti, youtuber: selectedIdList };
     console.log(mbtiData);
     await axios.post(`/log/mbti-result`, mbtiData, {
-      headers: { 'Access-Control-Allow-Origin': true },
+      headers: { 'x-forwarded-for': '132.12.12.120' },
     });
     Router.push({ pathname: `/${myMbti}` });
   };
