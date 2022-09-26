@@ -52,6 +52,16 @@ public class MbtiServiceImpl implements MbtiService {
         }
     }
 
+    @Override
+    public Long findAllParticipant() {
+        try {
+            SearchResponse response = restHighLevelClient.search(new SearchRequest("mbti-result"), RequestOptions.DEFAULT);
+            return response.getHits().getTotalHits().value;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<String> recommendTop3(String mbti) throws IOException {
         SearchRequest aggRequest = new SearchRequest("mbti-result");
         aggRequest.source(new SearchSourceBuilder()

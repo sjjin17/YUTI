@@ -24,4 +24,10 @@ public class MbtiApiController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(mbtiService.recommendYoutubers(mbti)));
     }
+
+    @GetMapping("/api/v1/mbti")
+    public ResponseEntity<? extends BasicResponse> findAllParticipant() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(mbtiService.findAllParticipant()));
+    }
 }
