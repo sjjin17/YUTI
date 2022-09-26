@@ -123,7 +123,7 @@ export default function SearchTemplate({
       </SearchContainer>
       {selectedList.length > 0 ? (
         <ButtonContainer>
-          <Button text="선택완료" onClick={() => sendSelectedList()}></Button>
+          <Button text="선택완료" onClick={sendSelectedList}></Button>
         </ButtonContainer>
       ) : (
         <>
