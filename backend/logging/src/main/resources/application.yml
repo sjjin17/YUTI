@@ -1,0 +1,10 @@
+server:
+  port: 8888
+
+spring:
+  kafka:
+    bootstrap-servers: j7a502.p.ssafy.io:9092
+    producer:
+      acks: 1
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
