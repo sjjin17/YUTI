@@ -17,7 +17,7 @@ public class YoutuberServiceImplTest {
     private YoutuberService youtuberService;
 
 
-    @Test
+    /*@Test
     public void keyword_검색_성공() {
         // given
         String keyword = "삼성청년SW아카데미 Youtube채널 HELLOSSAFY";
@@ -55,5 +55,5 @@ public class YoutuberServiceImplTest {
         assertThat(response.size()).isNotEqualTo(0);
         assertThat(response.stream().anyMatch(youtuber -> youtuber.getChannelName().equals("삼성청년SW아카데미 Youtube채널 HELLOSSAFY"))).isTrue();
     }
-
+*/
 }

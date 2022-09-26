@@ -18,7 +18,7 @@ public class MbtiServiceImplTest {
     @Autowired
     private MbtiService mbtiService;
 
-    @Test
+    /*@Test
     public void MBTI별_유튜버_3명_추천_성공() {
         for(int i = 0; i < "EI".length(); i++) {
             for(int j = 0; j < "SN".length(); j++) {
@@ -46,5 +46,5 @@ public class MbtiServiceImplTest {
         //when, then
         assertThatThrownBy(() -> mbtiService.recommendYoutubers(mbti))
                 .isInstanceOf(CustomException.class);
-    }
+    }*/
 }
