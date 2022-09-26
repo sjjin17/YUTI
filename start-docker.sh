@@ -1,7 +1,7 @@
 cd frontend
 
 echo "========== [FrontEnd] npm installing... =========="
-npm install
+npm i -f
 
 echo "========== [FrontEnd] Build Process... =========="
 npm run build
@@ -16,9 +16,9 @@ cd ../analytics
 echo "========== [BackEnd][Analytics] Build Process... =========="
 ./gradlew clean build
 
-cd ../youtuber-search
+cd ../logging
 
-echo "========== [BackEnd][Youtuber-Search] Build Process... =========="
+echo "========== [BackEnd][Log Producer] Build Process... =========="
 ./gradlew clean build
 
 cd ..

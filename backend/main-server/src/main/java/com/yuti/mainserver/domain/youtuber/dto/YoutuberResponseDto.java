@@ -1,5 +1,6 @@
 package com.yuti.mainserver.domain.youtuber.dto;
 
+import com.google.api.services.youtube.model.SearchResult;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -26,6 +27,14 @@ public class YoutuberResponseDto {
                 .channelId((String) response.get("channel_id"))
                 .channelName((String) response.get("channel_name"))
                 .thumbnail((String) response.get("thumbnail"))
+                .build();
+    }
+
+    public static YoutuberResponseDto toResponseDto(SearchResult searchResult) {
+        return YoutuberResponseDto.builder()
+                .channelId(searchResult.getSnippet().getChannelId())
+                .channelName(searchResult.getSnippet().getChannelTitle())
+                .thumbnail(searchResult.getSnippet().getThumbnails().getHigh().getUrl())
                 .build();
     }
 

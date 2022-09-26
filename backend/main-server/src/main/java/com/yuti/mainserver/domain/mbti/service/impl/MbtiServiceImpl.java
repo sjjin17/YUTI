@@ -52,6 +52,16 @@ public class MbtiServiceImpl implements MbtiService {
         }
     }
 
+    @Override
+    public Long findAllParticipant() {
+        try {
+            SearchResponse response = restHighLevelClient.search(new SearchRequest("mbti-result"), RequestOptions.DEFAULT);
+            return response.getHits().getTotalHits().value;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<String> recommendTop3(String mbti) throws IOException {
         SearchRequest aggRequest = new SearchRequest("mbti-result");
         aggRequest.source(new SearchSourceBuilder()
@@ -76,7 +86,7 @@ public class MbtiServiceImpl implements MbtiService {
         Map<String, Object> params = new HashMap<>();
         params.put("scores", scores);
 
-        SearchRequest top3YoutuberRequest = new SearchRequest("youtuber_analyzer");
+        SearchRequest top3YoutuberRequest = new SearchRequest("youtuber-analyzer");
         top3YoutuberRequest.source(new SearchSourceBuilder()
                 .sort(SortBuilders.scriptSort(
                         new Script(ScriptType.INLINE, "painless", "return params.scores[doc.channel_id.value]", params),

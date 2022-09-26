@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import SearchTemplate from '../template/SearchTemplate';
 import axios from '../utils/axios';
+import secondAxios from '../utils/secondAxios';
+import Router from 'next/router';
 
 export default function Search() {
   const [hoverState, setHoverState] = useState(false);
@@ -11,6 +13,24 @@ export default function Search() {
   const [io, setIo] = useState(null);
   const [isLoaded, setIsLoaded] = useState(true);
 
+  const sendSelectedList = async () => {
+    try {
+      const selectedIdList = [];
+      selectedList.forEach(youtuber => selectedIdList.push(youtuber.channelId));
+      const myMbti = localStorage.getItem('mbti');
+      const mbtiData = { mbti: myMbti, youtuber: selectedIdList };
+      await axios.post(`/log/mbti-result`, mbtiData, {
+        headers: { 'x-forwarded-for': '132.12.12.120' },
+      });
+      Router.push({ pathname: `/${myMbti}` });
+    } catch {}
+  };
+
+  const skipSelectYoutube = () => {
+    const myMbti = localStorage.getItem('mbti');
+    Router.push({ pathname: `/${myMbti}` });
+  };
+
   const fetchResultList = async () => {
     if (page === 1) {
       return;
@@ -20,7 +40,7 @@ export default function Search() {
           keyword: searchInput,
           offset: searchResultList.length,
         };
-        const { data } = await axios.get(`api/v1/youtubers/`, {
+        const { data } = await secondAxios.get(`api/v1/youtubers/`, {
           params,
         });
         setSearchResultList(prev => {
@@ -102,12 +122,6 @@ export default function Search() {
       setPage(0);
       fetchResultList();
     }
-    axios
-      .get(`api/v1/youtubers/${searchInput}`)
-      .then(res => {
-        setSearchResultList(res.data.data);
-      })
-      .catch(setSearchResultList([]));
   }, [searchInput]);
 
   return (
@@ -122,6 +136,8 @@ export default function Search() {
       delSelected={delSelected}
       page={page}
       isLoaded={isLoaded}
+      sendSelectedList={sendSelectedList}
+      skipSelectYoutube={skipSelectYoutube}
     ></SearchTemplate>
   );
 }
