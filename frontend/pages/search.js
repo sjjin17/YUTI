@@ -14,15 +14,16 @@ export default function Search() {
   const [isLoaded, setIsLoaded] = useState(true);
 
   const sendSelectedList = async () => {
-    const selectedIdList = [];
-    selectedList.forEach(youtuber => selectedIdList.push(youtuber.channelId));
-    const myMbti = localStorage.getItem('mbti');
-    const mbtiData = { mbti: myMbti, youtuber: selectedIdList };
-    console.log(mbtiData);
-    await axios.post(`/log/mbti-result`, mbtiData, {
-      headers: { 'x-forwarded-for': '132.12.12.120' },
-    });
-    Router.push({ pathname: `/${myMbti}` });
+    try {
+      const selectedIdList = [];
+      selectedList.forEach(youtuber => selectedIdList.push(youtuber.channelId));
+      const myMbti = localStorage.getItem('mbti');
+      const mbtiData = { mbti: myMbti, youtuber: selectedIdList };
+      await axios.post(`/log/mbti-result`, mbtiData, {
+        headers: { 'x-forwarded-for': '132.12.12.120' },
+      });
+      Router.push({ pathname: `/${myMbti}` });
+    } catch {}
   };
 
   const skipSelectYoutube = () => {
