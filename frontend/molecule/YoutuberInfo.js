@@ -7,12 +7,24 @@ const InfoContainer = styled.div`
   position: relative;
 `;
 
-export default function ResultYoutuberInfo({ idx, imageUrl, youtuberName }) {
+const YoutuberLink = styled.a`
+  text-decoration: none;
+`;
+
+export default function ResultYoutuberInfo({
+  idx,
+  channelId,
+  imageUrl,
+  youtuberName,
+}) {
+  const youtuberPageUrl = `https://www.youtube.com/channel/${channelId}`;
   return (
     <InfoContainer>
-      <Medal idx={idx} />
-      <YoutuberImage imageUrl={imageUrl} youtuberName={youtuberName} />
-      <Heading text={youtuberName} fontSize="10px" textAlign="center" />
+      <YoutuberLink href={youtuberPageUrl} rel="noreferrer">
+        <Medal idx={idx} />
+        <YoutuberImage imageUrl={imageUrl} youtuberName={youtuberName} />
+        <Heading text={youtuberName} fontSize="10px" textAlign="center" />
+      </YoutuberLink>
     </InfoContainer>
   );
 }

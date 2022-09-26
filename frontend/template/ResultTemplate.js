@@ -81,8 +81,9 @@ export default function ResultTemplate({
           <YoutuberInfo
             key={idx}
             idx={idx}
-            imageUrl={youtuberInfo.imageUrl}
-            youtuberName={youtuberInfo.youtuberName}
+            channelId={youtuberInfo.channelId}
+            imageUrl={youtuberInfo.thumbnail}
+            youtuberName={youtuberInfo.channelName}
           />
         ))}
       </ResultContainer>
