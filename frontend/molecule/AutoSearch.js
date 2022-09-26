@@ -10,7 +10,7 @@ const AutoSearchContainer = styled.div`
   height: 45vh;
   background-color: #fff;
   border: 2px hidden;
-  margin-top: 2.5%;
+  margin-top: 2%;
   margin-bottom: 5%;
   display: flex;
   flex-direction: column;
@@ -36,10 +36,10 @@ const AutoSearchContainer = styled.div`
 const AutoSearchWrap = styled.ul`
   height: 100%;
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  flex-direction: column;
   position: relative;
   padding: 0px;
+  margin: 0;
 `;
 
 const TextContainer = styled.div`
@@ -56,6 +56,8 @@ export default function AutoSearch({
   searchResultList,
   addSelected,
   searchInput,
+  page,
+  isLoaded,
 }) {
   return (
     <AutoSearchContainer>
@@ -69,6 +71,9 @@ export default function AutoSearch({
               addSelected={addSelected}
             ></AutoSearchData>
           ))}
+          {isLoaded && (
+            <div className={`${page}페이지`}>더 이상 검색결과가 없습니다.</div>
+          )}
         </AutoSearchWrap>
       ) : (
         <>
