@@ -17,6 +17,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.ScriptSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -34,6 +35,12 @@ import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 public class MbtiServiceImpl implements MbtiService {
 
     private final RestHighLevelClient restHighLevelClient;
+
+    @Value("${es.search-index}")
+    private String searchIndex;
+
+    @Value("${es.result-index}")
+    private String resultIndex;
 
     @Override
     public List<MbtiRecommendResponseDto> recommendYoutubers(String mbti) {
@@ -63,11 +70,11 @@ public class MbtiServiceImpl implements MbtiService {
     }
 
     private List<String> recommendTop3(String mbti) throws IOException {
-        SearchRequest aggRequest = new SearchRequest("mbti-result");
+        SearchRequest aggRequest = new SearchRequest(resultIndex);
         aggRequest.source(new SearchSourceBuilder()
                 .query(termQuery("mbti", mbti))
                 .aggregation(AggregationBuilders.terms("youtuber_aggs")
-                        .field("youtubers.keyword")
+                        .field("youtuber.keyword")
                         .size(3)));
 
         SearchResponse aggResponse = restHighLevelClient.search(aggRequest, RequestOptions.DEFAULT);
@@ -86,7 +93,7 @@ public class MbtiServiceImpl implements MbtiService {
         Map<String, Object> params = new HashMap<>();
         params.put("scores", scores);
 
-        SearchRequest top3YoutuberRequest = new SearchRequest("youtuber-analyzer");
+        SearchRequest top3YoutuberRequest = new SearchRequest(searchIndex);
         top3YoutuberRequest.source(new SearchSourceBuilder()
                 .sort(SortBuilders.scriptSort(
                         new Script(ScriptType.INLINE, "painless", "return params.scores[doc.channel_id.value]", params),

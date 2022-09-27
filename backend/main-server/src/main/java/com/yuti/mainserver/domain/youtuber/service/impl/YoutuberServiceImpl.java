@@ -8,7 +8,9 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchResult;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
 import com.yuti.mainserver.domain.youtuber.service.YoutuberService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +41,7 @@ public class YoutuberServiceImpl implements YoutuberService {
 
     private final RestHighLevelClient restHighLevelClient;
 
-    @Value("${es.index}")
+    @Value("${es.search-index}")
     private String index;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
@@ -93,7 +95,9 @@ public class YoutuberServiceImpl implements YoutuberService {
                 .map(YoutuberResponseDto::toResponseDto)
                 .collect(Collectors.toList());
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
         searchYoutubers.forEach(youtuber -> {
             try {
                 SearchResponse status = restHighLevelClient.search(
