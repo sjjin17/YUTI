@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import SurveyTemplate from '../template/SurveyTemplate';
 import styled from '@emotion/styled';
 import Router from 'next/router';
@@ -169,14 +169,14 @@ export default function Survey() {
     Router.push({
       pathname: '/search',
     });
-  }, [surveyNum]);
+  }, [surveyNum, saveMbti]);
 
-  const saveMbti = () => {
+  const saveMbti = useCallback(() => {
     const MBTI = resultMbti.reduce((prev, cur, idx) => {
       return (prev += cur > 0 ? mbtiArray[idx][0] : mbtiArray[idx][1]);
     }, '');
     window.localStorage.setItem('mbti', MBTI);
-  };
+  }, []);
 
   const pageChange = () => {
     setSurveyNum(prev => prev + 1);
