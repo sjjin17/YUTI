@@ -273,7 +273,7 @@ export default function Result({ likeYoutubers }) {
       templateId: 82753,
       templateArgs: {
         mbti_desc: `${MBTI_RESULT[mbti].shareDesc}`,
-        mbti_image: '',
+        mbti_image: `https://j7a502.p.ssafy.io/_next/image?url=%2Fimages%2F${mbti}.png&w=640&q=75`,
         mbti: `${mbti}`,
         likeYoutubers_first: `${mbtiResult.likeYoutubers[0].channelName}`,
         likeYoutubers_second: `${mbtiResult.likeYoutubers[1].channelName}`,
