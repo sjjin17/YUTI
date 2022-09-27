@@ -39,7 +39,7 @@ const AutoSearchWrap = styled.ul`
   flex-direction: column;
   position: relative;
   padding: 0px;
-  margin: 0;
+  margin: 2% 0;
 `;
 
 const TextContainer = styled.div`
