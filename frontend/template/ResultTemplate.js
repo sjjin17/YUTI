@@ -3,8 +3,10 @@ import YoutuberInfo from '../molecule/YoutuberInfo';
 import KakaoShare from '../atom/KakaoShare';
 import UrlShare from '../atom/UrlShare';
 import TextGage from '../molecule/TextGage';
+import Button from '../atom/Button';
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import { MAIN_COLOR } from '../const';
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -16,7 +18,7 @@ import {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 0.5fr 2fr 1fr 1.5fr 1.5fr 0.5fr 1fr;
+  grid-template-rows: 0.5fr 2fr 1fr 1.5fr 1.5fr 0.5fr 1fr 1fr;
   justify-items: center;
   align-items: center;
   width: 100%;
@@ -51,12 +53,23 @@ const GagesContainer = styled.div`
   margin-right: 40px;
 `;
 
+const ButtonContainer = styled.div`
+  width: 80%;
+  height: 60%;
+  box-sizing: border-box;
+  button {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
 export default function ResultTemplate({
   mbti,
   mbtiResult,
   url,
   handleCopyUrl,
   handleKakaoShare,
+  handleNaviMainPage,
 }) {
   const mbtiImagePath = `/images/${mbti}.png`;
   const mbtiHeading = `${mbti}의 유튜버 스타일`;
@@ -101,6 +114,9 @@ export default function ResultTemplate({
         </LineShareButton>
         <UrlShare onClick={handleCopyUrl} />
       </ShareContainer>
+      <ButtonContainer>
+        <Button text="테스트 다시하기" onClick={handleNaviMainPage} />
+      </ButtonContainer>
     </Container>
   );
 }
