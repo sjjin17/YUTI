@@ -5,7 +5,6 @@ import com.yuti.analytics.domain.accounts.dto.UserRequestDto;
 import com.yuti.analytics.domain.accounts.repository.UserRepository;
 import com.yuti.analytics.domain.accounts.service.UserService;
 import com.yuti.analytics.global.exception.LoginFailureException;
-import com.yuti.analytics.global.exception.LogoutFailureException;
 import com.yuti.analytics.global.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -63,12 +62,8 @@ public class UserServiceImpl implements UserService{
 
         if (userRepository.existsById(userRequestDto.getId())) {
             User user = userRepository.findById(userRequestDto.getId()).get();
-            if (userRequestDto.getId().equals(user.getId()) && passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
-                user.setToken(false);
-                return user.getId();
-            } else {
-                throw new LogoutFailureException();
-            }
+            user.setToken(false);
+            return user.getId();
 
         } else
             throw new EntityNotFoundException();
