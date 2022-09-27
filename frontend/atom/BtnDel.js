@@ -11,7 +11,7 @@ const DelImage = styled.img`
 `;
 
 export default function BtnDel({ youtuber, delSelected }) {
-  const dellImagePath = `images/Btndel.png`;
+  const dellImagePath = `/images/Btndel.png`;
 
   return (
     <DelImage
