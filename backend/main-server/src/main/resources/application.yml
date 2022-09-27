@@ -1,6 +1,7 @@
 es:
   host: j7a502.p.ssafy.io:9200
-  index: youtuber-analyzer
+  search-index: youtuber-analyzer
+  result-index: mbti-result
 
 youtube:
   key: AIzaSyBfd5es8yHwOVnuARf3ehWizJc6hgf1e0c
