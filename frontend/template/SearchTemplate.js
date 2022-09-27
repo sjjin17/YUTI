@@ -67,7 +67,6 @@ export default function SearchTemplate({
   page,
   isLoaded,
   sendSelectedList,
-  skipSelectYoutube,
 }) {
   return (
     <Container>
@@ -130,7 +129,7 @@ export default function SearchTemplate({
           <ButtonContainer onMouseOver={handleHover} onMouseOut={handleHover}>
             <Button
               text={hoverState ? '도와주세요' : '건너뛰기'}
-              onClick={skipSelectYoutube}
+              onClick={sendSelectedList}
             ></Button>
           </ButtonContainer>
         </>
