@@ -234,32 +234,22 @@ const MBTI_RESULT = {
   },
 };
 
-export default function Result() {
+export default function Result({ likeYoutubers }) {
   const router = useRouter();
   const { mbti } = router.query;
   const [mbtiResult, setMbtiResult] = useState({
     desc: '',
     gageInfos: {},
-    likeYoutubers: [],
+    likeYoutubers: likeYoutubers,
   });
 
-  const fetchResultYoutubers = async mbti => {
-    try {
-      const response = await axios.get(`/api/v1/mbti/${mbti}`);
-      setMbtiResult({
-        desc: MBTI_RESULT[mbti].desc,
-        gageInfos: MBTI_RESULT[mbti].gageInfos,
-        likeYoutubers: response.data.data,
-      });
-    } catch (err) {
-      console.log('err', error);
-      setMbtiResult({
-        desc: MBTI_RESULT[mbti].desc,
-        gageInfos: MBTI_RESULT[mbti].gageInfos,
-        likeYoutubers: [],
-      });
-    }
-  };
+  useEffect(() => {
+    setMbtiResult({
+      ...mbtiResult,
+      desc: MBTI_RESULT[mbti].desc,
+      gageInfos: MBTI_RESULT[mbti].gageInfos,
+    });
+  }, [mbti]);
 
   useEffect(() => {
     if (window.Kakao) {
@@ -269,14 +259,12 @@ export default function Result() {
     }
   }, []);
 
-  useEffect(() => {
-    if (mbti) {
-      fetchResultYoutubers(mbti);
-    }
-  }, [mbti]);
-
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(INDEX_URL);
+  };
+
+  const handleNaviMainPage = () => {
+    router.replace('/');
   };
 
   const handleKakaoShare = () => {
@@ -287,9 +275,9 @@ export default function Result() {
         mbti_desc: `${MBTI_RESULT[mbti].shareDesc}`,
         mbti_image: '',
         mbti: `${mbti}`,
-        likeYoutubers_first: `${mbtiResult.likeYoutubers[0].youtuberName}`,
-        likeYoutubers_second: `${mbtiResult.likeYoutubers[1].youtuberName}`,
-        likeYoutubers_third: `${mbtiResult.likeYoutubers[2].youtuberName}`,
+        likeYoutubers_first: `${mbtiResult.likeYoutubers[0].channelName}`,
+        likeYoutubers_second: `${mbtiResult.likeYoutubers[1].channelName}`,
+        likeYoutubers_third: `${mbtiResult.likeYoutubers[2].channelName}`,
       },
     });
   };
@@ -302,7 +290,14 @@ export default function Result() {
         url={INDEX_URL}
         handleCopyUrl={handleCopyUrl}
         handleKakaoShare={handleKakaoShare}
+        handleNaviMainPage={handleNaviMainPage}
       />
     </>
   );
+}
+
+export async function getServerSideProps({ params }) {
+  const response = await axios.get(`/api/v1/mbti/${params.mbti}`);
+  const likeYoutubers = await response.data.data;
+  return { props: { likeYoutubers } };
 }
