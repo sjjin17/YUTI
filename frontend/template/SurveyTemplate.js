@@ -14,6 +14,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   grid-template-rows: 3fr 5fr 2fr;
+  box-sizing: border-box;
   @media (min-height: 700px) {
     height: 630px;
   }

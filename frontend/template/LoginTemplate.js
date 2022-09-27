@@ -7,13 +7,17 @@ import StaticButton from '../atom/StaticButton';
 const Container = styled.div`
   width: 400px;
   height: 500px;
-  box-shadow: 2px 2px 3px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const LoginContainer = styled.div`
-  position: relative;
-  top: 10%;
+  width: 100%;
+  height: 300px;
 `;
 
 const InputContainer = styled.div`
@@ -30,7 +34,6 @@ const TextContainer = styled.div`
 
 const ButtonContainer = styled.div`
   position: relative;
-  left: 5px;
   margin: 30px auto;
 `;
 
@@ -52,9 +55,9 @@ export default function LoginTemplate({
             fontSize="40px"
           />
         </TextContainer>
-        <TextContainer>
+        {/* <TextContainer>
           <Heading text="로그인" textAlign="center" fontSize="20px" />
-        </TextContainer>
+        </TextContainer> */}
         <InputContainer>
           <Input text="아이디" onChange={handleChangeId}></Input>
         </InputContainer>
@@ -62,7 +65,7 @@ export default function LoginTemplate({
           <Input text="비밀번호" onChange={handleChangePassword}></Input>
         </InputContainer>
         <ButtonContainer>
-          <StaticButton text="로그인" width="208px" height="46px" />
+          <StaticButton text="로그인" width="200px" height="40px" />
         </ButtonContainer>
       </LoginContainer>
     </Container>

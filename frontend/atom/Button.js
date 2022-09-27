@@ -28,10 +28,14 @@ const ButtonBase = styled.button`
   }
 `;
 
-export default function Button({ text, onClick }) {
+const Button = React.forwardRef(({ onClick, href, text }, ref) => {
   return (
-    <>
-      <ButtonBase onClick={onClick}>{text}</ButtonBase>
-    </>
+    <ButtonBase href={href} onClick={onClick} ref={ref}>
+      {text}
+    </ButtonBase>
   );
-}
+});
+
+Button.displayName = 'MyButton';
+
+export default Button;
