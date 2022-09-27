@@ -26,11 +26,6 @@ export default function Search() {
     } catch {}
   };
 
-  const skipSelectYoutube = () => {
-    const myMbti = localStorage.getItem('mbti');
-    Router.push({ pathname: `/${myMbti}` });
-  };
-
   const fetchResultList = async () => {
     if (page === 1) {
       return;
@@ -137,7 +132,6 @@ export default function Search() {
       page={page}
       isLoaded={isLoaded}
       sendSelectedList={sendSelectedList}
-      skipSelectYoutube={skipSelectYoutube}
     ></SearchTemplate>
   );
 }
