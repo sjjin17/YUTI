@@ -44,6 +44,9 @@ const TextContainer = styled.div`
   height: 100%;
   display: grid;
   align-items: center;
+  & > div:nth-child(1) {
+    margin-bottom: 2%;
+  }
 `;
 
 const RangeContainer = styled.div`
