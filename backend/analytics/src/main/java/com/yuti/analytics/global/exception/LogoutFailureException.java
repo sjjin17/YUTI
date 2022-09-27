@@ -2,11 +2,9 @@ package com.yuti.analytics.global.exception;
 
 import lombok.NoArgsConstructor;
 
-
 @NoArgsConstructor
-public class LoginFailureException extends RuntimeException{
-    public LoginFailureException(String message) {
+public class LogoutFailureException extends RuntimeException{
+    public LogoutFailureException(String message) {
         super(message);
     }
-
 }

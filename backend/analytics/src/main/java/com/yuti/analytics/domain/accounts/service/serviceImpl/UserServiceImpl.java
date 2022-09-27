@@ -5,6 +5,7 @@ import com.yuti.analytics.domain.accounts.dto.UserRequestDto;
 import com.yuti.analytics.domain.accounts.repository.UserRepository;
 import com.yuti.analytics.domain.accounts.service.UserService;
 import com.yuti.analytics.global.exception.LoginFailureException;
+import com.yuti.analytics.global.exception.LogoutFailureException;
 import com.yuti.analytics.global.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -59,11 +60,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String logout(UserRequestDto userRequestDto) {
-        // id로 유저 객체 찾아서 isToken = false로 바꿔준다!
+
         if (userRepository.existsById(userRequestDto.getId())) {
             User user = userRepository.findById(userRequestDto.getId()).get();
-            user.setToken(false);
-            return user.getId();
+            if (userRequestDto.getId().equals(user.getId()) && passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
+                user.setToken(false);
+                return user.getId();
+            } else {
+                throw new LogoutFailureException();
+            }
 
         } else
             throw new EntityNotFoundException();
