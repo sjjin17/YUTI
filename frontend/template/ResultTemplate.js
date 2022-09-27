@@ -6,7 +6,6 @@ import TextGage from '../molecule/TextGage';
 import Button from '../atom/Button';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { MAIN_COLOR } from '../const';
 import {
   FacebookShareButton,
   FacebookIcon,
