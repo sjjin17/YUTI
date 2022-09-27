@@ -28,7 +28,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 
         String path = ((HttpServletRequest) request).getRequestURI();
-        if (path.contains("/analytics/v1/accounts/login") || path.contains("/analytics/v1/accounts/signup")) {
+        if (path.contains("/analytics/v1/accounts/login") || path.contains("/analytics/v1/accounts/signup") || path.contains("/analytics/v1/accounts/logout")) {
             chain.doFilter(request,response);
         } else {
 
