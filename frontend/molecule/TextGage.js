@@ -1,4 +1,4 @@
-import Gage from '../atom/gage';
+import Gage from '../atom/Gage';
 import Heading from '../atom/Heading';
 import styled from '@emotion/styled';
 
