@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import javax.persistence.Column;
@@ -16,7 +17,6 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class User {
-
     @Id @Column(name="user_id")
     private String id;
     private String password;
@@ -34,6 +34,8 @@ public class User {
     public void setToken(boolean token) {
         this.isToken = true;
     }
+
+
 
 
 }

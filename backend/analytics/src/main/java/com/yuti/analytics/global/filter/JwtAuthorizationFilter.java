@@ -22,11 +22,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String token = request.getHeader(HEADER_AUTH);
-        System.out.println(token);
 
         String path = ((HttpServletRequest) request).getRequestURI();
 
-        if (path.contains("/analytics/v1/accounts/login")) {
+        if (path.contains("/analytics/v1/accounts/login") || path.contains("/analytics/v1/accounts/signup")) {
             chain.doFilter(request,response);
         } else {
             if (token != null) {

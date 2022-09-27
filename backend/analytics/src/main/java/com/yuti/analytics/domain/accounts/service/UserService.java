@@ -1,11 +1,14 @@
 package com.yuti.analytics.domain.accounts.service;
 
 import com.yuti.analytics.domain.accounts.domain.User;
+import com.yuti.analytics.domain.accounts.dto.UserRequestDto;
+
+import java.io.UnsupportedEncodingException;
 
 public interface UserService {
 
-    String join(User user);
+    String join(UserRequestDto userRequestDto);
     User findById(String id);
-    Boolean login(String id, String rawPw);
+    String login(UserRequestDto userRequestDto) throws UnsupportedEncodingException;
 
 }
