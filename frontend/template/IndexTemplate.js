@@ -8,13 +8,14 @@ import Link from 'next/link';
 const Container = styled.div`
   width: 100%;
   min-width: 100%;
-  height: 100%;
+  height: 100vh;
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-rows: 1fr 3fr 1fr;
+  margin: 0 auto;
+  grid-template-rows: 1fr 3fr 1fr 1fr 1fr;
   @media (min-height: 700px) {
-    height: 630px;
+    height: 700px;
   }
 `;
 
@@ -53,8 +54,6 @@ export default function IndexTemplate({ participantsNum, handleSendLog }) {
             onClick={handleSendLog}
           ></Button>
         </Link>
-      </Container>
-      <FooterContainer>
         <Heading
           text={'비즈니스 문의'}
           fontSize="20px"
@@ -65,7 +64,7 @@ export default function IndexTemplate({ participantsNum, handleSendLog }) {
           fontSize="13px"
           textAlign="center"
         ></Heading>
-      </FooterContainer>
+      </Container>
     </>
   );
 }

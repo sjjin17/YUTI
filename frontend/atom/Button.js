@@ -8,7 +8,6 @@ const ButtonBase = styled.button`
   border-color: rgb(0, 0, 0, 0.2);
   height: 15vh;
   width: 100%;
-  box-sizing: border-box;
   white-space: pre-line;
   &:hover {
     background: ${({ theme }) => theme.colors.main};

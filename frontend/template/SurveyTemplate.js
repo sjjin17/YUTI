@@ -8,11 +8,10 @@ import RangeNum from '../atom/RangeNum';
 const Container = styled.div`
   width: 80%;
   min-width: 100%;
-  height: 100%;
+  height: 70vh;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 3fr 5fr 2fr;
-  box-sizing: border-box;
+  grid-template-rows: 1fr auto 1fr;
   @media (min-height: 700px) {
     height: 700px;
   }
@@ -28,8 +27,7 @@ const ButtonContainer = styled.div`
   justify-content: center;
   gap: 20px;
   align-items: center;
-  margin: 0 auto;
-  box-sizing: border-box;
+  margin: 50px auto;
 `;
 
 const TextContainer = styled.div`
@@ -40,7 +38,9 @@ const TextContainer = styled.div`
 `;
 
 const RangeContainer = styled.div`
-  box-sizing: border-box;
+  height: 100%;
+  display: grid;
+  align-content: start;
 `;
 
 export default function SurveyTemplate({
