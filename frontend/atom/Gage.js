@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { MAIN_COLOR, SUB_COLOR } from '../const';
 
 const GageContainer = styled.div`
   display: flex;
@@ -17,18 +16,18 @@ const GageBox = styled.div`
   border-radius: 5px;
   box-sizing: border-box;
   width: 20%;
-  background-color: ${props => props.color};
+  background-color: ${({ filled, highlighted, theme }) =>
+    filled ? `${highlighted ? theme.colors.sub : theme.colors.main}` : 'white'};
 `;
 
-export default function Gage({ gageNumber, index }) {
+export default function Gage({ gageNumber, highlighted }) {
   return (
     <GageContainer>
       {[...Array(5)].map((_value, idx) => (
         <GageBox
           key={idx}
-          color={
-            idx < gageNumber ? (index < 3 ? MAIN_COLOR : SUB_COLOR) : 'white'
-          }
+          filled={idx < gageNumber}
+          highlighted={highlighted}
         />
       ))}
     </GageContainer>

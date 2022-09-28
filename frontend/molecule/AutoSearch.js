@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import AutoSearchData from './AutoSearchData';
 import Heading from '../atom/Heading';
-import { MAIN_COLOR } from '../const';
 
 const AutoSearchContainer = styled.div`
   z-index: 3;
@@ -63,7 +62,7 @@ export default function AutoSearch({
     <AutoSearchContainer>
       {searchResultList.length > 0 ? (
         <AutoSearchWrap>
-          <Heading text="검색결과" color={MAIN_COLOR} fontSize="20px"></Heading>
+          <Heading text="검색결과" fontSize="20px" highlighted></Heading>
           {searchResultList.map((youtuber, idx) => (
             <AutoSearchData
               key={idx}

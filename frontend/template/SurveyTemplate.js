@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '../atom/Button';
 import Heading from '../atom/Heading';
-import { MAIN_COLOR } from '../const';
 import styled from '@emotion/styled';
 import RangeBar from '../atom/RangeBar';
 import RangeNum from '../atom/RangeNum';
@@ -14,6 +13,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   grid-template-rows: 3fr 5fr 2fr;
+  grid-template-columns: 1fr;
   box-sizing: border-box;
   @media (min-height: 700px) {
     height: 630px;
@@ -47,11 +47,12 @@ export default function SurveyTemplate({
   surveyNum,
   pageChange,
   onChangeMbti,
+  handleSendLog,
 }) {
   return (
     <Container>
       <TextContainer>
-        <Heading text={'Q' + (surveyNum + 1)} color={MAIN_COLOR}></Heading>
+        <Heading text={'Q' + (surveyNum + 1)} highlighted></Heading>
         <Heading text={survey.question}></Heading>
       </TextContainer>
       <ButtonContainer>
@@ -60,6 +61,7 @@ export default function SurveyTemplate({
           onClick={() => {
             pageChange();
             onChangeMbti(survey.answer1.MBTI);
+            handleSendLog(survey.answer1.MBTI);
           }}
         ></Button>
         <Button
@@ -67,6 +69,7 @@ export default function SurveyTemplate({
           onClick={() => {
             pageChange();
             onChangeMbti(survey.answer2.MBTI);
+            handleSendLog(survey.answer2.MBTI);
           }}
         ></Button>
       </ButtonContainer>

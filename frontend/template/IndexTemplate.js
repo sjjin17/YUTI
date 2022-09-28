@@ -3,7 +3,6 @@ import Image from 'next/image';
 import styled from '@emotion/styled';
 import Heading from '../atom/Heading';
 import Button from '../atom/Button';
-import { MAIN_COLOR } from '../const';
 import Link from 'next/link';
 
 const Container = styled.div`
@@ -27,15 +26,15 @@ const ImageContainer = styled.div`
 
 const FooterContainer = styled.div``;
 
-export default function IndexTemplate({ participantsNum }) {
+export default function IndexTemplate({ participantsNum, handleSendLog }) {
   return (
     <>
       <Container>
         <Heading
           text={'YUTI'}
-          color={MAIN_COLOR}
           fontSize="50px"
           textAlign="center"
+          highlighted
         ></Heading>
         <Heading
           text={'내가 좋아할만한 유튜버는?'}
@@ -47,6 +46,7 @@ export default function IndexTemplate({ participantsNum }) {
         <Link href="/survey">
           <Button
             text={`테스트 시작하기\n${participantsNum}명이 참여했어요`}
+            onClick={handleSendLog}
           ></Button>
         </Link>
       </Container>

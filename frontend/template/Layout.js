@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { MAIN_COLOR } from '../const';
 
 const BaseLayout = styled.div`
   background: white;
@@ -17,9 +16,5 @@ const BaseLayout = styled.div`
   }
 `;
 export default function Layout({ children }) {
-  return (
-    <BaseLayout id={MAIN_COLOR === '#67D193' ? 'GREEN' : 'PINK'}>
-      {children}
-    </BaseLayout>
-  );
+  return <BaseLayout>{children}</BaseLayout>;
 }
