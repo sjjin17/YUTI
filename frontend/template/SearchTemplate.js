@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import SearchBar from '../atom/SearchBar';
 import AutoSearch from '../molecule/AutoSearch';
 import MyYoutubers from '../molecule/MyYoutubers';
-import { MAIN_COLOR } from '../const';
 
 const Container = styled.div`
   width: 100%;
@@ -12,6 +11,7 @@ const Container = styled.div`
   display: grid;
   justify-content: center;
   align-items: center;
+  grid-template-columns: 1fr;
   grid-template-rows: 3fr 5fr 60px;
   @media (min-height: 700px) {
     height: 630px;
@@ -67,6 +67,7 @@ export default function SearchTemplate({
   page,
   isLoaded,
   sendSelectedList,
+  handleSendLog,
 }) {
   return (
     <Container>
@@ -78,8 +79,8 @@ export default function SearchTemplate({
           <TextContainer>
             <Heading
               text="내가 좋아하는 유튜브 채널"
-              color={MAIN_COLOR}
               fontSize="20px"
+              highlighted
             ></Heading>
           </TextContainer>
           <MyYoutubers
@@ -122,14 +123,23 @@ export default function SearchTemplate({
       </SearchContainer>
       {selectedList.length > 0 ? (
         <ButtonContainer>
-          <Button text="선택완료" onClick={sendSelectedList}></Button>
+          <Button
+            text="선택완료"
+            onClick={() => {
+              sendSelectedList();
+              handleSendLog();
+            }}
+          ></Button>
         </ButtonContainer>
       ) : (
         <>
           <ButtonContainer onMouseOver={handleHover} onMouseOut={handleHover}>
             <Button
               text={hoverState ? '도와주세요' : '건너뛰기'}
-              onClick={sendSelectedList}
+              onClick={() => {
+                sendSelectedList();
+                handleSendLog();
+              }}
             ></Button>
           </ButtonContainer>
         </>
