@@ -1,19 +1,23 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { MAIN_COLOR } from '../const';
 
 const Text = styled.div`
-  color: black;
+  color: ${({ highlighted, theme }) =>
+    highlighted ? theme.colors.main : 'black'};
   strong {
-    color: ${MAIN_COLOR};
+    color: ${props => props.theme.colors.main};
   }
 `;
 export default function Heading({
   text,
-  color = 'black',
   fontSize = 30,
   textAlign = 'left',
   fontWeight = 'bold',
+  highlighted = false,
 }) {
-  return <Text style={{ color, fontSize, textAlign, fontWeight }}>{text}</Text>;
+  return (
+    <Text style={{ fontSize, textAlign, fontWeight }} highlighted={highlighted}>
+      {text}
+    </Text>
+  );
 }

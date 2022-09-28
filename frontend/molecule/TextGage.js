@@ -16,7 +16,7 @@ export default function TextGage({ text, gageNumber, index }) {
   return (
     <TextGageContainer>
       <Heading text={text} fontSize="11px" textAlign="right" />
-      <Gage gageNumber={gageNumber} index={index} />
+      <Gage gageNumber={gageNumber} highlighted={index >= 3} />
     </TextGageContainer>
   );
 }
