@@ -9,9 +9,7 @@ export const sendLog = async params => {
         headers: { 'x-forwarded-for': '132.12.12.120' },
       },
     );
-  } catch (e) {
-    alert('에러');
-  }
+  } catch (e) {}
 };
 
 export const sendTimeLog = async params => {
@@ -23,7 +21,5 @@ export const sendTimeLog = async params => {
         headers: { 'x-forwarded-for': '132.12.12.120' },
       },
     );
-  } catch (e) {
-    alert('에러Time');
-  }
+  } catch (e) {}
 };
