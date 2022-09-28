@@ -74,7 +74,10 @@ export default function Search() {
   };
 
   function addSelected(youtuber) {
-    if (!selectedList.includes(youtuber)) {
+    const index = selectedList.findIndex(({ className }) => {
+      return youtuber.className === className;
+    });
+    if (index < 0) {
       setSelectedList(prev => {
         return [...prev, youtuber];
       });

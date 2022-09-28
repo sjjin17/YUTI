@@ -6,6 +6,23 @@ const YoutuberContainer = styled.div`
   align-items: start;
   justify-content: start;
   margin: 5% 0;
+  overflow-x: scroll;
+  ::-webkit-scrollbar {
+    display: block;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(0, 0, 0, 0.1);
+    border-right: none;
+    border-left: none;
+  }
+  ::-webkit-scrollbar-track-piece::end{
+    background: transparent
+    margin-bottom: 10px;
+  }
 `;
 
 export default function MyYoutubers({ selectedList, delSelected }) {
