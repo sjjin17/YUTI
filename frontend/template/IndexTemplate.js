@@ -12,8 +12,7 @@ const Container = styled.div`
   display: grid;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
-  grid-template-rows: 1fr 3fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 3fr 1fr 1fr;
   @media (min-height: 700px) {
     height: 700px;
   }
@@ -54,16 +53,18 @@ export default function IndexTemplate({ participantsNum, handleSendLog }) {
             onClick={handleSendLog}
           ></Button>
         </Link>
-        <Heading
-          text={'비즈니스 문의'}
-          fontSize="20px"
-          textAlign="center"
-        ></Heading>
-        <Heading
-          text={'pms16011172@gmail.com'}
-          fontSize="13px"
-          textAlign="center"
-        ></Heading>
+        <FooterContainer>
+          <Heading
+            text={'비즈니스 문의'}
+            fontSize="20px"
+            textAlign="center"
+          ></Heading>
+          <Heading
+            text={'pms16011172@gmail.com'}
+            fontSize="13px"
+            textAlign="center"
+          ></Heading>
+        </FooterContainer>
       </Container>
     </>
   );
