@@ -8,15 +8,12 @@ import RangeNum from '../atom/RangeNum';
 const Container = styled.div`
   width: 80%;
   min-width: 100%;
-  height: 100%;
+  height: 70vh;
   display: grid;
-  justify-content: center;
-  align-items: center;
-  grid-template-rows: 3fr 5fr 2fr;
   grid-template-columns: 1fr;
-  box-sizing: border-box;
+  grid-template-rows: 0.5fr 0.5fr auto 1fr;
   @media (min-height: 700px) {
-    height: 630px;
+    height: 700px;
   }
   @media (min-width: 571px) {
     width: 571px;
@@ -25,21 +22,18 @@ const Container = styled.div`
 
 const ButtonContainer = styled.div`
   width: 100%;
-  height: 100%;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
   align-items: center;
-  box-sizing: border-box;
-`;
-
-const TextContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  align-items: center;
+  margin: 50px auto;
 `;
 
 const RangeContainer = styled.div`
-  box-sizing: border-box;
+  height: 100%;
+  display: grid;
+  align-content: start;
 `;
 
 export default function SurveyTemplate({
@@ -51,10 +45,8 @@ export default function SurveyTemplate({
 }) {
   return (
     <Container>
-      <TextContainer>
-        <Heading text={'Q' + (surveyNum + 1)} highlighted></Heading>
-        <Heading text={survey.question}></Heading>
-      </TextContainer>
+      <Heading text={`Q${surveyNum + 1}`} highlighted></Heading>
+      <Heading text={survey.question}></Heading>
       <ButtonContainer>
         <Button
           text={survey.answer1.answer}

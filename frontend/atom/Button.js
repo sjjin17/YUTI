@@ -7,7 +7,7 @@ const ButtonBase = styled.button`
   border-radius: 10px;
   border-color: rgb(0, 0, 0, 0.2);
   height: 15vh;
-  box-sizing: border-box;
+  width: 100%;
   white-space: pre-line;
   &:hover {
     background: ${({ theme }) => theme.colors.main};

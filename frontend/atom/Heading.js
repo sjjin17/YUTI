@@ -10,7 +10,7 @@ const Text = styled.div`
 `;
 export default function Heading({
   text,
-  fontSize = 30,
+  fontSize = 25,
   textAlign = 'left',
   fontWeight = 'bold',
   highlighted = false,

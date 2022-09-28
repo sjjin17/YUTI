@@ -14,7 +14,6 @@ const GageContainer = styled.div`
 const GageBox = styled.div`
   border: 1px solid #a09e9f;
   border-radius: 5px;
-  box-sizing: border-box;
   width: 20%;
   background-color: ${({ filled, highlighted, theme }) =>
     filled ? `${highlighted ? theme.colors.sub : theme.colors.main}` : 'white'};

@@ -6,7 +6,6 @@ const ButtonBase = styled.button`
   color: black;
   border-radius: 10px;
   border: 0 solid;
-  box-sizing: border-box;
   white-space: pre-line;
   background: ${({ theme }) => theme.colors.main};
   color: white;
