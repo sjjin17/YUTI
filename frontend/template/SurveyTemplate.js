@@ -12,12 +12,8 @@ const Container = styled.div`
   display: grid;
   justify-content: center;
   align-items: center;
-<<<<<<< HEAD
   grid-template-rows: 3fr 5fr 2fr;
   grid-template-columns: 1fr;
-=======
-  grid-template-rows: 3fr 40vh 2fr;
->>>>>>> 25c91f4 (feat: survey button css 수정)
   box-sizing: border-box;
   @media (min-height: 700px) {
     height: 630px;
