@@ -23,6 +23,7 @@ const Container = styled.div`
 
 const TitleContainer = styled.div`
   width: 100%;
+  min-width: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -30,6 +31,7 @@ const TitleContainer = styled.div`
 
 const TextContainer = styled.div`
   width: 100%;
+  min-width: 100%;
   height: 100%;
   align-items: center;
   margin-bottom: 10px;
@@ -38,12 +40,14 @@ const TextContainer = styled.div`
 
 const SearchContainer = styled.div`
   width: 100%;
+  min-width: 100%;
   height: 100%;
   display: grid;
 `;
 
 const ButtonContainer = styled.div`
   width: 100%;
+  min-width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
