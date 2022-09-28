@@ -9,7 +9,6 @@ const Container = styled.div`
   height: 500px;
   border-radius: 10px;
   box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;

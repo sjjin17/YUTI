@@ -55,7 +55,9 @@ const GagesContainer = styled.div`
 const ButtonContainer = styled.div`
   width: 80%;
   height: 60%;
-  box-sizing: border-box;
+  @media (min-width: 571px) {
+    width: 60%;
+  }
   button {
     width: 100%;
     height: 100%;
