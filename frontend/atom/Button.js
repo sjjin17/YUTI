@@ -1,8 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { sendTimeLog } from '../utils/log';
-import { useRouteContext } from '../context/RouteChangeContext';
-import { useTheme } from '@emotion/react';
 
 const ButtonBase = styled.button`
   background: white;
