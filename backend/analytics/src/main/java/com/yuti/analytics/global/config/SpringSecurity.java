@@ -53,13 +53,12 @@ public class SpringSecurity {
             .sessionManagement().sessionCreationPolicy(STATELESS)
             .and()
             .headers().frameOptions().disable().and().build();
-
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost", "https://j7a502.p.ssafy.io"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://j7a502.p.ssafy.io"));
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "TOKEN_ID", "X-Requested-With", "Authorization", "Content-Type", "Content-Length", "Cache-Control"));
