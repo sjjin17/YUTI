@@ -26,23 +26,19 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         String token = request.getHeader(HEADER_AUTH);
 
-
         String path = ((HttpServletRequest) request).getRequestURI();
         if (path.contains("/analytics/v1/accounts/login") || path.contains("/analytics/v1/accounts/signup") || path.contains("/analytics/v1/accounts/logout")) {
             chain.doFilter(request,response);
         } else {
-
             if (token != null) {
                 String jwtToken = token.replace("Bearer ", "");
                 String userId = jwtUtil.getClaims(jwtToken).getBody().get("id").toString();
-
                 if (jwtUtil.validateTokenTime(jwtUtil.getClaims(jwtToken)) && jwtUtil.checkIsToken(userId)) {
                     jwtUtil.checkToken(jwtToken);
                     chain.doFilter(request, response);
                 } else {
                     throw new RuntimeException("유효하지 않은 요청입니다.");
                 }
-
             } else
                 throw new RuntimeException("유효하지 않은 요청입니다.");
             }

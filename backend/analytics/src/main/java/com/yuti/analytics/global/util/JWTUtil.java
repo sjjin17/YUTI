@@ -16,7 +16,6 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JWTUtil {
-
     private static final String SALT = "SSAFIT";
     private final UserRepository userRepository;
     public JWTUtil(UserRepository userRepository) {
