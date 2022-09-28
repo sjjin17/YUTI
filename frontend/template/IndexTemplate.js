@@ -42,7 +42,7 @@ export default function IndexTemplate({ participantsNum }) {
           textAlign="center"
         ></Heading>
         <ImageContainer>
-          <Image src="/images/mainImage.jpeg" alt="" layout="fill"></Image>
+          <Image src="/images/mainImage.png" alt="" layout="fill"></Image>
         </ImageContainer>
         <Link href="/survey">
           <Button
