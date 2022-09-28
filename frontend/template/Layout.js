@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 const BaseLayout = styled.div`
   background: white;
-  width: 100vw;
+  //  width: 100vw;
   height: 100vh;
   text-align: center;
   display: grid;

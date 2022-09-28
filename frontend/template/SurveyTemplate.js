@@ -10,13 +10,11 @@ const Container = styled.div`
   min-width: 100%;
   height: 100%;
   display: grid;
-  justify-content: center;
-  align-items: center;
-  grid-template-rows: 3fr 5fr 2fr;
   grid-template-columns: 1fr;
+  grid-template-rows: 3fr 5fr 2fr;
   box-sizing: border-box;
   @media (min-height: 700px) {
-    height: 630px;
+    height: 700px;
   }
   @media (min-width: 571px) {
     width: 571px;
@@ -28,21 +26,17 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 20px;
   align-items: center;
+  margin: 0 auto;
   box-sizing: border-box;
-  & > button {
-    margin-top: 20px;
-  }
 `;
 
 const TextContainer = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  align-items: center;
-  & > div:nth-child(1) {
-    margin-bottom: 2%;
-  }
+  align-items: end;
 `;
 
 const RangeContainer = styled.div`
@@ -59,8 +53,15 @@ export default function SurveyTemplate({
   return (
     <Container>
       <TextContainer>
-        <Heading text={'Q' + (surveyNum + 1)} highlighted></Heading>
-        <Heading text={survey.question}></Heading>
+        <Heading
+          text={
+            <>
+              <strong>Q{surveyNum + 1}</strong>
+              <br />
+              {survey.question}
+            </>
+          }
+        ></Heading>
       </TextContainer>
       <ButtonContainer>
         <Button

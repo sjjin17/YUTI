@@ -12,15 +12,17 @@ const Container = styled.div`
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-rows: 1fr 1fr 3fr 2fr;
+  grid-template-rows: 1fr 3fr 1fr;
   @media (min-height: 700px) {
     height: 630px;
   }
 `;
 
+const TextContainer = styled.div``;
+
 const ImageContainer = styled.div`
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1 / 1;
   position: relative;
 `;
 
@@ -30,16 +32,18 @@ export default function IndexTemplate({ participantsNum, handleSendLog }) {
   return (
     <>
       <Container>
-        <Heading
-          text={'YUTI'}
-          fontSize="50px"
-          textAlign="center"
-          highlighted
-        ></Heading>
-        <Heading
-          text={'내가 좋아할만한 유튜버는?'}
-          textAlign="center"
-        ></Heading>
+        <TextContainer>
+          <Heading
+            text={'YUTI'}
+            fontSize="50px"
+            textAlign="center"
+            highlighted
+          ></Heading>
+          <Heading
+            text={'내가 좋아할만한 유튜버는?'}
+            textAlign="center"
+          ></Heading>
+        </TextContainer>
         <ImageContainer>
           <Image src="/images/mainImage.png" alt="" layout="fill"></Image>
         </ImageContainer>
