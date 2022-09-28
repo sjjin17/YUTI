@@ -45,3 +45,5 @@ yarn-error.log*
 
 backend/.idea
 .idea
+
+backend/analytics/src/main/resources/application.yml
