@@ -11,7 +11,7 @@ const Container = styled.div`
   height: 70vh;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr auto 1fr;
+  grid-template-rows: 0.5fr 0.5fr auto 1fr;
   @media (min-height: 700px) {
     height: 700px;
   }
@@ -30,13 +30,6 @@ const ButtonContainer = styled.div`
   margin: 50px auto;
 `;
 
-const TextContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  align-items: end;
-`;
-
 const RangeContainer = styled.div`
   height: 100%;
   display: grid;
@@ -52,17 +45,8 @@ export default function SurveyTemplate({
 }) {
   return (
     <Container>
-      <TextContainer>
-        <Heading
-          text={
-            <>
-              <strong>Q{surveyNum + 1}</strong>
-              <br />
-              {survey.question}
-            </>
-          }
-        ></Heading>
-      </TextContainer>
+      <Heading text={`Q${surveyNum + 1}`} highlighted></Heading>
+      <Heading text={survey.question}></Heading>
       <ButtonContainer>
         <Button
           text={survey.answer1.answer}
