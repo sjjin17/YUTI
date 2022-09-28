@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import Layout from '../template/Layout';
 import { RouteChangeProvider } from '../context/RouteChangeContext';
 import { ThemeProvider } from '@emotion/react';
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }) {
   const [colors, setColors] = useState();
