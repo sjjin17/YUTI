@@ -1,13 +1,16 @@
 package com.yuti.analytics.global.config;
 
+
+
+import com.yuti.analytics.domain.accounts.repository.UserRepository;
 import com.yuti.analytics.global.filter.JwtAuthorizationFilter;
 import com.yuti.analytics.global.util.JWTUtil;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.util.Arrays;
 
@@ -24,17 +26,24 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class SpringSecurity {
 
     @Bean
-    public JWTUtil jwtUtil() {
-        return new JWTUtil();
+    public JWTUtil jwtUtil(UserRepository userRepository) {
+        return new JWTUtil(userRepository);
     }
+
+
+
+    private UserRepository userRepository;
+
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .addFilterAfter(new JwtAuthorizationFilter(jwtUtil()), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JwtAuthorizationFilter(jwtUtil(userRepository)), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
             .antMatchers("/analytics/v1/accounts/**").permitAll()
             .and()

@@ -5,8 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,10 +29,9 @@ public class User {
 
     }
 
-    public void setToken(boolean token) {
-        this.isToken = true;
+    public void setToken(boolean isToken) {
+        this.isToken = isToken;
     }
-
 
 
 

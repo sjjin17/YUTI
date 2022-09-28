@@ -11,4 +11,6 @@ public interface UserService {
     User findById(String id);
     String login(UserRequestDto userRequestDto) throws UnsupportedEncodingException;
 
+    String logout(UserRequestDto userRequestDto);
+
 }
