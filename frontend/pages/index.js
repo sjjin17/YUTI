@@ -34,6 +34,7 @@ export async function getStaticProps() {
     const res = await axios.get('/api/v1/mbti');
     return {
       props: { participantsNum: res.data.data },
+      revalidate: 30,
     };
   } catch (error) {
     if (error.response.status === 500) {
