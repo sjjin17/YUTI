@@ -1,0 +1,90 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'java'
+}
+
+group = 'com.yuti'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	asciidoctorExtensions
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
+	outputs.dir snippetsDir
+	finalizedBy 'asciidoctor'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExtensions'
+	dependsOn test
+}
+
+asciidoctor.doFirst {
+	delete file('src/main/resources/static/docs')
+}
+
+bootJar {
+	dependsOn asciidoctor
+	copy {
+		from "build/docs/asciidoc"
+		into "src/main/resources/static/docs"
+	}
+}
+
+task copyDocument(type: Copy) {
+	dependsOn asciidoctor
+	from file("build/docs/asciidoc")
+	into file("src/main/resources/static/docs")
+}
+
+build {
+	dependsOn copyDocument
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.data:spring-data-elasticsearch:4.2.2'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.1'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// spring rest docs
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
+	// Youtube API
+	implementation 'com.google.api-client:google-api-client:1.23.0'
+	implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+	implementation 'com.google.apis:google-api-services-youtube:v3-rev222-1.25.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

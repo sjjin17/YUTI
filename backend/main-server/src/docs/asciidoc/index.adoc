@@ -1,0 +1,62 @@
+= YUTI API Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[introduction]]
+== 소개
+
+SSAFY 7기 특화5반 A502팀
+
+YUTI REST API 명세서입니다.
+
+---
+
+[[Youtuber-검색]]
+== Youtuber 검색 API
+
+=== Http Request
+include::{snippets}/youtuber-search/http-request.adoc[]
+
+=== Request parameters
+include::{snippets}/youtuber-search/request-parameters.adoc[]
+
+=== Http Response
+include::{snippets}/youtuber-search/http-response.adoc[]
+
+=== Response fields
+include::{snippets}/youtuber-search/response-fields.adoc[]
+
+---
+
+[[MBTI별-유튜버-추천]]
+== MBTI별 유튜버 추천 API
+
+=== Http Request
+include::{snippets}/recommend-youtuber/http-request.adoc[]
+
+=== Path parameters
+include::{snippets}/recommend-youtuber/path-parameters.adoc[]
+
+=== Http Response
+include::{snippets}/recommend-youtuber/http-response.adoc[]
+
+=== Response fields
+include::{snippets}/recommend-youtuber/response-fields.adoc[]
+
+---
+
+[[설문참여인원-조회]]
+== 설문참여 인원 조회 API
+
+=== Http Request
+include::{snippets}/the-number-of-participants/http-request.adoc[]
+
+=== Http Response
+include::{snippets}/the-number-of-participants/http-response.adoc[]
+
+=== Response fields
+include::{snippets}/the-number-of-participants/response-fields.adoc[]

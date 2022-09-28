@@ -28,6 +28,9 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 .env.*.local
+.env
+.env.production
+.env.development
 
 # typescript
 *.tsbuildinfo
@@ -37,3 +40,10 @@ yarn-error.log*
 
 # vscode
 .vscode
+
+*.iml
+
+backend/.idea
+.idea
+
+backend/analytics/src/main/resources/application.yml
