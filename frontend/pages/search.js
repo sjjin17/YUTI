@@ -74,13 +74,15 @@ export default function Search() {
   };
 
   function addSelected(youtuber) {
-    const index = selectedList.findIndex(({ className }) => {
-      return youtuber.className === className;
+    const index = selectedList.findIndex(({ channelId }) => {
+      return youtuber.channelId === channelId;
     });
     if (index < 0) {
       setSelectedList(prev => {
         return [...prev, youtuber];
       });
+    } else {
+      console.log('a');
     }
   }
 
