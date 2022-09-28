@@ -297,7 +297,21 @@ export default function Result({ likeYoutubers }) {
 }
 
 export async function getServerSideProps({ params }) {
-  const response = await axios.get(`/api/v1/mbti/${params.mbti}`);
-  const likeYoutubers = await response.data.data;
-  return { props: { likeYoutubers } };
+  try {
+    const response = await axios.get(`/api/v1/mbti/${params.mbti}`);
+    const likeYoutubers = await response.data.data;
+    return { props: { likeYoutubers } };
+  } catch (error) {
+    if (error.response.status === 500) {
+      return {
+        redirect: {
+          destination: '/500',
+        },
+      };
+    } else {
+      return {
+        notFound: true,
+      };
+    }
+  }
 }
