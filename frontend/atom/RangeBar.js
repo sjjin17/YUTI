@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { MAIN_COLOR } from '../const';
 
 const Container = styled.div`
   height: 10px;
@@ -17,7 +16,7 @@ const Range = styled.div`
   height: 10px;
   width: ${props => props.surveyNum}%;
   border-radius: 10px;
-  background: ${MAIN_COLOR};
+  background: ${({ theme }) => theme.colors.main};
 `;
 
 export default function RangeBar({ surveyNum }) {

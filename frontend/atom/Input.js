@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { MAIN_COLOR } from '../const';
 
 const InputContainer = styled.input`
   width: 100%;
@@ -16,7 +15,7 @@ const InputContainer = styled.input`
   &:focus {
     outline: none;
     border: solid 2px;
-    border-color: ${MAIN_COLOR};
+    border-color: ${({ theme }) => theme.colors.main};
   }
 `;
 

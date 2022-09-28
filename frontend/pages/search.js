@@ -3,6 +3,9 @@ import SearchTemplate from '../template/SearchTemplate';
 import axios from '../utils/axios';
 import secondAxios from '../utils/secondAxios';
 import Router from 'next/router';
+import { sendTimeLog } from '../utils/log';
+import { useRouteContext } from '../context/RouteChangeContext';
+import { useTheme } from '@emotion/react';
 
 export default function Search() {
   const [hoverState, setHoverState] = useState(false);
@@ -12,6 +15,17 @@ export default function Search() {
   const [page, setPage] = useState(0);
   const [io, setIo] = useState(null);
   const [isLoaded, setIsLoaded] = useState(true);
+  const { pageNumber } = useRouteContext();
+  const theme = useTheme();
+
+  const handleSendLog = () => {
+    sendTimeLog({
+      pageNo: pageNumber,
+      color: theme.colors.main === '#67D193' ? 'green' : 'red',
+      answer: '',
+      diffTime: new Date(),
+    });
+  };
 
   const sendSelectedList = async () => {
     try {
@@ -132,6 +146,7 @@ export default function Search() {
       page={page}
       isLoaded={isLoaded}
       sendSelectedList={sendSelectedList}
+      handleSendLog={handleSendLog}
     ></SearchTemplate>
   );
 }

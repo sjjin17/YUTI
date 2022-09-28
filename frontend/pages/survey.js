@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import SurveyTemplate from '../template/SurveyTemplate';
 import styled from '@emotion/styled';
 import Router from 'next/router';
+import { useRouteContext } from '../context/RouteChangeContext';
+import { useTheme } from '@emotion/react';
+import { sendTimeLog } from '../utils/log';
 
 const Container = styled.div`
   display: flex;
@@ -161,7 +164,8 @@ const mbtiArray = [
 
 export default function Survey() {
   const [resultMbti, setResultMbti] = useState([0, 0, 0, 0]);
-  const [surveyNum, setSurveyNum] = useState(0);
+  const { surveyNum, setSurveyNum, pageNumber } = useRouteContext();
+  const theme = useTheme();
 
   useEffect(() => {
     if (surveyNum < surveyList.length) return;
@@ -195,6 +199,15 @@ export default function Survey() {
     });
   };
 
+  const handleSendLog = mbti => {
+    sendTimeLog({
+      pageNo: pageNumber,
+      color: theme.colors.main === '#67D193' ? 'green' : 'red',
+      answer: mbti,
+      diffTime: new Date(),
+    });
+  };
+
   return (
     <>
       {surveyNum < surveyList.length && (
@@ -204,6 +217,7 @@ export default function Survey() {
             surveyNum={surveyNum}
             pageChange={pageChange}
             onChangeMbti={mbtiChange}
+            handleSendLog={handleSendLog}
           ></SurveyTemplate>
         </Container>
       )}

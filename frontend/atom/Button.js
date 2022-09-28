@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { MAIN_COLOR } from '../const';
 
 const ButtonBase = styled.button`
   background: white;
@@ -11,9 +10,10 @@ const ButtonBase = styled.button`
   box-sizing: border-box;
   white-space: pre-line;
   &:hover {
-    background: ${MAIN_COLOR};
+    background: ${({ theme }) => theme.colors.main};
     border: 0 solid;
     color: white;
+    cursor: pointer;
   }
 
   @media (min-height: 700px) {
