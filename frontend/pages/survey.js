@@ -180,7 +180,7 @@ export default function Survey() {
       return (prev += cur > 0 ? mbtiArray[idx][0] : mbtiArray[idx][1]);
     }, '');
     window.localStorage.setItem('mbti', MBTI);
-  }, []);
+  }, [resultMbti]);
 
   const pageChange = () => {
     setSurveyNum(prev => prev + 1);
