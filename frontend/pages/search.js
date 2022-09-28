@@ -44,6 +44,9 @@ export default function Search() {
     if (page === 1) {
       return;
     } else if (searchInput) {
+      if (searchResultList.length % 50 > 0) {
+        return;
+      }
       try {
         const params = {
           keyword: searchInput,
@@ -63,9 +66,6 @@ export default function Search() {
         setSearchResultList([]);
         setPage(0);
       }
-    } else {
-      setSearchResultList([]);
-      setPage(0);
     }
   };
 
