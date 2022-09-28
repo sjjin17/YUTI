@@ -37,7 +37,7 @@ export async function getStaticProps() {
       revalidate: 30,
     };
   } catch (error) {
-    if (error.response.status === 500) {
+    if (error.response?.status === 500) {
       return {
         redirect: {
           destination: '/500',
