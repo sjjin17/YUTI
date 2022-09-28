@@ -1,11 +1,10 @@
 package com.yuti.analytics.domain.accounts.api;
 
-import com.yuti.analytics.domain.accounts.domain.User;
+
 import com.yuti.analytics.domain.accounts.dto.UserRequestDto;
 import com.yuti.analytics.domain.accounts.service.UserService;
 import com.yuti.analytics.global.api.BasicResponse;
 import com.yuti.analytics.global.api.CommonResponse;
-import com.yuti.analytics.global.exception.LoginFailureException;
 import com.yuti.analytics.global.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,6 +35,12 @@ public class UserApiController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(userService.login(userRequestDto)));
 
+    }
+
+    @PostMapping("/analytics/v1/accounts/logout")
+    public ResponseEntity<? extends BasicResponse> logout(@RequestBody @Valid UserRequestDto userRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(userService.logout(userRequestDto)));
     }
 
 
