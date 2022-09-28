@@ -13,10 +13,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   grid-template-rows: 3fr 5fr 2fr;
-<<<<<<< HEAD
-=======
   grid-template-columns: 1fr;
->>>>>>> 3119c66 (feat: 통신 코드 props 전달 및 색상 파일 import 삭제)
   box-sizing: border-box;
   @media (min-height: 700px) {
     height: 630px;
