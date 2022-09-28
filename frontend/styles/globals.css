@@ -1,7 +1,14 @@
 * {
   box-sizing: border-box;
+  font-family: 'NanumGothic';
 }
 
 body {
   margin: 0 30px;
+}
+
+@font-face {
+  font-family: 'NanumGothic.ttf';
+  font-weight: normal;
+  src: url('../public/fonts/NanumGothic.ttf');
 }
