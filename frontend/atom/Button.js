@@ -7,6 +7,7 @@ const ButtonBase = styled.button`
   border-radius: 10px;
   border-color: rgb(0, 0, 0, 0.2);
   height: 15vh;
+  width: 100%;
   box-sizing: border-box;
   white-space: pre-line;
   &:hover {
