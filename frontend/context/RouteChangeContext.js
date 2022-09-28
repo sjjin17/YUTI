@@ -59,7 +59,6 @@ export const RouteChangeProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    // 이벤트 리스너
     window.addEventListener('beforeunload', handleRouteChange);
     events.on('routeChangeStart', handleRouteChangeStart);
 
