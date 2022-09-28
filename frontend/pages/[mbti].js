@@ -302,7 +302,7 @@ export async function getServerSideProps({ params }) {
     const likeYoutubers = await response.data.data;
     return { props: { likeYoutubers } };
   } catch (error) {
-    if (error.response.status === 500) {
+    if (error.response?.status === 500) {
       return {
         redirect: {
           destination: '/500',
