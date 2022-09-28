@@ -81,8 +81,6 @@ export default function Search() {
       setSelectedList(prev => {
         return [...prev, youtuber];
       });
-    } else {
-      console.log('a');
     }
   }
 
