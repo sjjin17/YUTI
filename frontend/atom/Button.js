@@ -10,7 +10,7 @@ const ButtonBase = styled.button`
   box-sizing: border-box;
   white-space: pre-line;
   &:hover {
-    background: ${props => props.theme.colors.main};
+    background: ${({ theme }) => theme.colors.main};
     border: 0 solid;
     color: white;
     cursor: pointer;

@@ -5,7 +5,7 @@ const Text = styled.div`
   color: ${({ highlighted, theme }) =>
     highlighted ? theme.colors.main : 'black'};
   strong {
-    color: ${props => props.theme.colors.main};
+    color: ${({ theme }) => theme.colors.main};
   }
 `;
 export default function Heading({
