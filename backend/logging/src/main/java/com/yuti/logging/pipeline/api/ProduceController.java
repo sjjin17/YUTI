@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class ProduceController {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
         Date now = new Date();
         Gson gson = new Gson();
-        MbtiResultVO mbtiResultVO = new MbtiResultVO(sdfDate.format(now), requestDto.getMbti(), requestDto.getYoutuber(), userAgentName, userIpAddress);
+        MbtiResultVO mbtiResultVO = new MbtiResultVO(sdfDate.format(now), requestDto.getMbti(), validateYoutuberDuplication(requestDto.getYoutuber()), userAgentName, userIpAddress);
         String jsonMbtiResultLog = gson.toJson(mbtiResultVO);
 
         sendDataToKafka("mbti-result", jsonMbtiResultLog);
@@ -109,5 +109,9 @@ public class ProduceController {
                 log.info(result.toString());
             }
         });
+    }
+
+    private List<String> validateYoutuberDuplication(List<String> youtuber) {
+        return new ArrayList<>(new HashSet<>(youtuber));
     }
 }
