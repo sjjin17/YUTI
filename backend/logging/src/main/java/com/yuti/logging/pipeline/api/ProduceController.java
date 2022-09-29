@@ -36,7 +36,7 @@ public class ProduceController {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
         LocalDateTime now = LocalDateTime.now().plusHours(9);
         Gson gson = new Gson();
-        MbtiResultVO mbtiResultVO = new MbtiResultVO(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")), requestDto.getMbti(), validateYoutuberDuplication(requestDto.getYoutuber()), userAgentName, userIpAddress);
+        MbtiResultVO mbtiResultVO = new MbtiResultVO(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), requestDto.getMbti(), validateYoutuberDuplication(requestDto.getYoutuber()), userAgentName, userIpAddress);
         String jsonMbtiResultLog = gson.toJson(mbtiResultVO);
 
         sendDataToKafka("mbti-result", jsonMbtiResultLog);
@@ -50,7 +50,7 @@ public class ProduceController {
         LocalDateTime now = LocalDateTime.now().plusHours(9);
         Gson gson = new Gson();
 
-        DiffTimeVO diffTimeVO = new DiffTimeVO(requestDto.getPageNo(), requestDto.getColor(), requestDto.getAnswer(), now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")), now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")), userAgentName, userIpAddress);
+        DiffTimeVO diffTimeVO = new DiffTimeVO(requestDto.getPageNo(), requestDto.getColor(), requestDto.getAnswer(), now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), userAgentName, userIpAddress);
         String jsonDiffTimeLog = gson.toJson(diffTimeVO);
 
         sendDataToKafka("diff-time", jsonDiffTimeLog);
@@ -64,7 +64,7 @@ public class ProduceController {
         LocalDateTime now = LocalDateTime.now().plusHours(9);
         Gson gson = new Gson();
 
-        ShareResultVO shareResultVO = new ShareResultVO(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")), userAgent, userIpAddress, "result");
+        ShareResultVO shareResultVO = new ShareResultVO(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), userAgent, userIpAddress, "result");
         String jsonShareResultVO = gson.toJson(shareResultVO);
 
         sendDataToKafka("share-result", jsonShareResultVO);
@@ -77,7 +77,7 @@ public class ProduceController {
         LocalDateTime now = LocalDateTime.now().plusHours(9);
         Gson gson = new Gson();
 
-        ShareResultVO shareResultVO = new ShareResultVO(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")), userAgent, userIpAddress, "main");
+        ShareResultVO shareResultVO = new ShareResultVO(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), userAgent, userIpAddress, "main");
         String jsonShareResultVO = gson.toJson(shareResultVO);
 
         sendDataToKafka("share-result", jsonShareResultVO);
@@ -91,7 +91,7 @@ public class ProduceController {
         LocalDateTime now = LocalDateTime.now().plusHours(9);
         Gson gson = new Gson();
 
-        LeaveVO leaveVO = new LeaveVO(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")), userAgent, userIpAddress, pageNo);
+        LeaveVO leaveVO = new LeaveVO(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), userAgent, userIpAddress, pageNo);
         String jsonLeaveVO = gson.toJson(leaveVO);
 
         sendDataToKafka("leave-result", jsonLeaveVO);
