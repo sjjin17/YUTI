@@ -256,6 +256,18 @@ export default function Result({ likeYoutubers }) {
       if (!window.Kakao.isInitialized()) {
         window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
       }
+      window.Kakao.Share.createCustomButton({
+        container: '#kakaotalk-sharing-btn',
+        templateId: 82753,
+        templateArgs: {
+          mbti_desc: `${MBTI_RESULT[mbti].shareDesc}`,
+          mbti_image: `https://j7a502.p.ssafy.io/_next/image?url=%2Fimages%2F${mbti}.png&w=640&q=75`,
+          mbti: `${mbti}`,
+          likeYoutubers_first: `${mbtiResult.likeYoutubers[0].channelName}`,
+          likeYoutubers_second: `${mbtiResult.likeYoutubers[1].channelName}`,
+          likeYoutubers_third: `${mbtiResult.likeYoutubers[2].channelName}`,
+        },
+      });
     }
   }, []);
 
@@ -267,21 +279,6 @@ export default function Result({ likeYoutubers }) {
     router.replace('/');
   };
 
-  const handleKakaoShare = () => {
-    window.Kakao.Share.createCustomButton({
-      container: '#kakaotalk-sharing-btn',
-      templateId: 82753,
-      templateArgs: {
-        mbti_desc: `${MBTI_RESULT[mbti].shareDesc}`,
-        mbti_image: `https://j7a502.p.ssafy.io/_next/image?url=%2Fimages%2F${mbti}.png&w=640&q=75`,
-        mbti: `${mbti}`,
-        likeYoutubers_first: `${mbtiResult.likeYoutubers[0].channelName}`,
-        likeYoutubers_second: `${mbtiResult.likeYoutubers[1].channelName}`,
-        likeYoutubers_third: `${mbtiResult.likeYoutubers[2].channelName}`,
-      },
-    });
-  };
-
   return (
     <>
       <ResultTemplate
@@ -289,7 +286,6 @@ export default function Result({ likeYoutubers }) {
         mbtiResult={mbtiResult}
         url={INDEX_URL}
         handleCopyUrl={handleCopyUrl}
-        handleKakaoShare={handleKakaoShare}
         handleNaviMainPage={handleNaviMainPage}
       />
     </>
