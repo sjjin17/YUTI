@@ -33,9 +33,7 @@ export default function Search() {
       selectedList.forEach(youtuber => selectedIdList.push(youtuber.channelId));
       const myMbti = localStorage.getItem('mbti');
       const mbtiData = { mbti: myMbti, youtuber: selectedIdList };
-      await axios.post(`/log/mbti-result`, mbtiData, {
-        headers: { 'x-forwarded-for': '132.12.12.120' },
-      });
+      await axios.post(`/log/mbti-result`, mbtiData, {});
       Router.push({ pathname: `/${myMbti}` });
     } catch {}
   };
