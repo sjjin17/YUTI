@@ -69,7 +69,6 @@ export default function ResultTemplate({
   mbtiResult,
   url,
   handleCopyUrl,
-  handleKakaoShare,
   handleNaviMainPage,
 }) {
   const mbtiImagePath = `/images/${mbti}.png`;
@@ -103,7 +102,7 @@ export default function ResultTemplate({
       </ResultContainer>
       <Heading text="결과 공유하기" fontSize="15px" textAlign="center" />
       <ShareContainer>
-        <KakaoShare onClick={handleKakaoShare} />
+        <KakaoShare />
         <FacebookShareButton url={url}>
           <FacebookIcon size={45} round={true} borderRadius={24} />
         </FacebookShareButton>
