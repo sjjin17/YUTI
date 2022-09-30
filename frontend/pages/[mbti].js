@@ -299,7 +299,7 @@ export default function Result({ likeYoutubers }) {
   };
 
   const handleNaviOtherMbitPage = mbti => {
-    router.replace(`${mbti}`);
+    router.replace(`/${mbti}`);
   };
 
   return (
