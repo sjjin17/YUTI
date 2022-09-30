@@ -20,7 +20,9 @@ export const RouteChangeProvider = ({ children }) => {
   }, [surveyNum, pathname]);
 
   const handleRouteChange = useCallback(() => {
-    sendLog(pageNumber);
+    if (0 <= surveyNum && surveyNum <= 14) {
+      sendLog(pageNumber);
+    }
   }, [pathname]);
 
   const handleRouteChangeStart = useCallback(
@@ -45,8 +47,9 @@ export const RouteChangeProvider = ({ children }) => {
           }
           break;
         case '/[mbti]':
-          if (url === '/') {
-            isNextPage = true;
+          isNextPage = true;
+          if (url === '/search') {
+            isNextPage = false;
           }
           break;
       }
