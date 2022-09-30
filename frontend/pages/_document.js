@@ -78,6 +78,21 @@ export default function Document() {
           href="/favicon/favicon-16x16.png"
         />
         <link rel="manifest" href="/favicon/manifest.json" />
+        <meta name="apple-mobile-wep-app-title" content="YUTI"></meta>
+        <meta name="description" content="MBTI를 통한 YOUTUBER 추천"></meta>
+        <meta property="og:title" content="YUTI"></meta>
+        <meta
+          property="og:description"
+          content="MBTI를 통한 YOUTUBER 추천"
+        ></meta>
+        <meta property="og:image" content="/images/mainImage.png"></meta>
+        <meta name="twitter:card" content="summary"></meta>
+        <meta name="twitter:title" content="YUTI"></meta>
+        <meta property="twitter:image" content="/images/mainImage.png"></meta>
+        <meta
+          property="twitter:description"
+          content="MBTI를 통한 YOUTUBER 추천"
+        ></meta>
       </Head>
       <body>
         <Main />
