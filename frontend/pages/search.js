@@ -42,7 +42,7 @@ export default function Search() {
     if (page === 1) {
       return;
     } else if (searchInput) {
-      if (searchResultList.length % 50 > 0) {
+      if (searchResultList.length % 20 > 0) {
         return;
       }
       try {
@@ -54,7 +54,7 @@ export default function Search() {
           params,
         });
         setSearchResultList(prev => {
-          return [...prev, ...data.data];
+          return [...prev, ...data.data.youtubers];
         });
         if (!page) {
           setPage(1);

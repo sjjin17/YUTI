@@ -7,10 +7,12 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.yuti.mainserver.domain.youtuber.dto.YoutuberDto;
 import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
 import com.yuti.mainserver.domain.youtuber.service.YoutuberService;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +22,17 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.time.Instant;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
@@ -45,8 +49,8 @@ public class YoutuberServiceImpl implements YoutuberService {
     private String index;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    @Value("${youtube.key}")
-    private String apiKey;
+    @Value("${youtube}")
+    private List<String> apiKeys;
 
     private static String PROPERTIES_FILENAME = "youtube.properties";
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
@@ -54,53 +58,119 @@ public class YoutuberServiceImpl implements YoutuberService {
 
     private static YouTube youtube;
 
-    @Override
-    public List<YoutuberResponseDto> searchYoutuber(String keyword, int offset) {
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(matchQuery("channel_name", keyword))
-                .from(offset)
-                .size(50);
+    private static List<AvailableKey> availableKeys = new ArrayList<>();
 
-        SearchRequest searchRequest = new SearchRequest(index);
-        searchRequest.source(searchSourceBuilder);
-
-        try{
-            SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-
-            if(searchResponse.getHits().getTotalHits().value == 0) {
-                return searchUsingYoutubeApi(keyword);
-            } else
-                return Arrays.stream(searchResponse.getHits().getHits())
-                    .map(hit -> YoutuberResponseDto.toResponseDto(hit.getSourceAsMap()))
-                    .collect(Collectors.toList());
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    @Autowired
+    public void initKeys() {
+        for(String apiKey : apiKeys) {
+            availableKeys.add(new AvailableKey(apiKey, null, true));
         }
     }
 
-    private List<YoutuberResponseDto> searchUsingYoutubeApi(String keyword) throws IOException {
+    static class AvailableKey {
+        private String key;
+        private Date date;
+        private boolean isAvailable;
+
+        public AvailableKey(String key, Date date, boolean isAvailable) {
+            this.key = key;
+            this.date = date;
+            this.isAvailable = isAvailable;
+        }
+
+        public void prohibitKey() {
+            this.date = new Date();
+            this.isAvailable = false;
+        }
+    }
+
+    @Override
+    public YoutuberResponseDto searchYoutuber(String keyword, String offset) {
+        keyword = keyword.replaceAll(" ", "");
+        try {
+            if (offset.chars().allMatch(Character::isDigit))
+                return searchUsingElasticsearch(keyword, Integer.parseInt(offset));
+            else
+                return searchUsingYoutubeApi(keyword, offset);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    private YoutuberResponseDto searchUsingElasticsearch(String keyword, int offset) throws IOException {
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(matchQuery("channel_name", keyword))
+                .from(offset)
+                .size(20);
+
+        SearchResponse searchResponse = restHighLevelClient.search(
+                new SearchRequest(index).source(searchSourceBuilder), RequestOptions.DEFAULT);
+
+        if(searchResponse.getHits().getTotalHits().value == 0)
+            return searchUsingYoutubeApi(keyword, null);
+
+        boolean isLast = searchResponse.getHits().getHits().length + offset == searchResponse.getHits().getTotalHits().value;
+
+        return YoutuberResponseDto.builder()
+                .isLast(isLast)
+                .youtubers(Arrays.stream(searchResponse.getHits().getHits())
+                        .map(hit -> YoutuberDto.toResponseDto(hit.getSourceAsMap()))
+                        .collect(Collectors.toList())).build();
+    }
+
+    private YoutuberResponseDto searchUsingYoutubeApi(String keyword, String nextPageToken) {
         youtube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpRequestInitializer() {
             public void initialize(HttpRequest request) throws IOException {}})
                 .setApplicationName("youtube-channel-search")
                 .build();
 
         YouTube.Search.List search = youtube.search().list("snippet");
-        search.setKey(apiKey);
-        search.setQ(keyword);
-        search.setType("channel");
+        search.setKey(apiKey)
+                
+                .setQ(keyword)
+                .setMaxResults(20L)
+                .setType("channel");
+        if(nextPageToken != null) search.setPageToken(nextPageToken);
 
-        List<SearchResult> response = search.execute().getItems();
-        List<YoutuberResponseDto> searchYoutubers = response.stream()
-                .map(YoutuberResponseDto::toResponseDto)
+        SearchListResponse response = null;
+        for(AvailableKey availableKey : availableKeys) {
+            try {
+                response = search.execute();
+                break;
+            } catch (IOException e) {
+                availableKey.prohibitKey();
+            }
+        }
+
+        List<YoutuberDto> searchResults = response.getItems().stream()
+                .map(YoutuberDto::toResponseDto)
                 .collect(Collectors.toList());
+        Set<YoutuberDto> result = new HashSet<>(searchResults);
+        List<YoutuberDto> youtubers = new ArrayList<>();
+        searchResults.forEach(searchResult -> {
+            if(result.contains(searchResult)) {
+                youtubers.add(searchResult);
+                result.remove(searchResult);
+            }
+        });
+        saveYoutubeInFo(youtubers);
 
+        return YoutuberResponseDto.builder()
+                .nextPageToken(response.getNextPageToken())
+                .isLast(response.getNextPageToken() == null ? true : false)
+                .youtubers(youtubers)
+                .build();
+    }
+
+    private void saveYoutubeInFo(List<YoutuberDto> youtubers) {
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
-        searchYoutubers.forEach(youtuber -> {
+
+        youtubers.forEach(youtuber -> {
+            SearchResponse status = null;
             try {
-                SearchResponse status = restHighLevelClient.search(
+                status = restHighLevelClient.search(
                         new SearchRequest(index).source(
                                 new SearchSourceBuilder().query(termQuery("channel_id", youtuber.getChannelId()))
                         ), RequestOptions.DEFAULT);
@@ -110,8 +180,6 @@ public class YoutuberServiceImpl implements YoutuberService {
                 throw new RuntimeException(e);
             }
         });
-
-        return searchYoutubers;
     }
 
     private void sendDataToKafka(String topic, String data) {
