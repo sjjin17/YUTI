@@ -9,11 +9,14 @@ const ButtonBase = styled.button`
   height: 15vh;
   width: 100%;
   white-space: pre-line;
-  &:hover {
-    background: ${({ theme }) => theme.colors.main};
-    border: 0 solid;
-    color: white;
-    cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover {
+      background: ${({ theme }) => theme.colors.main};
+      border: 0 solid;
+      color: white;
+      cursor: pointer;
+    }
   }
 
   @media (min-height: 700px) {

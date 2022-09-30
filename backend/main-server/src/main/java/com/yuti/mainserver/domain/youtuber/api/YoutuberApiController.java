@@ -18,7 +18,7 @@ public class YoutuberApiController {
     private final YoutuberService youtuberService;
 
     @GetMapping("/api/v1/youtubers")
-    public ResponseEntity<? extends BasicResponse> searchYoutuber(@Validated @RequestParam String keyword, @RequestParam int offset) {
+    public ResponseEntity<? extends BasicResponse> searchYoutuber(@Validated @RequestParam String keyword, @RequestParam String offset) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(youtuberService.searchYoutuber(keyword, offset)));
     }

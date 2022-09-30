@@ -16,6 +16,8 @@ export default function Search() {
   const [io, setIo] = useState(null);
   const [isLoaded, setIsLoaded] = useState(true);
   const { pageNumber } = useRouteContext();
+  const [offset, setOffset] = useState(0);
+  const [isSearchLast, setIsSearchLast] = useState(false);
   const theme = useTheme();
 
   const handleSendLog = () => {
@@ -39,22 +41,27 @@ export default function Search() {
   };
 
   const fetchResultList = async () => {
-    if (page === 1) {
+    if (page === 1 || isSearchLast) {
       return;
     } else if (searchInput) {
-      if (searchResultList.length % 50 > 0) {
+      if (searchResultList.length % 20 > 0) {
         return;
       }
       try {
         const params = {
           keyword: searchInput,
-          offset: searchResultList.length,
+          offset: offset,
         };
         const { data } = await secondAxios.get(`api/v1/youtubers/`, {
           params,
         });
+        setIsSearchLast(data.data.last);
+        setOffset(
+          data.data.nextPageToken ||
+            searchResultList.length + data.data.youtubers.length,
+        );
         setSearchResultList(prev => {
-          return [...prev, ...data.data];
+          return [...prev, ...data.data.youtubers];
         });
         if (!page) {
           setPage(1);
@@ -130,6 +137,11 @@ export default function Search() {
     if (searchInput) {
       setSearchResultList([]);
       setPage(0);
+<<<<<<< HEAD
+      setIsSearchLast(false);
+      setOffset(0);
+=======
+>>>>>>> dev
       fetchResultList();
     }
   }, [searchInput]);

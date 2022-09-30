@@ -1,8 +1,9 @@
 package com.yuti.mainserver.domain.youtuber.docs;
 
+import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
 import com.yuti.mainserver.domain.youtuber.service.YoutuberService;
 import com.yuti.mainserver.domain.youtuber.api.YoutuberApiController;
-import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
+import com.yuti.mainserver.domain.youtuber.dto.YoutuberDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -38,12 +39,16 @@ public class YoutuberRestDocsTest {
     public void youtuber_검색() throws Exception {
         // given
         String request = "삼성청년";
-        List<YoutuberResponseDto> response = new ArrayList<>();
-        response.add(YoutuberResponseDto.builder()
+        List<YoutuberDto> youtubers = new ArrayList<>();
+        youtubers.add(YoutuberDto.builder()
                 .channelId("UC_XI3ByFO1uZIIH-g-zJZiw")
                 .channelName("삼성청년SW아카데미 Youtube채널 HELLOSSAFY")
                 .thumbnail("https://yt3.ggpht.com/ytc/AMLnZu9qdR9T9_9OXz27_3lZVs4hfwECef2oUSylrcQv=s800-c-k-c0x00ffffff-no-rj").build());
-        given(youtuberService.searchYoutuber(anyString(), anyInt())).willReturn(response);
+        YoutuberResponseDto response = YoutuberResponseDto.builder()
+                        .isLast(true)
+                        .youtubers(youtubers)
+                        .nextPageToken("nextPageToken").build();
+        given(youtuberService.searchYoutuber(anyString(), anyString())).willReturn(response);
 
         // when, then
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/youtubers")
@@ -59,11 +64,14 @@ public class YoutuberRestDocsTest {
                         ),
                         responseFields(
                                 fieldWithPath("success").description("API 요청 성공 여부").type(JsonFieldType.BOOLEAN),
-                                fieldWithPath("data").description("Response data").type(JsonFieldType.ARRAY)
-                        ).andWithPrefix("data[].",
-                                fieldWithPath("channelId").description("유튜버 채널 id").type(JsonFieldType.STRING),
-                                fieldWithPath("channelName").description("유튜버 채널명").type(JsonFieldType.STRING),
-                                fieldWithPath("thumbnail").description("유튜버 썸네일 주소").type(JsonFieldType.STRING))
+                                fieldWithPath("data").description("Response data").type(JsonFieldType.OBJECT)
+                        ).andWithPrefix("data.",
+                                fieldWithPath("last").description("마지막 페이지인지 구분").type(JsonFieldType.BOOLEAN),
+                                fieldWithPath("nextPageToken").description("유튜브 API 사용 시 다음 offset").type(JsonFieldType.STRING),
+                                fieldWithPath("youtubers").description("검색된 유튜버 리스트").type(JsonFieldType.ARRAY),
+                                fieldWithPath("youtubers[].channelId").description("유튜버 채널 id").type(JsonFieldType.STRING),
+                                fieldWithPath("youtubers[].channelName").description("유튜버 채널명").type(JsonFieldType.STRING),
+                                fieldWithPath("youtubers[].thumbnail").description("유튜버 썸네일 주소").type(JsonFieldType.STRING))
                         ));
     }
 }
