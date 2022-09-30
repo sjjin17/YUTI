@@ -137,8 +137,11 @@ export default function Search() {
     if (searchInput) {
       setSearchResultList([]);
       setPage(0);
+<<<<<<< HEAD
       setIsSearchLast(false);
       setOffset(0);
+=======
+>>>>>>> dev
       fetchResultList();
     }
   }, [searchInput]);

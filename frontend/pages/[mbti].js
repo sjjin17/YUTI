@@ -5,7 +5,11 @@ import axios from '../utils/secondAxios';
 
 const INDEX_URL = 'https://j7a502.p.ssafy.io/';
 
+<<<<<<< HEAD
 const MBTI_RESULT = {
+=======
+export const MBTI_RESULT = {
+>>>>>>> dev
   ENFP: {
     desc: (
       <>
@@ -21,6 +25,10 @@ const MBTI_RESULT = {
       대리만족: 2,
       인싸력: 5,
     },
+<<<<<<< HEAD
+=======
+    otherMbti: ['ENTP', 'ISTJ'],
+>>>>>>> dev
   },
   INFP: {
     desc: (
@@ -35,6 +43,10 @@ const MBTI_RESULT = {
       대리만족: 4,
       공감력: 5,
     },
+<<<<<<< HEAD
+=======
+    otherMbti: ['ENFP', 'ESTJ'],
+>>>>>>> dev
   },
   ENFJ: {
     desc: (
@@ -49,6 +61,10 @@ const MBTI_RESULT = {
       대리만족: 5,
       사명감: 5,
     },
+<<<<<<< HEAD
+=======
+    otherMbti: ['INFJ', 'ISTJ'],
+>>>>>>> dev
   },
   INFJ: {
     desc: (
@@ -63,6 +79,10 @@ const MBTI_RESULT = {
       대리만족: 4,
       감성: 5,
     },
+<<<<<<< HEAD
+=======
+    otherMbti: ['ISFJ', 'ESTP'],
+>>>>>>> dev
   },
   ENTJ: {
     desc: (
@@ -77,6 +97,10 @@ const MBTI_RESULT = {
       대리만족: 3,
       열정: 5,
     },
+<<<<<<< HEAD
+=======
+    otherMbti: ['ENTP', 'ISFP'],
+>>>>>>> dev
   },
   INTJ: {
     desc: (
@@ -91,6 +115,10 @@ const MBTI_RESULT = {
       대리만족: 2,
       호기심: 5,
     },
+<<<<<<< HEAD
+=======
+    otherMbti: ['INTP', 'ESFP'],
+>>>>>>> dev
   },
   ENTP: {
     desc: (
@@ -105,6 +133,7 @@ const MBTI_RESULT = {
       대리만족: 1,
       홍대병: 5,
     },
+    otherMbti: ['ENTJ', 'ISFJ'],
   },
   INTP: {
     desc: (
@@ -119,6 +148,7 @@ const MBTI_RESULT = {
       대리만족: 1,
       속도감: 5,
     },
+    otherMbti: ['ENTP', 'ESFJ'],
   },
   ESFP: {
     desc: (
@@ -133,6 +163,7 @@ const MBTI_RESULT = {
       대리만족: 1,
       친화력: 5,
     },
+    otherMbti: ['ISFJ', 'INTJ'],
   },
   ISFP: {
     desc: (
@@ -147,6 +178,7 @@ const MBTI_RESULT = {
       대리만족: 1,
       트렌디: 5,
     },
+    otherMbti: ['ESFJ', 'ENTJ'],
   },
   ESTP: {
     desc: (
@@ -161,6 +193,7 @@ const MBTI_RESULT = {
       대리만족: 2,
       관종력: 5,
     },
+    otherMbti: ['ISTP', 'INFP'],
   },
   ISTP: {
     desc: (
@@ -175,6 +208,7 @@ const MBTI_RESULT = {
       대리만족: 2,
       관찰력: 5,
     },
+    otherMbti: ['ESTP', 'INTP'],
   },
   ESFJ: {
     desc: (
@@ -189,6 +223,7 @@ const MBTI_RESULT = {
       대리만족: 2,
       진행력: 5,
     },
+    otherMbti: ['ESFP', 'INTP'],
   },
   ISFJ: {
     desc: (
@@ -203,6 +238,7 @@ const MBTI_RESULT = {
       대리만족: 5,
       몰입력: 5,
     },
+    otherMbti: ['INFJ', 'ENTP'],
   },
   ESTJ: {
     desc: (
@@ -217,6 +253,7 @@ const MBTI_RESULT = {
       대리만족: 1,
       생활력: 5,
     },
+    otherMbti: ['ENTJ', 'INFP'],
   },
   ISTJ: {
     desc: (
@@ -231,16 +268,19 @@ const MBTI_RESULT = {
       대리만족: 2,
       현실주의: 5,
     },
+    otherMbti: ['ISFJ', 'INFJ'],
   },
 };
 
 export default function Result({ likeYoutubers }) {
   const router = useRouter();
   const { mbti } = router.query;
+  const resultUrl = INDEX_URL + mbti;
   const [mbtiResult, setMbtiResult] = useState({
     desc: '',
     gageInfos: {},
     likeYoutubers: likeYoutubers,
+    otherMbti: [],
   });
 
   useEffect(() => {
@@ -248,6 +288,7 @@ export default function Result({ likeYoutubers }) {
       ...mbtiResult,
       desc: MBTI_RESULT[mbti].desc,
       gageInfos: MBTI_RESULT[mbti].gageInfos,
+      otherMbti: MBTI_RESULT[mbti].otherMbti,
     });
   }, [mbti]);
 
@@ -272,11 +313,15 @@ export default function Result({ likeYoutubers }) {
   }, []);
 
   const handleCopyUrl = () => {
-    navigator.clipboard.writeText(INDEX_URL);
+    navigator.clipboard.writeText(resultUrl);
   };
 
   const handleNaviMainPage = () => {
     router.replace('/');
+  };
+
+  const handleNaviOtherMbitPage = mbti => {
+    router.replace(`/${mbti}`);
   };
 
   return (
@@ -284,9 +329,10 @@ export default function Result({ likeYoutubers }) {
       <ResultTemplate
         mbti={mbti}
         mbtiResult={mbtiResult}
-        url={INDEX_URL}
+        url={resultUrl}
         handleCopyUrl={handleCopyUrl}
         handleNaviMainPage={handleNaviMainPage}
+        handleNaviOtherMbitPage={handleNaviOtherMbitPage}
       />
     </>
   );

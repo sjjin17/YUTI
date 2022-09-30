@@ -4,6 +4,7 @@ import KakaoShare from '../atom/KakaoShare';
 import UrlShare from '../atom/UrlShare';
 import TextGage from '../molecule/TextGage';
 import Button from '../atom/Button';
+import OtherMbti from '../molecule/OtherMbti';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import {
@@ -17,13 +18,13 @@ import {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 0.5fr 2fr 1fr 1.5fr 1.5fr 0.5fr 1fr 1fr;
+  grid-template-rows: 0.5fr 2fr 1fr 1.5fr 1.5fr 3fr 0.4fr 0.7fr 1fr;
   justify-items: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  @media (min-height: 800px) {
-    height: 800px;
+  @media (min-height: 1020px) {
+    height: 1020px;
   }
   @media (min-width: 571px) {
     width: 571px;
@@ -37,6 +38,15 @@ const ResultContainer = styled.div`
     width: 350px;
   }
   grid-template-columns: repeat(3, minmax(auto, 200px));
+`;
+
+const OtherMbtiContainer = styled.div`
+  display: flex;
+  width: 350px;
+  @media (min-width: 570px) {
+    width: 500px;
+  }
+  justify-content: space-between;
 `;
 
 const ShareContainer = styled.div`
@@ -70,6 +80,7 @@ export default function ResultTemplate({
   url,
   handleCopyUrl,
   handleNaviMainPage,
+  handleNaviOtherMbitPage,
 }) {
   const mbtiImagePath = `/images/${mbti}.png`;
   const mbtiHeading = `${mbti}의 유튜버 스타일`;
@@ -100,6 +111,16 @@ export default function ResultTemplate({
           />
         ))}
       </ResultContainer>
+      <OtherMbtiContainer>
+        {mbtiResult.otherMbti.map((mbti, idx) => (
+          <OtherMbti
+            key={mbti}
+            idx={idx}
+            mbti={mbti}
+            onClick={handleNaviOtherMbitPage}
+          />
+        ))}
+      </OtherMbtiContainer>
       <Heading text="결과 공유하기" fontSize="15px" textAlign="center" />
       <ShareContainer>
         <KakaoShare />
