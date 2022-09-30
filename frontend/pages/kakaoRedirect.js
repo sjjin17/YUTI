@@ -11,7 +11,6 @@ export default function KakaoRedirect() {
       method: 'POST',
       url: '/log/share-main',
       data: {},
-      headers: { 'x-forwarded-for': '132.12.12.120' },
     });
   };
 
@@ -20,7 +19,6 @@ export default function KakaoRedirect() {
       method: 'POST',
       url: `/log/share-result/${mbti}`,
       data: {},
-      headers: { 'x-forwarded-for': '132.12.12.120' },
     });
   };
 
