@@ -78,6 +78,7 @@ export default function Document() {
           href="/favicon/favicon-16x16.png"
         />
         <link rel="manifest" href="/favicon/manifest.json" />
+        <meta name="keywords" content="MBTI, youtube, YOUTUBE, 유튜버" />
         <meta name="apple-mobile-wep-app-title" content="YUTI"></meta>
         <meta name="description" content="MBTI를 통한 YOUTUBER 추천"></meta>
         <meta property="og:title" content="YUTI"></meta>
