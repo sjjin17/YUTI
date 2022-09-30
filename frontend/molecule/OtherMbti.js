@@ -7,6 +7,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 165px;
+  cursor: pointer;
   @media (min-width: 570px) {
     width: 240px;
   }
@@ -23,10 +24,10 @@ const MbtiContainer = styled.div`
   border-radius: 10px;
 `;
 
-export default function OtherMbti({ idx, mbti }) {
+export default function OtherMbti({ idx, mbti, onClick }) {
   const mbtiImagePath = `/images/${mbti}.png`;
   return (
-    <Container>
+    <Container onClick={() => onClick(mbti)}>
       <Heading
         text={idx ? '환장의 케미' : '환상의 케미'}
         fontSize="15px"

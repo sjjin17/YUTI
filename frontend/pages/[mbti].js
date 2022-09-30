@@ -156,7 +156,7 @@ export const MBTI_RESULT = {
       대리만족: 1,
       트렌디: 5,
     },
-    otherMbti: ['ISFP', 'ENTJ'],
+    otherMbti: ['ESFJ', 'ENTJ'],
   },
   ESTP: {
     desc: (
@@ -298,6 +298,10 @@ export default function Result({ likeYoutubers }) {
     router.replace('/');
   };
 
+  const handleNaviOtherMbitPage = mbti => {
+    router.replace(`${mbti}`);
+  };
+
   return (
     <>
       <ResultTemplate
@@ -306,6 +310,7 @@ export default function Result({ likeYoutubers }) {
         url={resultUrl}
         handleCopyUrl={handleCopyUrl}
         handleNaviMainPage={handleNaviMainPage}
+        handleNaviOtherMbitPage={handleNaviOtherMbitPage}
       />
     </>
   );

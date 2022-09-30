@@ -80,6 +80,7 @@ export default function ResultTemplate({
   url,
   handleCopyUrl,
   handleNaviMainPage,
+  handleNaviOtherMbitPage,
 }) {
   const mbtiImagePath = `/images/${mbti}.png`;
   const mbtiHeading = `${mbti}의 유튜버 스타일`;
@@ -112,7 +113,12 @@ export default function ResultTemplate({
       </ResultContainer>
       <OtherMbtiContainer>
         {mbtiResult.otherMbti.map((mbti, idx) => (
-          <OtherMbti key={mbti} idx={idx} mbti={mbti} />
+          <OtherMbti
+            key={mbti}
+            idx={idx}
+            mbti={mbti}
+            onClick={handleNaviOtherMbitPage}
+          />
         ))}
       </OtherMbtiContainer>
       <Heading text="결과 공유하기" fontSize="15px" textAlign="center" />
