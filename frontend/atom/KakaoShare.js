@@ -11,7 +11,6 @@ export default function KakaoShare() {
   return (
     <KakaoBtn
       id="kakaotalk-sharing-btn"
-      onClick={onClick}
       src="images/kakaoLogo.png"
       alt="kakaoLogo"
     />

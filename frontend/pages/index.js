@@ -4,6 +4,7 @@ import { useRouteContext } from '../context/RouteChangeContext';
 import IndexTemplate from '../template/IndexTemplate';
 import { sendTimeLog } from '../utils/log';
 import axios from '../utils/secondAxios';
+import Head from 'next/head';
 
 export default function Home({ participantsNum }) {
   const { setSurveyNum, pageNumber } = useRouteContext();
@@ -22,10 +23,15 @@ export default function Home({ participantsNum }) {
   };
 
   return (
-    <IndexTemplate
-      participantsNum={participantsNum}
-      handleSendLog={handleSendLog}
-    ></IndexTemplate>
+    <>
+      <Head>
+        <title>YUTI</title>
+      </Head>
+      <IndexTemplate
+        participantsNum={participantsNum}
+        handleSendLog={handleSendLog}
+      ></IndexTemplate>
+    </>
   );
 }
 
