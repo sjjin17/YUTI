@@ -34,7 +34,7 @@ public class YoutuberDto {
         return YoutuberDto.builder()
                 .channelId(searchResult.getSnippet().getChannelId())
                 .channelName(searchResult.getSnippet().getChannelTitle())
-                .thumbnail(searchResult.getSnippet().getThumbnails().getHigh().getUrl())
+                .thumbnail(searchResult.getSnippet().getThumbnails().getHigh().getUrl().split("\\u003ds800-c-k-c0xffffffff-no-rj-mo")[0])
                 .build();
     }
 

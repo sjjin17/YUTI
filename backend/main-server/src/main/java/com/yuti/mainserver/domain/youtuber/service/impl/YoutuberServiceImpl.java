@@ -8,13 +8,13 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
-import com.google.api.services.youtube.model.SearchResult;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.yuti.mainserver.domain.youtuber.dto.YoutuberDto;
 import com.yuti.mainserver.domain.youtuber.dto.YoutuberResponseDto;
 import com.yuti.mainserver.domain.youtuber.service.YoutuberService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchRequest;
@@ -27,11 +27,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.io.IOException;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -49,7 +48,8 @@ public class YoutuberServiceImpl implements YoutuberService {
     private String index;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    @Value("${youtube}")
+
+    @Value("${youtube.keys}")
     private List<String> apiKeys;
 
     private static String PROPERTIES_FILENAME = "youtube.properties";
@@ -63,23 +63,24 @@ public class YoutuberServiceImpl implements YoutuberService {
     @Autowired
     public void initKeys() {
         for(String apiKey : apiKeys) {
-            availableKeys.add(new AvailableKey(apiKey, null, true));
+            availableKeys.add(new AvailableKey(apiKey, LocalDateTime.now(), true));
         }
     }
 
+    @Getter
     static class AvailableKey {
         private String key;
-        private Date date;
+        private LocalDateTime date;
         private boolean isAvailable;
 
-        public AvailableKey(String key, Date date, boolean isAvailable) {
+        public AvailableKey(String key, LocalDateTime date, boolean isAvailable) {
             this.key = key;
             this.date = date;
             this.isAvailable = isAvailable;
         }
 
         public void prohibitKey() {
-            this.date = new Date();
+            this.date = LocalDateTime.now();
             this.isAvailable = false;
         }
     }
@@ -124,23 +125,31 @@ public class YoutuberServiceImpl implements YoutuberService {
                 .setApplicationName("youtube-channel-search")
                 .build();
 
-        YouTube.Search.List search = youtube.search().list("snippet");
-        search.setKey(apiKey)
-                
-                .setQ(keyword)
-                .setMaxResults(20L)
-                .setType("channel");
-        if(nextPageToken != null) search.setPageToken(nextPageToken);
-
         SearchListResponse response = null;
         for(AvailableKey availableKey : availableKeys) {
+            if(availableKey.getDate().getDayOfMonth() == LocalDateTime.now().getDayOfMonth() && !availableKey.isAvailable)
+                continue;
+
             try {
+                YouTube.Search.List search = youtube.search().list("snippet");
+                search.setKey(availableKey.key)
+                        .setQ(keyword)
+                        .setMaxResults(20L)
+                        .setType("channel");
+                if(nextPageToken != null) search.setPageToken(nextPageToken);
+
                 response = search.execute();
                 break;
             } catch (IOException e) {
                 availableKey.prohibitKey();
             }
         }
+
+        if(response.getItems() == null || response.getItems().size() == 0)
+            return YoutuberResponseDto.builder()
+                    .isLast(true)
+                    .youtubers(new ArrayList<>())
+                    .build();
 
         List<YoutuberDto> searchResults = response.getItems().stream()
                 .map(YoutuberDto::toResponseDto)
