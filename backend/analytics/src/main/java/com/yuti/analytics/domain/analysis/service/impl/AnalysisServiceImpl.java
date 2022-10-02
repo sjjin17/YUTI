@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -112,7 +110,8 @@ public class AnalysisServiceImpl implements AnalysisService {
                         .size(0)
                         .aggregation(AggregationBuilders.terms(aggregationName)
                                 .field("sns")
-                                .size(5)));
+                                .size(5)
+                                .order(BucketOrder.key(true))));
 
         SearchResponse response = null;
         try {
@@ -121,9 +120,9 @@ public class AnalysisServiceImpl implements AnalysisService {
             throw new RuntimeException();
         }
         Terms termBucket = response.getAggregations().get(aggregationName);
-        Map<String, Long> result = new HashMap<>();
+        List<Long> result = new ArrayList<>();
         for (Terms.Bucket bucket : termBucket.getBuckets())
-            result.put(bucket.getKeyAsString(), bucket.getDocCount());
+            result.add(bucket.getDocCount());
 
         return AnalysisShareResponseDto.builder()
                 .result(result)

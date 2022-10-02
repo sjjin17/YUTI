@@ -3,15 +3,15 @@ package com.yuti.analytics.domain.analysis.dto;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.Map;
+import java.util.List;
 
 @Getter
 public class AnalysisShareResponseDto {
 
-    private Map<String, Long> result;
+    private List<Long> result;
 
     @Builder
-    public AnalysisShareResponseDto(Map<String, Long> result) {
+    public AnalysisShareResponseDto(List<Long> result) {
         this.result = result;
     }
 }
