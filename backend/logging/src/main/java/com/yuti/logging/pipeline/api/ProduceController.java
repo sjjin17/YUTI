@@ -3,10 +3,7 @@ package com.yuti.logging.pipeline.api;
 import com.google.gson.Gson;
 import com.yuti.logging.pipeline.dto.DiffTimeRequestDto;
 import com.yuti.logging.pipeline.dto.SurveyRequestDto;
-import com.yuti.logging.pipeline.vo.DiffTimeVO;
-import com.yuti.logging.pipeline.vo.LeaveVO;
-import com.yuti.logging.pipeline.vo.MbtiResultVO;
-import com.yuti.logging.pipeline.vo.ShareResultVO;
+import com.yuti.logging.pipeline.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -95,6 +92,19 @@ public class ProduceController {
         String jsonLeaveVO = gson.toJson(leaveVO);
 
         sendDataToKafka("leave-result", jsonLeaveVO);
+    }
+
+    @PostMapping("/log/share-button")
+    public void shareButton(@RequestHeader("user-agent") String userAgent,
+                             @RequestHeader("x-forwarded-for") String userIpAddress,
+                             @RequestParam String sns) {
+        LocalDateTime now = LocalDateTime.now().plusHours(9);
+        Gson gson = new Gson();
+
+        ShareButtonVO buttonVO = new ShareButtonVO(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")), userAgent, userIpAddress, sns);
+        String jsonButtonVO = gson.toJson(buttonVO);
+
+        sendDataToKafka("share-button", jsonButtonVO);
     }
 
     private void sendDataToKafka(String topic, String data) {
