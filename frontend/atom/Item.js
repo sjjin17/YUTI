@@ -17,6 +17,6 @@ const Container = styled.div`
   }
 `;
 
-export default function Item({ text, handleChartType }) {
-  return <Container onClick={() => handleChartType(text)}>{text}</Container>;
+export default function Item({ text, onClick }) {
+  return <Container onClick={onClick}>{text.value}</Container>;
 }
