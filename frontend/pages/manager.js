@@ -21,11 +21,9 @@ export default function Manager() {
   const [chartType, setChartType] = useState({ type: '' });
   const [startDate, setStartDate] = useState('');
   const [isLogin, setIsLogin] = useState(false);
-  console.log(startDate);
   useEffect(() => {
     setStartDate(new Date());
     setIsLogin(!!localStorage.getItem('token'));
-    console.log(isLogin);
     // if (!isLogin) {
     //   Router.push({ pathname: '/login' });
     // }
