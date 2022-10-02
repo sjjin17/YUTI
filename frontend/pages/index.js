@@ -4,6 +4,7 @@ import { useRouteContext } from '../context/RouteChangeContext';
 import IndexTemplate from '../template/IndexTemplate';
 import { sendTimeLog } from '../utils/log';
 import axios from '../utils/secondAxios';
+import Head from 'next/head';
 
 export default function Home({ participantsNum }) {
   const { setSurveyNum, pageNumber } = useRouteContext();
@@ -22,19 +23,23 @@ export default function Home({ participantsNum }) {
   };
 
   return (
-    <IndexTemplate
-      participantsNum={participantsNum}
-      handleSendLog={handleSendLog}
-    ></IndexTemplate>
+    <>
+      <Head>
+        <title>YUTI</title>
+      </Head>
+      <IndexTemplate
+        participantsNum={participantsNum}
+        handleSendLog={handleSendLog}
+      ></IndexTemplate>
+    </>
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
     const res = await axios.get('/api/v1/mbti');
     return {
       props: { participantsNum: res.data.data },
-      revalidate: 30,
     };
   } catch (error) {
     if (error.response?.status === 500) {
