@@ -81,6 +81,7 @@ export default function ResultTemplate({
   handleCopyUrl,
   handleNaviMainPage,
   handleNaviOtherMbitPage,
+  sendShareLog,
 }) {
   const mbtiImagePath = `/images/${mbti}.png`;
   const mbtiHeading = `${mbti}의 유튜버 스타일`;
@@ -123,17 +124,43 @@ export default function ResultTemplate({
       </OtherMbtiContainer>
       <Heading text="결과 공유하기" fontSize="15px" textAlign="center" />
       <ShareContainer>
-        <KakaoShare />
+        <KakaoShare sendShareLog={sendShareLog} />
         <FacebookShareButton url={url}>
-          <FacebookIcon size={45} round={true} borderRadius={24} />
+          <FacebookIcon
+            size={45}
+            round={true}
+            borderRadius={24}
+            onClick={() => {
+              sendShareLog('facebook');
+            }}
+          />
         </FacebookShareButton>
         <TwitterShareButton url={url}>
-          <TwitterIcon size={45} round={true} borderRadius={24} />
+          <TwitterIcon
+            size={45}
+            round={true}
+            borderRadius={24}
+            onClick={() => {
+              sendShareLog('twitter');
+            }}
+          />
         </TwitterShareButton>
         <LineShareButton url={url}>
-          <LineIcon size={45} round={true} borderRadius={24} />
+          <LineIcon
+            size={45}
+            round={true}
+            borderRadius={24}
+            onClick={() => {
+              sendShareLog('line');
+            }}
+          />
         </LineShareButton>
-        <UrlShare onClick={handleCopyUrl} />
+        <UrlShare
+          onClick={() => {
+            handleCopyUrl();
+            sendShareLog('etc');
+          }}
+        />
       </ShareContainer>
       <ButtonContainer>
         <Button text="테스트 다시하기" onClick={handleNaviMainPage} />
