@@ -9,6 +9,7 @@ const Container = styled.div`
   height: 500px;
   border-radius: 10px;
   box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,6 +40,7 @@ const ButtonContainer = styled.div`
 export default function LoginTemplate({
   handleChangeId,
   handleChangePassword,
+  handleLoginSubmit,
 }) {
   return (
     <Container>
@@ -54,16 +56,13 @@ export default function LoginTemplate({
             fontSize="40px"
           />
         </TextContainer>
-        {/* <TextContainer>
-          <Heading text="로그인" textAlign="center" fontSize="20px" />
-        </TextContainer> */}
         <InputContainer>
           <Input text="아이디" onChange={handleChangeId}></Input>
         </InputContainer>
         <InputContainer>
           <Input text="비밀번호" onChange={handleChangePassword}></Input>
         </InputContainer>
-        <ButtonContainer>
+        <ButtonContainer onClick={handleLoginSubmit}>
           <StaticButton text="로그인" width="200px" height="40px" />
         </ButtonContainer>
       </LoginContainer>
