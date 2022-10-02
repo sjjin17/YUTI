@@ -5,11 +5,7 @@ import axios from '../utils/secondAxios';
 
 const INDEX_URL = 'https://j7a502.p.ssafy.io/';
 
-<<<<<<< HEAD
-const MBTI_RESULT = {
-=======
 export const MBTI_RESULT = {
->>>>>>> dev
   ENFP: {
     desc: (
       <>
@@ -25,10 +21,7 @@ export const MBTI_RESULT = {
       대리만족: 2,
       인싸력: 5,
     },
-<<<<<<< HEAD
-=======
     otherMbti: ['ENTP', 'ISTJ'],
->>>>>>> dev
   },
   INFP: {
     desc: (
@@ -43,10 +36,7 @@ export const MBTI_RESULT = {
       대리만족: 4,
       공감력: 5,
     },
-<<<<<<< HEAD
-=======
     otherMbti: ['ENFP', 'ESTJ'],
->>>>>>> dev
   },
   ENFJ: {
     desc: (
@@ -61,10 +51,7 @@ export const MBTI_RESULT = {
       대리만족: 5,
       사명감: 5,
     },
-<<<<<<< HEAD
-=======
     otherMbti: ['INFJ', 'ISTJ'],
->>>>>>> dev
   },
   INFJ: {
     desc: (
@@ -79,10 +66,7 @@ export const MBTI_RESULT = {
       대리만족: 4,
       감성: 5,
     },
-<<<<<<< HEAD
-=======
     otherMbti: ['ISFJ', 'ESTP'],
->>>>>>> dev
   },
   ENTJ: {
     desc: (
@@ -97,10 +81,7 @@ export const MBTI_RESULT = {
       대리만족: 3,
       열정: 5,
     },
-<<<<<<< HEAD
-=======
     otherMbti: ['ENTP', 'ISFP'],
->>>>>>> dev
   },
   INTJ: {
     desc: (
@@ -115,10 +96,7 @@ export const MBTI_RESULT = {
       대리만족: 2,
       호기심: 5,
     },
-<<<<<<< HEAD
-=======
     otherMbti: ['INTP', 'ESFP'],
->>>>>>> dev
   },
   ENTP: {
     desc: (
