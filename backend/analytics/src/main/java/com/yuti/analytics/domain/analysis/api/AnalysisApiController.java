@@ -38,4 +38,10 @@ public class AnalysisApiController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(analysisService.analyzeMbtiCategory()));
     }
+
+    @GetMapping("/analytics/v1/analysis/time")
+    public ResponseEntity<? extends BasicResponse> analyzeSurveyTime() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(analysisService.analyzeSurveyTime()));
+    }
 }

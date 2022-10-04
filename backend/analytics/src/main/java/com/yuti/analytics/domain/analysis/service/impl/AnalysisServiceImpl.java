@@ -2,10 +2,7 @@ package com.yuti.analytics.domain.analysis.service.impl;
 
 import com.yuti.analytics.domain.analysis.domain.MBTI;
 import com.yuti.analytics.domain.analysis.domain.TOPIC;
-import com.yuti.analytics.domain.analysis.dto.AnalysisKakaoShareResponseDto;
-import com.yuti.analytics.domain.analysis.dto.AnalysisMbtiCategoryResponseDto;
-import com.yuti.analytics.domain.analysis.dto.AnalysisServicePlanResponseDto;
-import com.yuti.analytics.domain.analysis.dto.AnalysisShareResponseDto;
+import com.yuti.analytics.domain.analysis.dto.*;
 import com.yuti.analytics.domain.analysis.service.AnalysisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +15,14 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -142,8 +143,42 @@ public class AnalysisServiceImpl implements AnalysisService {
     }
 
     @Override
-    public void analyzeSurveyTime() {
+    public AnalysisSurveyTimeResponseDto analyzeSurveyTime() {
+        SearchRequest request = new SearchRequest(surveyIndex);
+        request.source(new SearchSourceBuilder()
+                .size(2147483647)
+                .sort(Arrays.asList(
+                        SortBuilders.fieldSort("userIpAddress.keyword").order(SortOrder.DESC),
+                        SortBuilders.fieldSort("timestamp").order(SortOrder.DESC))));
 
+        SearchResponse response = null;
+        try {
+            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long[] totalDiffTime = new long[14];
+        long[] totalCount = new long[14];
+
+        SurveyDto prev = null;
+        for (SearchHit hit : response.getHits().getHits()) {
+            SurveyDto curr = SurveyDto.toSurveyDto(hit);
+            if(prev != null && Math.abs(prev.getPageNo()-curr.getPageNo()) == 1) {
+                Duration duration = Duration.between(curr.getTimestamp(), prev.getTimestamp());
+                totalDiffTime[curr.getPageNo()] += Math.abs(duration.getSeconds());
+                totalCount[curr.getPageNo()]++;
+            }
+            prev = curr;
+        }
+
+        List<Double> result = new ArrayList<>();
+        for(int i = 0; i < totalDiffTime.length - 1; i++) {
+            result.add((double) totalDiffTime[i] / totalCount[i]);
+        }
+
+        return AnalysisSurveyTimeResponseDto.builder()
+                .result(result).build();
     }
 
     @Override
