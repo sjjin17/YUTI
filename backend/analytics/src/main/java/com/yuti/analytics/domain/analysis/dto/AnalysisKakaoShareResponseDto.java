@@ -8,10 +8,10 @@ import java.util.List;
 @Getter
 public class AnalysisKakaoShareResponseDto {
 
-    private List<Long> shareResult;
+    private List<Long> result;
 
     @Builder
-    public AnalysisKakaoShareResponseDto(List<Long> shareResult) {
-        this.shareResult = shareResult;
+    public AnalysisKakaoShareResponseDto(List<Long> result) {
+        this.result = result;
     }
 }

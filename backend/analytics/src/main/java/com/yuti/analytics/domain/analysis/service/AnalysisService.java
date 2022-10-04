@@ -1,6 +1,7 @@
 package com.yuti.analytics.domain.analysis.service;
 
 import com.yuti.analytics.domain.analysis.dto.AnalysisKakaoShareResponseDto;
+import com.yuti.analytics.domain.analysis.dto.AnalysisMbtiCategoryResponseDto;
 import com.yuti.analytics.domain.analysis.dto.AnalysisServicePlanResponseDto;
 import com.yuti.analytics.domain.analysis.dto.AnalysisShareResponseDto;
 
@@ -11,4 +12,6 @@ public interface AnalysisService {
     AnalysisKakaoShareResponseDto analyzeKakaoShareButton();
     List<AnalysisServicePlanResponseDto> analyzeServicePlan();
     AnalysisShareResponseDto analyzeShareButton();
+    void analyzeSurveyTime();
+    AnalysisMbtiCategoryResponseDto analyzeMbtiCategory();
 }

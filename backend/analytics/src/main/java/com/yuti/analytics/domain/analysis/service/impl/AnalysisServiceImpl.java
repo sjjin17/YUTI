@@ -1,6 +1,9 @@
 package com.yuti.analytics.domain.analysis.service.impl;
 
+import com.yuti.analytics.domain.analysis.domain.MBTI;
+import com.yuti.analytics.domain.analysis.domain.TOPIC;
 import com.yuti.analytics.domain.analysis.dto.AnalysisKakaoShareResponseDto;
+import com.yuti.analytics.domain.analysis.dto.AnalysisMbtiCategoryResponseDto;
 import com.yuti.analytics.domain.analysis.dto.AnalysisServicePlanResponseDto;
 import com.yuti.analytics.domain.analysis.dto.AnalysisShareResponseDto;
 import com.yuti.analytics.domain.analysis.service.AnalysisService;
@@ -10,6 +13,7 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
@@ -18,8 +22,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,6 +42,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     @Value("${es.share-index}")
     private String shareIndex;
+
+    @Value("${es.mbti-index}")
+    private String mbtiIndex;
+
+    @Value("${es.youtuber-index}")
+    private String youtuberIndex;
 
     @Override
     public AnalysisKakaoShareResponseDto analyzeKakaoShareButton() {
@@ -55,12 +67,12 @@ public class AnalysisServiceImpl implements AnalysisService {
             throw new RuntimeException();
         }
         Terms termBucket = response.getAggregations().get(aggregationName);
-        List<Long> shareResult = new ArrayList<>();
+        List<Long> result = new ArrayList<>();
         for (Terms.Bucket bucket : termBucket.getBuckets())
-            shareResult.add(bucket.getDocCount());
+            result.add(bucket.getDocCount());
 
         return AnalysisKakaoShareResponseDto.builder()
-                .shareResult(shareResult)
+                .result(result)
                 .build();
     }
 
@@ -127,5 +139,94 @@ public class AnalysisServiceImpl implements AnalysisService {
         return AnalysisShareResponseDto.builder()
                 .result(result)
                 .build();
+    }
+
+    @Override
+    public void analyzeSurveyTime() {
+
+    }
+
+    @Override
+    public AnalysisMbtiCategoryResponseDto analyzeMbtiCategory() {
+        String aggregationName = "mbti-youtuber";
+        Map<String, List<Double>> result = new HashMap<>();
+        for (MBTI mbti : MBTI.values()) {
+            double[] category = new double[6];
+            Arrays.fill(category, 0f);
+
+            SearchRequest aggRequest = new SearchRequest(mbtiIndex);
+            aggRequest.source(new SearchSourceBuilder()
+                    .query(termQuery("mbti", mbti))
+                    .aggregation(AggregationBuilders.terms(aggregationName)
+                            .field("youtuber.keyword")
+                            .size(2147483647)));
+
+            SearchResponse aggResponse = null;
+            try {
+                aggResponse = restHighLevelClient.search(aggRequest, RequestOptions.DEFAULT);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Terms terms = aggResponse.getAggregations().get(aggregationName);
+            Map<String, Long> youtubers = new HashMap<>();
+            for (Terms.Bucket bucket : terms.getBuckets()) {
+                youtubers.put(bucket.getKeyAsString(), bucket.getDocCount());
+            }
+
+            // 2번째 요청
+            SearchRequest topicRequest = new SearchRequest(youtuberIndex);
+            topicRequest.source(new SearchSourceBuilder()
+                    .query(termsQuery("channel_id", youtubers.keySet())));
+
+            SearchResponse topicResponse = null;
+            try {
+                topicResponse = restHighLevelClient.search(topicRequest, RequestOptions.DEFAULT);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            for (SearchHit hit : topicResponse.getHits().getHits()) {
+                boolean[] isContains = new boolean[6];
+                Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+                for (Object topic : (List<Object>) sourceAsMap.get("topic")) {
+                    Map<String, String> topicAsMap = (Map<String, String>) topic;
+                    int categoryIndex = TOPIC.findCategory(topicAsMap.get("topic_id")) - 1;
+                    if(!isContains[categoryIndex])
+                        isContains[categoryIndex] = true;
+                }
+                for(int i = 0; i < isContains.length; i++) {
+                    if(isContains[i])
+                        category[i] += youtubers.get(sourceAsMap.get("channel_id").toString());
+                }
+            }
+
+            // 3번째 요청
+            SearchRequest notExistsRequest = new SearchRequest(mbtiIndex);
+            notExistsRequest.source(new SearchSourceBuilder()
+                    .query(boolQuery()
+                            .must(termQuery("mbti", mbti))
+                            .mustNot(existsQuery("youtuber"))));
+
+            SearchResponse notExistsResponse = null;
+            try {
+                notExistsResponse = restHighLevelClient.search(notExistsRequest, RequestOptions.DEFAULT);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            double requestPerson = aggResponse.getHits().getTotalHits().value - notExistsResponse.getHits().getTotalHits().value;
+
+            for (int i = 0; i < category.length; i++) {
+                category[i] = category[i] * (requestPerson / aggResponse.getHits().getTotalHits().value) * 100;
+            }
+            result.put(mbti.toString(), Arrays.stream(category).boxed().collect(Collectors.toList()));
+        }
+        return AnalysisMbtiCategoryResponseDto.builder()
+                .result(result)
+                .build();
+    }
+
+    private SearchResponse requestQuery(SearchSourceBuilder searchSourceBuilder) {
+        return null;
     }
 }
