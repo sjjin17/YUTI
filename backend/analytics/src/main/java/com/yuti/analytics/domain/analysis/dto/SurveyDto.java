@@ -4,10 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import org.elasticsearch.search.SearchHit;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 @Getter
 public class SurveyDto {
