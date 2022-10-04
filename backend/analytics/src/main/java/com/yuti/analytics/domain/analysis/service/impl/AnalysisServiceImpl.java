@@ -54,19 +54,13 @@ public class AnalysisServiceImpl implements AnalysisService {
     public AnalysisKakaoShareResponseDto analyzeKakaoShareButton() {
         String aggregationName = "share-count";
 
-        SearchRequest request = new SearchRequest(kakaoIndex)
-                .source(new SearchSourceBuilder()
+        SearchResponse response = requestQuery(kakaoIndex,
+                new SearchSourceBuilder()
                         .size(0)
                         .aggregation(AggregationBuilders.terms(aggregationName)
-                                .field("shareResult")
-                                .size(2)));
+                        .field("shareResult")
+                        .size(2)));
 
-        SearchResponse response = null;
-        try {
-            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
         Terms termBucket = response.getAggregations().get(aggregationName);
         List<Long> result = new ArrayList<>();
         for (Terms.Bucket bucket : termBucket.getBuckets())
@@ -82,8 +76,8 @@ public class AnalysisServiceImpl implements AnalysisService {
         String aggregationName = "A-B-test";
         String subAggregationName = "service-plan";
 
-        SearchRequest request = new SearchRequest(surveyIndex)
-                .source(new SearchSourceBuilder()
+        SearchResponse response = requestQuery(surveyIndex,
+                new SearchSourceBuilder()
                         .size(0)
                         .aggregation(AggregationBuilders.terms(aggregationName)
                                 .field("color.keyword")
@@ -93,12 +87,6 @@ public class AnalysisServiceImpl implements AnalysisService {
                                         .size(14)
                                         .order(BucketOrder.key(true)))));
 
-        SearchResponse response = null;
-        try {
-            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
         Terms termBucket = response.getAggregations().get(aggregationName);
 
         List<AnalysisServicePlanResponseDto> responseDto = new ArrayList<>();
@@ -118,20 +106,14 @@ public class AnalysisServiceImpl implements AnalysisService {
     public AnalysisShareResponseDto analyzeShareButton() {
         String aggregationName = "share-count";
 
-        SearchRequest request = new SearchRequest(shareIndex)
-                .source(new SearchSourceBuilder()
+        SearchResponse response = requestQuery(shareIndex,
+                new SearchSourceBuilder()
                         .size(0)
                         .aggregation(AggregationBuilders.terms(aggregationName)
                                 .field("sns")
                                 .size(5)
                                 .order(BucketOrder.key(true))));
 
-        SearchResponse response = null;
-        try {
-            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
         Terms termBucket = response.getAggregations().get(aggregationName);
         List<Long> result = new ArrayList<>();
         for (Terms.Bucket bucket : termBucket.getBuckets())
@@ -144,19 +126,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     @Override
     public AnalysisSurveyTimeResponseDto analyzeSurveyTime() {
-        SearchRequest request = new SearchRequest(surveyIndex);
-        request.source(new SearchSourceBuilder()
-                .size(2147483647)
-                .sort(Arrays.asList(
-                        SortBuilders.fieldSort("userIpAddress.keyword").order(SortOrder.DESC),
-                        SortBuilders.fieldSort("timestamp").order(SortOrder.DESC))));
-
-        SearchResponse response = null;
-        try {
-            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SearchResponse response = requestQuery(surveyIndex,
+                new SearchSourceBuilder()
+                        .size(2147483647)
+                        .sort(Arrays.asList(
+                                SortBuilders.fieldSort("userIpAddress.keyword").order(SortOrder.DESC),
+                                SortBuilders.fieldSort("timestamp").order(SortOrder.DESC))));
 
         long[] totalDiffTime = new long[14];
         long[] totalCount = new long[14];
@@ -188,20 +163,14 @@ public class AnalysisServiceImpl implements AnalysisService {
         for (MBTI mbti : MBTI.values()) {
             double[] category = new double[6];
             Arrays.fill(category, 0f);
+            double sum = 0;
 
-            SearchRequest aggRequest = new SearchRequest(mbtiIndex);
-            aggRequest.source(new SearchSourceBuilder()
-                    .query(termQuery("mbti", mbti))
-                    .aggregation(AggregationBuilders.terms(aggregationName)
-                            .field("youtuber.keyword")
-                            .size(2147483647)));
-
-            SearchResponse aggResponse = null;
-            try {
-                aggResponse = restHighLevelClient.search(aggRequest, RequestOptions.DEFAULT);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            SearchResponse aggResponse = requestQuery(mbtiIndex,
+                    new SearchSourceBuilder()
+                            .query(termQuery("mbti", mbti))
+                            .aggregation(AggregationBuilders.terms(aggregationName)
+                                    .field("youtuber.keyword")
+                                    .size(2147483647)));
 
             Terms terms = aggResponse.getAggregations().get(aggregationName);
             Map<String, Long> youtubers = new HashMap<>();
@@ -210,16 +179,9 @@ public class AnalysisServiceImpl implements AnalysisService {
             }
 
             // 2번째 요청
-            SearchRequest topicRequest = new SearchRequest(youtuberIndex);
-            topicRequest.source(new SearchSourceBuilder()
-                    .query(termsQuery("channel_id", youtubers.keySet())));
-
-            SearchResponse topicResponse = null;
-            try {
-                topicResponse = restHighLevelClient.search(topicRequest, RequestOptions.DEFAULT);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            SearchResponse topicResponse = requestQuery(youtuberIndex,
+                    new SearchSourceBuilder()
+                            .query(termsQuery("channel_id", youtubers.keySet())));
 
             for (SearchHit hit : topicResponse.getHits().getHits()) {
                 boolean[] isContains = new boolean[6];
@@ -231,28 +193,25 @@ public class AnalysisServiceImpl implements AnalysisService {
                         isContains[categoryIndex] = true;
                 }
                 for(int i = 0; i < isContains.length; i++) {
-                    if(isContains[i])
+                    if(isContains[i]) {
                         category[i] += youtubers.get(sourceAsMap.get("channel_id").toString());
+                        sum += youtubers.get(sourceAsMap.get("channel_id").toString());
+                    }
                 }
             }
 
             // 3번째 요청
-            SearchRequest notExistsRequest = new SearchRequest(mbtiIndex);
-            notExistsRequest.source(new SearchSourceBuilder()
-                    .query(boolQuery()
-                            .must(termQuery("mbti", mbti))
-                            .mustNot(existsQuery("youtuber"))));
+            SearchResponse notExistsResponse = requestQuery(mbtiIndex,
+                    new SearchSourceBuilder()
+                            .query(boolQuery()
+                                    .must(termQuery("mbti", mbti))
+                                    .mustNot(existsQuery("youtuber"))));
 
-            SearchResponse notExistsResponse = null;
-            try {
-                notExistsResponse = restHighLevelClient.search(notExistsRequest, RequestOptions.DEFAULT);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             double requestPerson = aggResponse.getHits().getTotalHits().value - notExistsResponse.getHits().getTotalHits().value;
 
+//            (requestPerson / aggResponse.getHits().getTotalHits().value)
             for (int i = 0; i < category.length; i++) {
-                category[i] = category[i] * (requestPerson / aggResponse.getHits().getTotalHits().value) * 100;
+                category[i] = category[i] * 100 / sum;
             }
             result.put(mbti.toString(), Arrays.stream(category).boxed().collect(Collectors.toList()));
         }
@@ -261,7 +220,11 @@ public class AnalysisServiceImpl implements AnalysisService {
                 .build();
     }
 
-    private SearchResponse requestQuery(SearchSourceBuilder searchSourceBuilder) {
-        return null;
+    private SearchResponse requestQuery(String index, SearchSourceBuilder searchSourceBuilder) {
+        try {
+            return restHighLevelClient.search(new SearchRequest(index).source(searchSourceBuilder), RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 }
