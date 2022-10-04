@@ -29,6 +29,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// elasticsearch
+	implementation 'org.springframework.data:spring-data-elasticsearch:4.2.2'
 }
 
 tasks.named('test') {

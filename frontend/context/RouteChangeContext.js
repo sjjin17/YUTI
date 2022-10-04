@@ -62,6 +62,7 @@ export const RouteChangeProvider = ({ children }) => {
   );
 
   useEffect(() => {
+    if (pathname === '/manager' || pathname === '/login') return;
     window.addEventListener('beforeunload', handleRouteChange);
     events.on('routeChangeStart', handleRouteChangeStart);
 
@@ -69,7 +70,7 @@ export const RouteChangeProvider = ({ children }) => {
       window.removeEventListener('beforeunload', handleRouteChange);
       events.off('routeChangeStart', handleRouteChangeStart);
     };
-  }, [events, handleRouteChange, handleRouteChangeStart]);
+  }, [events, handleRouteChange, handleRouteChangeStart, pathname]);
 
   return (
     <RouteContext.Provider value={{ surveyNum, setSurveyNum, pageNumber }}>
