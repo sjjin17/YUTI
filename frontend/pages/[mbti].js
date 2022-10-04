@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import ResultTemplate from '../template/ResultTemplate';
-import axios from '../utils/secondAxios';
+import secondAxios from '../utils/secondAxios';
+import axios from '../utils/axios';
 
 const INDEX_URL = 'https://j7a502.p.ssafy.io/';
 
@@ -250,20 +251,21 @@ export const MBTI_RESULT = {
   },
 };
 
-export default function Result({ likeYoutubers }) {
+export default function Result({ apiLikeYoutubers }) {
   const router = useRouter();
   const { mbti } = router.query;
   const resultUrl = INDEX_URL + mbti;
   const [mbtiResult, setMbtiResult] = useState({
     desc: '',
     gageInfos: {},
-    likeYoutubers: likeYoutubers,
+    likeYoutubers: apiLikeYoutubers,
     otherMbti: [],
   });
 
   useEffect(() => {
     setMbtiResult({
       ...mbtiResult,
+      likeYoutubers: apiLikeYoutubers,
       desc: MBTI_RESULT[mbti].desc,
       gageInfos: MBTI_RESULT[mbti].gageInfos,
       otherMbti: MBTI_RESULT[mbti].otherMbti,
@@ -295,11 +297,20 @@ export default function Result({ likeYoutubers }) {
   };
 
   const handleNaviMainPage = () => {
-    router.replace('/');
+    router.push('/');
   };
 
   const handleNaviOtherMbitPage = mbti => {
-    router.replace(`/${mbti}`);
+    router.push(`/${mbti}`);
+  };
+
+  const sendShareLog = async sns => {
+    const params = { sns: sns };
+    await axios.post(
+      '/log/share-button',
+      {},
+      { params, headers: { 'x-forwarded-for': '132.12.12.120' } },
+    );
   };
 
   return (
@@ -311,6 +322,7 @@ export default function Result({ likeYoutubers }) {
         handleCopyUrl={handleCopyUrl}
         handleNaviMainPage={handleNaviMainPage}
         handleNaviOtherMbitPage={handleNaviOtherMbitPage}
+        sendShareLog={sendShareLog}
       />
     </>
   );
@@ -318,9 +330,9 @@ export default function Result({ likeYoutubers }) {
 
 export async function getServerSideProps({ params }) {
   try {
-    const response = await axios.get(`/api/v1/mbti/${params.mbti}`);
-    const likeYoutubers = await response.data.data;
-    return { props: { likeYoutubers } };
+    const response = await secondAxios.get(`/api/v1/mbti/${params.mbti}`);
+    const apiLikeYoutubers = await response.data.data;
+    return { props: { apiLikeYoutubers } };
   } catch (error) {
     if (error.response?.status === 500) {
       return {

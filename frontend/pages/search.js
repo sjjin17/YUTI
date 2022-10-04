@@ -84,7 +84,7 @@ export default function Search() {
     });
     if (index < 0) {
       setSelectedList(prev => {
-        return [...prev, youtuber];
+        return [youtuber, ...prev];
       });
     }
   }
