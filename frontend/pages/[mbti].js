@@ -251,20 +251,21 @@ export const MBTI_RESULT = {
   },
 };
 
-export default function Result({ likeYoutubers }) {
+export default function Result({ apiLikeYoutubers }) {
   const router = useRouter();
   const { mbti } = router.query;
   const resultUrl = INDEX_URL + mbti;
   const [mbtiResult, setMbtiResult] = useState({
     desc: '',
     gageInfos: {},
-    likeYoutubers: likeYoutubers,
+    likeYoutubers: apiLikeYoutubers,
     otherMbti: [],
   });
 
   useEffect(() => {
     setMbtiResult({
       ...mbtiResult,
+      likeYoutubers: apiLikeYoutubers,
       desc: MBTI_RESULT[mbti].desc,
       gageInfos: MBTI_RESULT[mbti].gageInfos,
       otherMbti: MBTI_RESULT[mbti].otherMbti,
@@ -296,11 +297,11 @@ export default function Result({ likeYoutubers }) {
   };
 
   const handleNaviMainPage = () => {
-    router.replace('/');
+    router.push('/');
   };
 
   const handleNaviOtherMbitPage = mbti => {
-    router.replace(`/${mbti}`);
+    router.push(`/${mbti}`);
   };
 
   const sendShareLog = async sns => {
@@ -330,8 +331,8 @@ export default function Result({ likeYoutubers }) {
 export async function getServerSideProps({ params }) {
   try {
     const response = await secondAxios.get(`/api/v1/mbti/${params.mbti}`);
-    const likeYoutubers = await response.data.data;
-    return { props: { likeYoutubers } };
+    const apiLikeYoutubers = await response.data.data;
+    return { props: { apiLikeYoutubers } };
   } catch (error) {
     if (error.response?.status === 500) {
       return {
