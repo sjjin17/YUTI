@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const HOST = process.env.NEXT_PUBLIC_ENV_HOST;
-const PORT = process.env.NEXT_PUBLIC_THIRD_ENV_PORT;
+const PORT = process.env.NEXT_PUBLIC_MANAGER_ENV_PORT;
 const BASE_URL = `${HOST}:${PORT}`;
 
 const axiosApiInstance = axios.create({
