@@ -6,12 +6,12 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class AnalysisKakaoShareResponseDto {
+public class AnalysisSurveyTimeResponseDto {
 
-    private List<Long> result;
+    private List<Double> result;
 
     @Builder
-    public AnalysisKakaoShareResponseDto(List<Long> result) {
+    public AnalysisSurveyTimeResponseDto(List<Double> result) {
         this.result = result;
     }
 }
