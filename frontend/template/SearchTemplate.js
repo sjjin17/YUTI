@@ -129,8 +129,8 @@ export default function SearchTemplate({
           <Button
             text="선택완료"
             onClick={() => {
-              sendSelectedList();
               handleSendLog();
+              sendSelectedList();
             }}
           ></Button>
         </ButtonContainer>
@@ -140,8 +140,8 @@ export default function SearchTemplate({
             <Button
               text={hoverState ? '도와주세요' : '건너뛰기'}
               onClick={() => {
-                sendSelectedList();
                 handleSendLog();
+                sendSelectedList();
               }}
             ></Button>
           </ButtonContainer>

@@ -7,15 +7,12 @@ const KakaoBtn = styled.img`
   cursor: pointer;
 `;
 
-export default function KakaoShare({ sendShareLog }) {
+export default function KakaoShare() {
   return (
     <KakaoBtn
       id="kakaotalk-sharing-btn"
       src="images/kakaoLogo.png"
       alt="kakaoLogo"
-      onClick={() => {
-        sendShareLog('kakao');
-      }}
     />
   );
 }
