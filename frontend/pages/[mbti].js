@@ -289,6 +289,7 @@ export default function Result({ apiLikeYoutubers }) {
           likeYoutubers_third: `${mbtiResult.likeYoutubers[2].channelName}`,
         },
       });
+      sendShareLog('kakao');
     }
   }, []);
 
@@ -306,11 +307,7 @@ export default function Result({ apiLikeYoutubers }) {
 
   const sendShareLog = async sns => {
     const params = { sns: sns };
-    await axios.post(
-      '/log/share-button',
-      {},
-      { params, headers: { 'x-forwarded-for': '132.12.12.120' } },
-    );
+    await axios.post('/log/share-button', {}, { params });
   };
 
   return (
