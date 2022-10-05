@@ -8,7 +8,7 @@ const Container = styled.div`
   justify-content: center;
   border-radius: 10px;
   height: 50px;
-  width: 150px;
+  width: 200px;
   &:hover {
     background: ${({ theme }) => theme.colors.main};
     border: 0 solid;

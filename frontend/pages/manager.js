@@ -5,8 +5,8 @@ import Router from 'next/router';
 import managerAxios from '../utils/managerAxios';
 
 const Container = styled.div`
-  width: 98vw;
-  height: 98vh;
+  width: 100vw;
+  height: 100vh;
 `;
 
 const chartInfoList = [
@@ -20,107 +20,49 @@ const chartInfoList = [
 const chartOptions = {
   plan: {
     options: {
-      responsive: true,
       plugins: {
-        title: {
-          display: true,
-          text: '서비스 여정도',
-        },
         legend: {
-          position: 'bottom',
+          position: 'top',
         },
       },
     },
   },
   share: {
     options: {
-      responsive: true,
       plugins: {
         legend: {
-          position: 'top',
-        },
-        title: {
-          display: true,
-          text: '카카오 유입 경로',
+          display: false,
         },
       },
     },
   },
   // 백엔드에서 url 뭐로줄지 정해지지 않았음 (문항별 소요 시간)
   time: {
-    labels: [
-      'Q1',
-      'Q2',
-      'Q3',
-      'Q4',
-      'Q5',
-      'Q6',
-      'Q7',
-      'Q8',
-      'Q9',
-      'Q10',
-      'Q11',
-      'Q12',
-    ],
     options: {
-      responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
-          position: 'top',
-        },
-        title: {
-          display: true,
-          text: '공유 횟수',
+          display: false,
         },
       },
     },
   },
   kakao: {
-    labels: ['etc', 'facebook', 'kakao', 'line', 'twitter'],
     options: {
-      responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           position: 'top',
         },
-        title: {
-          display: true,
-          text: '공유 횟수',
-        },
       },
     },
   },
-  // 백엔드에서 url 뭐로줄지 정해지지 않았음 (MBTI 선호도)
   category: {
     options: {
-      labels: [
-        'ISTJ',
-        'INTP',
-        'ESTJ',
-        'ISTP',
-        'ENTP',
-        'ESTP',
-        'INFJ',
-        'ISFJ',
-        'ENFJ',
-        'INFP',
-        'ESFJ',
-        'ENFP',
-        'ISFP',
-        'ESFP',
-        'INTJ',
-        'ENTJ',
-      ],
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: '공유 횟수',
-          },
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
         },
       },
     },
@@ -132,6 +74,8 @@ export default function Manager() {
   const [startDate, setStartDate] = useState('');
   const [chartData, setChartData] = useState(undefined);
   const isLogin = !!localStorage.getItem('token');
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setStartDate(new Date());
     return () => {
@@ -200,11 +144,11 @@ export default function Manager() {
               label: '',
               data: data.result,
               backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
+                'rgba(118, 118, 118, 0.8)',
+                'rgba(58, 121, 160, 0.8)',
+                'rgba(237, 181, 64, 0.8)',
+                'rgba(52, 147, 102, 0.8)',
+                'rgba(81, 175, 174, 0.8)',
               ],
             },
           ],
@@ -231,33 +175,8 @@ export default function Manager() {
             {
               label: '',
               data: data.result,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 99, 132, 1)',
-              ],
+              backgroundColor: ['rgba(58, 121, 160, 0.8)'],
+              borderColor: ['rgba(58, 121, 160, 1)'],
               borderWidth: 1,
             },
           ],
@@ -271,10 +190,10 @@ export default function Manager() {
               label: '',
               data: data.result,
               backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
+                'rgba(58, 121, 160, 0.8)',
+                'rgba(237, 161, 64, 0.8)',
               ],
-              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+              borderColor: ['rgba(58, 121, 160, 1)', 'rgba(237, 161, 64, 1)'],
               borderWidth: 1,
             },
           ],
@@ -404,6 +323,7 @@ export default function Manager() {
 
   const getChartData = async value => {
     try {
+      setLoading(true);
       const { data } = await managerAxios.get(
         `/analytics/v1/analysis/${value}`,
         {
@@ -412,9 +332,11 @@ export default function Manager() {
           },
         },
       );
-      console.log(data.data);
       handleSetChartData(data.data, value);
-    } catch {}
+      setLoading(false);
+    } catch {
+      setLoading(false);
+    }
   };
 
   return (
@@ -432,6 +354,7 @@ export default function Manager() {
             chartData={chartData}
             chartOptions={chartOptions}
             setChartData={setChartData}
+            loading={loading}
           />
         </Container>
       )}
