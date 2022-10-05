@@ -32,4 +32,16 @@ public class AnalysisApiController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new CommonResponse<>(analysisService.analyzeShareButton()));
     }
+
+    @GetMapping("/analytics/v1/analysis/category")
+    public ResponseEntity<? extends BasicResponse> analyzeMbtiCategory() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(analysisService.analyzeMbtiCategory()));
+    }
+
+    @GetMapping("/analytics/v1/analysis/time")
+    public ResponseEntity<? extends BasicResponse> analyzeSurveyTime() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new CommonResponse<>(analysisService.analyzeSurveyTime()));
+    }
 }
