@@ -126,7 +126,7 @@ export default function ResultTemplate({
       </OtherMbtiContainer>
       <Heading text="결과 공유하기" fontSize="15px" textAlign="center" />
       <ShareContainer>
-        <KakaoShare sendShareLog={sendShareLog} />
+        <KakaoShare />
         <FacebookShareButton url={url}>
           <FacebookIcon
             size={45}
