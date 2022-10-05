@@ -130,24 +130,28 @@ public class AnalysisServiceImpl implements AnalysisService {
                         .size(2147483647)
                         .sort(Arrays.asList(
                                 SortBuilders.fieldSort("userIpAddress.keyword").order(SortOrder.DESC),
-                                SortBuilders.fieldSort("timestamp").order(SortOrder.DESC))));
+                                SortBuilders.fieldSort("timestamp").order(SortOrder.DESC)))
+                        .query(boolQuery().mustNot(termQuery("pageNo", 14))));
 
-        long[] totalDiffTime = new long[14];
-        long[] totalCount = new long[14];
+        long[] totalDiffTime = new long[12];
+        long[] totalCount = new long[12];
 
         SurveyDto prev = null;
         for (SearchHit hit : response.getHits().getHits()) {
             SurveyDto curr = SurveyDto.toSurveyDto(hit);
-            if(prev != null && Math.abs(prev.getPageNo()-curr.getPageNo()) == 1) {
+            if(prev != null && curr.getUserIpAddress().equals(prev.getUserIpAddress()) && Math.abs(prev.getPageNo()-curr.getPageNo()) == 1) {
                 Duration duration = Duration.between(curr.getTimestamp(), prev.getTimestamp());
-                totalDiffTime[curr.getPageNo()] += Math.abs(duration.getSeconds());
-                totalCount[curr.getPageNo()]++;
+                if (duration.getSeconds() < 600) {
+                    int minIndex = Math.min(curr.getPageNo(), prev.getPageNo());
+                    totalDiffTime[minIndex] += Math.abs(duration.getSeconds());
+                    totalCount[minIndex]++;
+                }
             }
             prev = curr;
         }
 
         List<Double> result = new ArrayList<>();
-        for(int i = 0; i < totalDiffTime.length - 1; i++) {
+        for(int i = 0; i < totalDiffTime.length; i++) {
             result.add((double) totalDiffTime[i] / totalCount[i]);
         }
 
