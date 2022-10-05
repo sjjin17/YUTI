@@ -93,7 +93,7 @@ export default function AutoSearch({
               </FailedMessage>
               <FailedMessage>다른 검색어를 사용해 보세요</FailedMessage>
               <FailedMessage>
-                유튜버 이름의 언어를 확인해주세요. {`(싸피(X) SSAFY(O))`}
+                유튜버 이름의 정확한 언어를 확인해주세요. {`(엠넷(X) Mnet(O))`}
               </FailedMessage>
             </ul>
           </TextContainer>
