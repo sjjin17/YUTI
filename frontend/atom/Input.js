@@ -18,11 +18,12 @@ const InputContainer = styled.input`
   }
 `;
 
-export default function Input({ text, onChange }) {
+export default function Input({ text, onChange, type = 'text' }) {
   return (
     <InputContainer
       placeholder={text}
       onChange={e => onChange(e.target.value)}
+      type={type}
     ></InputContainer>
   );
 }
