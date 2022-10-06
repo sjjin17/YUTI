@@ -14,8 +14,10 @@ services:
       ZOO_PORT: 2181
       ZOO_SERVERS: server.1=zoo1:2888:3888
     volumes:
-      - /home/broker/zookeeper-kafka-data/zoo1/data:/data
-      - /home/broker/zookeeper-kafka-data/zoo1/datalog:/datalog
+#      - /home/broker/zookeeper-kafka-data/zoo1/data:/data
+      - ${ZOOKEEPER_DATA_DIR}:/data
+#      - /home/broker/zookeeper-kafka-data/zoo1/datalog:/datalog
+      - ${ZOOKEEPER_DATALOG_DIR}:/datalog
 
   kafka1:
     image: confluentinc/cp-kafka:5.5.0
@@ -38,7 +40,7 @@ services:
       # partition
       KAFKA_NUM_PARTITIONS: 3
     volumes:
-      - /home/broker/zookeeper-kafka-data/kafka1/data:/var/lib/kafka/data
+      - ${KAFKA1_DATA_DIR}:/var/lib/kafka/data
       - ./conf/server1.properties:/etc/kafka/server.properties
     depends_on:
       - zoo1
@@ -64,7 +66,7 @@ services:
       # partition
       KAFKA_NUM_PARTITIONS: 3
     volumes:
-      - /home/broker/zookeeper-kafka-data/kafka2/data:/var/lib/kafka/data
+      - ${KAFKA2_DATA_DIR}:/var/lib/kafka/data
       - ./conf/server2.properties:/etc/kafka/server.properties
     depends_on:
       - zoo1
@@ -90,7 +92,7 @@ services:
       # partition
       KAFKA_NUM_PARTITIONS: 3
     volumes:
-      - /home/broker/zookeeper-kafka-data/kafka3/data:/var/lib/kafka/data
+      - ${KAFKA3_DATA_DIR}:/var/lib/kafka/data
       - ./conf/server3.properties:/etc/kafka/server.properties
     depends_on:
       - zoo1
