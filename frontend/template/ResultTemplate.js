@@ -18,7 +18,7 @@ import {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 0.5fr 2fr 1fr 1.5fr 1.5fr 3fr 0.4fr 0.7fr 1fr;
+  grid-template-rows: 0.5fr 2fr 1fr 1.5fr 0.7fr 1.5fr 3fr 0.4fr 0.7fr 1fr;
   justify-items: center;
   align-items: center;
   width: 100%;
@@ -85,6 +85,7 @@ export default function ResultTemplate({
 }) {
   const mbtiImagePath = `/images/${mbti}.png`;
   const mbtiHeading = `${mbti}의 유튜버 스타일`;
+  const mbtiLikeText = `${mbti}가 즐겨보는 유튜버`;
 
   return (
     <Container>
@@ -101,6 +102,7 @@ export default function ResultTemplate({
           />
         ))}
       </GagesContainer>
+      <Heading text={mbtiLikeText} fontSize="15px" />
       <ResultContainer>
         {mbtiResult.likeYoutubers.map((youtuberInfo, idx) => (
           <YoutuberInfo

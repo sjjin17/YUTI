@@ -1,8 +1,8 @@
 package com.yuti.analytics.domain.analysis.service.impl;
 
-import com.yuti.analytics.domain.analysis.dto.AnalysisKakaoShareResponseDto;
-import com.yuti.analytics.domain.analysis.dto.AnalysisServicePlanResponseDto;
-import com.yuti.analytics.domain.analysis.dto.AnalysisShareResponseDto;
+import com.yuti.analytics.domain.analysis.domain.MBTI;
+import com.yuti.analytics.domain.analysis.domain.TOPIC;
+import com.yuti.analytics.domain.analysis.dto.*;
 import com.yuti.analytics.domain.analysis.service.AnalysisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,16 +10,22 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Duration;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,30 +43,30 @@ public class AnalysisServiceImpl implements AnalysisService {
     @Value("${es.share-index}")
     private String shareIndex;
 
+    @Value("${es.mbti-index}")
+    private String mbtiIndex;
+
+    @Value("${es.youtuber-index}")
+    private String youtuberIndex;
+
     @Override
     public AnalysisKakaoShareResponseDto analyzeKakaoShareButton() {
         String aggregationName = "share-count";
 
-        SearchRequest request = new SearchRequest(kakaoIndex)
-                .source(new SearchSourceBuilder()
+        SearchResponse response = requestQuery(kakaoIndex,
+                new SearchSourceBuilder()
                         .size(0)
                         .aggregation(AggregationBuilders.terms(aggregationName)
-                                .field("shareResult")
-                                .size(2)));
+                        .field("shareResult")
+                        .size(2)));
 
-        SearchResponse response = null;
-        try {
-            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
         Terms termBucket = response.getAggregations().get(aggregationName);
-        List<Long> shareResult = new ArrayList<>();
+        List<Long> result = new ArrayList<>();
         for (Terms.Bucket bucket : termBucket.getBuckets())
-            shareResult.add(bucket.getDocCount());
+            result.add(bucket.getDocCount());
 
         return AnalysisKakaoShareResponseDto.builder()
-                .shareResult(shareResult)
+                .result(result)
                 .build();
     }
 
@@ -69,8 +75,8 @@ public class AnalysisServiceImpl implements AnalysisService {
         String aggregationName = "A-B-test";
         String subAggregationName = "service-plan";
 
-        SearchRequest request = new SearchRequest(surveyIndex)
-                .source(new SearchSourceBuilder()
+        SearchResponse response = requestQuery(surveyIndex,
+                new SearchSourceBuilder()
                         .size(0)
                         .aggregation(AggregationBuilders.terms(aggregationName)
                                 .field("color.keyword")
@@ -80,12 +86,6 @@ public class AnalysisServiceImpl implements AnalysisService {
                                         .size(14)
                                         .order(BucketOrder.key(true)))));
 
-        SearchResponse response = null;
-        try {
-            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
         Terms termBucket = response.getAggregations().get(aggregationName);
 
         List<AnalysisServicePlanResponseDto> responseDto = new ArrayList<>();
@@ -105,20 +105,14 @@ public class AnalysisServiceImpl implements AnalysisService {
     public AnalysisShareResponseDto analyzeShareButton() {
         String aggregationName = "share-count";
 
-        SearchRequest request = new SearchRequest(shareIndex)
-                .source(new SearchSourceBuilder()
+        SearchResponse response = requestQuery(shareIndex,
+                new SearchSourceBuilder()
                         .size(0)
                         .aggregation(AggregationBuilders.terms(aggregationName)
                                 .field("sns")
                                 .size(5)
                                 .order(BucketOrder.key(true))));
 
-        SearchResponse response = null;
-        try {
-            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
         Terms termBucket = response.getAggregations().get(aggregationName);
         List<Long> result = new ArrayList<>();
         for (Terms.Bucket bucket : termBucket.getBuckets())
@@ -127,5 +121,113 @@ public class AnalysisServiceImpl implements AnalysisService {
         return AnalysisShareResponseDto.builder()
                 .result(result)
                 .build();
+    }
+
+    @Override
+    public AnalysisSurveyTimeResponseDto analyzeSurveyTime() {
+        SearchResponse response = requestQuery(surveyIndex,
+                new SearchSourceBuilder()
+                        .size(2147483647)
+                        .sort(Arrays.asList(
+                                SortBuilders.fieldSort("userIpAddress.keyword").order(SortOrder.DESC),
+                                SortBuilders.fieldSort("timestamp").order(SortOrder.DESC)))
+                        .query(boolQuery().mustNot(termQuery("pageNo", 14))));
+
+        long[] totalDiffTime = new long[12];
+        long[] totalCount = new long[12];
+
+        SurveyDto prev = null;
+        for (SearchHit hit : response.getHits().getHits()) {
+            SurveyDto curr = SurveyDto.toSurveyDto(hit);
+            if(prev != null && curr.getUserIpAddress().equals(prev.getUserIpAddress()) && Math.abs(prev.getPageNo()-curr.getPageNo()) == 1) {
+                Duration duration = Duration.between(curr.getTimestamp(), prev.getTimestamp());
+                if (duration.getSeconds() < 600) {
+                    int minIndex = Math.min(curr.getPageNo(), prev.getPageNo());
+                    totalDiffTime[minIndex] += Math.abs(duration.getSeconds());
+                    totalCount[minIndex]++;
+                }
+            }
+            prev = curr;
+        }
+
+        List<Double> result = new ArrayList<>();
+        for(int i = 0; i < totalDiffTime.length; i++) {
+            result.add((double) totalDiffTime[i] / totalCount[i]);
+        }
+
+        return AnalysisSurveyTimeResponseDto.builder()
+                .result(result).build();
+    }
+
+    @Override
+    public AnalysisMbtiCategoryResponseDto analyzeMbtiCategory() {
+        String aggregationName = "mbti-youtuber";
+        Map<String, List<Double>> result = new HashMap<>();
+        for (MBTI mbti : MBTI.values()) {
+            double[] category = new double[6];
+            Arrays.fill(category, 0f);
+            double sum = 0;
+
+            SearchResponse aggResponse = requestQuery(mbtiIndex,
+                    new SearchSourceBuilder()
+                            .query(termQuery("mbti", mbti))
+                            .aggregation(AggregationBuilders.terms(aggregationName)
+                                    .field("youtuber.keyword")
+                                    .size(2147483647)));
+
+            Terms terms = aggResponse.getAggregations().get(aggregationName);
+            Map<String, Long> youtubers = new HashMap<>();
+            for (Terms.Bucket bucket : terms.getBuckets()) {
+                youtubers.put(bucket.getKeyAsString(), bucket.getDocCount());
+            }
+
+            // 2번째 요청
+            SearchResponse topicResponse = requestQuery(youtuberIndex,
+                    new SearchSourceBuilder()
+                            .query(termsQuery("channel_id", youtubers.keySet())));
+
+            for (SearchHit hit : topicResponse.getHits().getHits()) {
+                boolean[] isContains = new boolean[6];
+                Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+                for (Object topic : (List<Object>) sourceAsMap.get("topic")) {
+                    Map<String, String> topicAsMap = (Map<String, String>) topic;
+                    int categoryIndex = TOPIC.findCategory(topicAsMap.get("topic_id")) - 1;
+                    if(!isContains[categoryIndex])
+                        isContains[categoryIndex] = true;
+                }
+                for(int i = 0; i < isContains.length; i++) {
+                    if(isContains[i]) {
+                        category[i] += youtubers.get(sourceAsMap.get("channel_id").toString());
+                        sum += youtubers.get(sourceAsMap.get("channel_id").toString());
+                    }
+                }
+            }
+
+            // 3번째 요청
+            SearchResponse notExistsResponse = requestQuery(mbtiIndex,
+                    new SearchSourceBuilder()
+                            .query(boolQuery()
+                                    .must(termQuery("mbti", mbti))
+                                    .mustNot(existsQuery("youtuber"))));
+
+            double requestPerson = aggResponse.getHits().getTotalHits().value - notExistsResponse.getHits().getTotalHits().value;
+
+//            (requestPerson / aggResponse.getHits().getTotalHits().value)
+            for (int i = 0; i < category.length; i++) {
+                category[i] = category[i] * 100 / sum;
+            }
+            result.put(mbti.toString(), Arrays.stream(category).boxed().collect(Collectors.toList()));
+        }
+        return AnalysisMbtiCategoryResponseDto.builder()
+                .result(result)
+                .build();
+    }
+
+    private SearchResponse requestQuery(String index, SearchSourceBuilder searchSourceBuilder) {
+        try {
+            return restHighLevelClient.search(new SearchRequest(index).source(searchSourceBuilder), RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 }

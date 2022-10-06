@@ -3,7 +3,32 @@ import Layout from '../template/Layout';
 import { RouteChangeProvider } from '../context/RouteChangeContext';
 import { ThemeProvider } from '@emotion/react';
 import { useEffect, useState } from 'react';
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  BarElement,
+  Filler,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+} from 'chart.js';
 
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement,
+  BarElement,
+  Filler,
+  Tooltip,
+  Legend,
+);
 function MyApp({ Component, pageProps }) {
   const [colors, setColors] = useState();
 

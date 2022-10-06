@@ -6,8 +6,10 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-left: 20px;
-  border-bottom: solid rgb(0, 0, 0, 0.2);
+  padding-left: calc((100vw - 1440px) / 2);
+  padding-right: calc((100vw - 1440px) / 2);
+  border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+  background: white;
 `;
 
 const RightContainer = styled.div`
