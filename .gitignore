@@ -47,3 +47,5 @@ backend/.idea
 .idea
 
 backend/analytics/src/main/resources/application.yml
+
+application.yml
