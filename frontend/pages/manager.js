@@ -334,8 +334,11 @@ export default function Manager() {
       );
       handleSetChartData(data.data, value);
       setLoading(false);
-    } catch {
+    } catch (error) {
       setLoading(false);
+      if (error.response.status === 500) {
+        Router.push('/login');
+      }
     }
   };
 

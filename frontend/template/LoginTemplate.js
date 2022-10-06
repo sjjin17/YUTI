@@ -60,7 +60,11 @@ export default function LoginTemplate({
           <Input text="아이디" onChange={handleChangeId}></Input>
         </InputContainer>
         <InputContainer>
-          <Input text="비밀번호" onChange={handleChangePassword}></Input>
+          <Input
+            text="비밀번호"
+            onChange={handleChangePassword}
+            type="password"
+          ></Input>
         </InputContainer>
         <ButtonContainer onClick={handleLoginSubmit}>
           <StaticButton text="로그인" width="200px" height="40px" />
