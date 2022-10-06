@@ -87,7 +87,6 @@ public class YoutuberServiceImpl implements YoutuberService {
 
     @Override
     public YoutuberResponseDto searchYoutuber(String keyword, String offset) {
-        keyword = keyword.replaceAll(" ", "");
         try {
             if (offset.chars().allMatch(Character::isDigit))
                 return searchUsingElasticsearch(keyword, Integer.parseInt(offset));
