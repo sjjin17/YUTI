@@ -10,7 +10,7 @@ const ButtonBase = styled.button`
   width: 100%;
   white-space: pre-line;
 
-  @media (hover: hover) {
+  @media (min-width: 571px) {
     &:hover {
       background: ${({ theme }) => theme.colors.main};
       border: 0 solid;
